@@ -297,6 +297,8 @@ pacman_install xcompmgr
 pacman_install xorg-xbacklight
 # get info on current active windows
 pacman_install xorg-xdpyinfo
+# virtual x server
+pacman_install xorg-server-xvfb
 # hide an inactive mouse
 yay_install unclutter-xfixes-git
 
@@ -562,6 +564,8 @@ systemctl_enable jupyterhub.service
 echo $password | sudo -S timedatectl set-local-rtc 1 >> $LOG 2>> $ERR
 # make sure everyone can mount in /mnt
 echo $password | sudo -S chmod a+rwx /mnt >> $LOG 2>> $ERR
+# link dark solarized theme to ~/.Xresources -> default color scheme
+ln -s ~/.config/Xresources/solarizeddark ~/.Xresources >> $LOG 2>> $ERR
 
 
 ## Alternative shell

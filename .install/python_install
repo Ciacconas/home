@@ -29,8 +29,8 @@ fi
 ## Logging
 #-------------------------------------------------------------------------------
 
-LOG="$HOME/.python_install.log"
-ERR="$HOME/.python_install_errors.log"
+LOG="$HOME/.local/share/python_install.log"
+ERR="$HOME/.local/share/python_install_errors.log"
 printf "PYTHON PACKAGE INSTALL\n\n\n" > $LOG
 printf "PYTHON PACKAGE INSTALL\n\n\n" > $ERR
 
@@ -178,7 +178,7 @@ mv $HOME/.anaconda/envs/py36/compiler_compat/ld $HOME/.anaconda/envs/py36/compil
 ## Jupyterlab extensions
 #-------------------------------------------------------------------------------
 
-JUPYTER = "$HOME/.anaconda/bin/jupyter"
+JUPYTER="$HOME/.anaconda/bin/jupyter"
 
 # jupyterlab extensions
 echo "installing jupyterlab vim extension"

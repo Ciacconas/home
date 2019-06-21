@@ -11,13 +11,15 @@
 export WM=dwm
 
 set wallpaper
-feh --bg-scale ~/.config/wallpaper.png &
+~/.scripts/set_wallpaper ~/.config/wallpaper.png &
 
 # enable transparent windows
 xcompmgr &
 
 # update color database of xcompmgr
-xrdb ~/.Xresources &
+if [ -f ~/.Xresources ]; then
+    xrdb ~/.Xresources
+fi
 
 # export your desired screenlayout with `arandr`
 ~/.config/screenlayout/default &
