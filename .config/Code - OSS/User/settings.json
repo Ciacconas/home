@@ -42,7 +42,7 @@
         }
     ],
     "window.restoreWindows": "none",
-    "window.zoomLevel": -1,
+    "window.zoomLevel": 0,
     "workbench.colorTheme": "Default Light+",
     "workbench.iconTheme": "material-icon-theme",
     "explorer.confirmDragAndDrop": false,

@@ -48,8 +48,13 @@ Plug 'mhinz/vim-signify' " Git/mercurial/others diff icons on the side of the fi
 Plug 'vim-scripts/YankRing.vim' " Yank history navigation
 Plug 'neomake/neomake' " Linters
 Plug 'myusuf3/numbers.vim' " Relative numbering of lines (0 is the current line)
+" choma add
+Plug 'scrooloose/nerdtree' " file browser
+Plug 'scrooloose/nerdcommenter' " Code commenter
+Plug 'Townk/vim-autoclose' " Automatically close parenthesis, etc
+Plug 'moll/vim-bbye' " vim buffer delete without close current window
+Plug 'morhetz/gruvbox' " gruvbox colorscheme
 call plug#end() " stop loading plugins
-
 
 "" Install Plugins
 "-------------------------------------------------------------------------------
@@ -72,18 +77,18 @@ let g:neomake_python_python_maker = neomake#makers#ft#python#python()
 let g:neomake_python_flake8_maker = neomake#makers#ft#python#flake8()
 
 " Fzf --------------------------------------------------------------------------
-" general code finder in current file mapping
-nmap <Leader>f :BLines<CR>
-" general code finder in all files mapping
-nmap <Leader>F :Lines<CR>
-" file finder mapping
-nmap <Leader>e :Files<CR>
-" tags (symbols) in current file finder mapping
-nmap <Leader>g :BTag<CR>
-" tags (symbols) in all files finder mapping
-nmap <Leader>G :Tag<CR>
-" commands finder mapping
-nmap <Leader>c :Commands<CR>
+"" general code finder in current file mapping
+"nmap <Leader>f :BLines<CR>
+"" general code finder in all files mapping
+"nmap <Leader>F :Lines<CR>
+"" file finder mapping
+"nmap <Leader>e :Files<CR>
+"" tags (symbols) in current file finder mapping
+"nmap <Leader>g :BTag<CR>
+"" tags (symbols) in all files finder mapping
+"nmap <Leader>G :Tag<CR>
+"" commands finder mapping
+"" nmap <Leader>c :Commands<CR>
 
 " Jedi-vim ---------------------------------------------------------------------
 " disable autocompletion (using deoplete instead)

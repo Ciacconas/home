@@ -8,9 +8,38 @@
 "" Plugins
 "-------------------------------------------------------------------------------
 
+" set leader key
+nnoremap <Leader>del! :call delete(expand('%'))<CR>:bd!<CR>
+let mapleader = ";"
+
 " load plugins
 source ~/.config/nvim/plugins.vim
 
+
+"" Theme / colorscheme
+"-------------------------------------------------------------------------------
+
+" use 256 colors when possible
+" set notermguicolors
+" set termguicolors
+
+" white colorscheme
+" colorscheme delek
+
+" dark colorscheme
+" colorscheme material
+
+" fisa colorscheme
+" colorscheme fisa
+
+" gruvbox colorscheme
+ set background=light
+ colorscheme gruvbox
+ let g:gruvbox_contrast_light='hard'
+ let g:gruvbox_bold=1
+ let g:gruvbox_italic=1
+ let g:gruvbox_italicize_strings = 1
+ "colorscheme xresources
 
 "" Useful commands inherited from plugins (incomplete list)
 "-------------------------------------------------------------------------------
@@ -51,6 +80,11 @@ nnoremap <C-c> <Esc>:qa!<CR>
 inoremap <C-q> <Esc>:wqa<CR>
 nnoremap <C-q> <Esc>:wqa<CR>
 
+" switch buffer
+nnoremap <Leader>n :bn<cr>
+nnoremap <Leader>p :bp<cr>
+" buffer deleter
+nnoremap <Leader>q :Bdelete<cr>
 
 "" Insert mode shortcuts
 "-------------------------------------------------------------------------------
@@ -61,9 +95,6 @@ inoremap jj <Esc>
 
 "" Normal mode shortcuts
 "-------------------------------------------------------------------------------
-
-" set leader key
-let mapleader = " "
 
 " latex synctex forward
 " <Leader>s
@@ -216,21 +247,4 @@ set scrolloff=3
 " code folding
 " zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
 set foldmethod=indent
-
-
-"" Theme / colorscheme
-"-------------------------------------------------------------------------------
-
-" use 256 colors when possible
-" set notermguicolors
-" set termguicolors
-
-" white colorscheme
-" colorscheme delek
-
-" dark colorscheme
-" colorscheme material
-
-" fisa colorscheme
-" colorscheme fisa
 

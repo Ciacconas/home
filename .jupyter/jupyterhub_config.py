@@ -302,7 +302,7 @@
 #
 #  .. deprecated: 0.9
 #      Use JupyterHub.bind_url
-# c.JupyterHub.port = 8000
+c.JupyterHub.port = 8000
 
 ## DEPRECATED since version 0.8 : Use ConfigurableHTTPProxy.api_url
 # c.JupyterHub.proxy_api_ip = ''

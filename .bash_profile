@@ -43,7 +43,7 @@ export CXX="g++"
 export FM="vifm"
 export EDITOR="vim"
 export TERMINAL="st"
-export BROWSER="qutebrowser"
+export BROWSER="chromium"
 export READER="zathura"
 export ICAROOT="$HOME/.ica"
 export QT_QPA_PLATFORMTHEME="qt5ct"
@@ -52,5 +52,5 @@ export SUDO_ASKPASS="$HOME/.config/dmenu/dmenu_askpass"
 export GTK2_RC_FILES="/usr/share/themes/Arc-solid/gtk-2.0/gtkrc"
 
 # some magic to source color variables defined in ~/.Xresources as environment variables
-source <(cat $HOME/.Xresources | grep *color | sed s/^.// | awk -F': ' '{print "export "$1"=\""$2"\""}')
+# source <(cat $HOME/.Xresources | grep *color | sed s/^.// | awk -F': ' '{print "export "$1"=\""$2"\""}')
 
