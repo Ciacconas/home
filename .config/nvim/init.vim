@@ -251,30 +251,3 @@ set scrolloff=3
 " zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
 set foldmethod=indent
 
-<<<<<<< HEAD
-=======
-" allow opening a new buffer without saving the current one
-set hidden
-
-
-"" Theme / colorscheme
-"-------------------------------------------------------------------------------
-
-" colorscheme desert2
-colorscheme xresources
-
-" use 256 colors when possible
-" set notermguicolors
-" set termguicolors
-" highlight clear
-
-" white colorscheme
-" colorscheme delek
-
-" dark colorscheme
-" colorscheme material
-
-" fisa colorscheme
-" colorscheme fisa
-
->>>>>>> f531e7c9690157320df321ebfba553babc88a430
