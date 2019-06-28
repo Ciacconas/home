@@ -7,7 +7,7 @@
 
 ## Note
 #-------------------------------------------------------------------------------
-# I switched to fish, so this file will not run except when running bash explicitly
+# I switched to zsh, so this file will not run except when running bash explicitly
 
 
 ## General settings
@@ -23,6 +23,14 @@ alias ls='ls -hN --color=auto --group-directories-first'
 alias grep="grep --color=auto"
 
 
+## Aliases
+#-------------------------------------------------------------------------------
+# some vim-like aliases:
+alias :q=exit
+alias :x=exit
+alias :e=$EDITOR
+
+
 ## Python
 #-------------------------------------------------------------------------------
 # create python startup file if it does not exist
@@ -31,8 +39,6 @@ touch $HOME/.pythonpath
 touch $HOME/.pythonstartup
 # set python path from "~/.pythonpath" file
 export PYTHONPATH="$(tr '\n' ':' < ~/.pythonpath | head -c -1 | sed 's|~|'$HOME'|g')"
-# enable anaconda python
-if [ -f "$HOME/.anaconda/etc/profile.d/conda.sh" ]; then
-    source "$HOME/.anaconda/etc/profile.d/conda.sh" # to enable `conda activate`
-fi
+# enable conda commands
+source "/home/flaport/.anaconda/etc/profile.d/conda.sh"  # commented out by conda initialize
 

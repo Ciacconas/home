@@ -7,47 +7,40 @@
 
 ## Note
 #-------------------------------------------------------------------------------
-# I switched to fish, so this file will not run. However, the Path and other
-# environment variables defined HERE, WILL be used in the fish initialization.
-
-
-## Source bashrc
-#-------------------------------------------------------------------------------
-[[ -f ~/.bashrc ]] && source ~/.bashrc
-
+# if default shell is bash or zsh, this file will be sourced at login
+# if default shell is fish, the lines starting with export (environment variables)
+#   will be smartly translated into fish environment variables, the rest will be ignored.
+#
+# current shell: zsh
+#
 
 ## Path
 #-------------------------------------------------------------------------------
-# anaconda python
-export PATH="$HOME/.anaconda/bin:$PATH"
 # web apps
 export PATH="$HOME/.webapps:$PATH"
-# custom scripts
-export PATH="$HOME/.scripts:$PATH"
-# custom vifm script
-export PATH="$HOME/.config/vifm/scripts:$PATH"
-# custom nvim script
-export PATH="$HOME/.config/nvim/nvim:$PATH"
-# i3 commands
-export PATH="$HOME/.config/i3:$PATH"
-# wrapper around st terminal emulator
-export PATH="$HOME/.config/st:$PATH"
-# wrapper around dmenu (and customized menus!)
-export PATH="$HOME/.config/dmenu:$PATH"
 
 
 ## Environment variables
 #-------------------------------------------------------------------------------
+export BROWSER="qutebrowser"
 export CC="gcc"
 export CXX="g++"
-export FM="vifm"
 export EDITOR="vim"
 export TERMINAL="st"
 export BROWSER="chromium"
 export READER="zathura"
-export ICAROOT="$HOME/.ica"
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export PYTHONSTARTUP="$HOME/.pythonstartup"
-export SUDO_ASKPASS="$HOME/.config/dmenu/dmenu_askpass"
+export FM="vifm"
+export FZF_DEFAULT_OPTS="--layout=reverse --height=60% --multi --bind=ctrl-l:preview-down,ctrl-h:preview-up,ctrl-a:select-all --preview-window=right:wrap --preview='fzf_preview {} $LINES'"
 export GTK2_RC_FILES="/usr/share/themes/Arc-solid/gtk-2.0/gtkrc"
+export ICAROOT="$HOME/.ica"
+export PATH="$HOME/.local/bin:$PATH"
+export PYTHONSTARTUP="$HOME/.pythonstartup"
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export READER="zathura"
+export SUDO_ASKPASS="$HOME/.config/dmenu/dmenu_askpass"
+export TERMINAL="st"
 
+## Anaconda python
+#-------------------------------------------------------------------------------
+CONDA_INIT="$( $HOME/.anaconda/bin/conda shell.bash hook 2> /dev/null)"
+[ $? = 0 ] && eval "$CONDA_INIT"

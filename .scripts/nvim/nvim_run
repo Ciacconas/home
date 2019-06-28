@@ -1,0 +1,221 @@
+#!/usr/bin/python3
+#    _____ _     ____  ____  ____  ____  _____
+#   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
+#   |  __\| |   | / \||  \/|| / \||  \/|  / \
+#   | |   | |_/\| |-|||  __/| \_/||    /  | |
+#   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
+#
+
+""" Run/compile/build af file/project
+
+This script is linked to <F5> in vim.
+
+"""
+
+
+# Imports
+
+import os
+import sys
+from time import sleep
+from subprocess import Popen, call, check_output, CalledProcessError
+
+
+# Environment variables
+
+TEXBASE = os.environ.get("TEXBASE", "").replace("\\ ", " ") # un-escape
+TERMINAL = os.environ.get("TERMINAL", "")
+
+
+# Functions
+
+def xdotool_search(process_name):
+    """ search for a terminal [window] id given the classname of the terminal [window]
+
+    Args:
+        process_name: the name of the process (classname) to search for
+
+    """
+    try:
+        out = check_output(["xdotool", "search", "--classname", process_name])
+        return out[:-1].decode()
+    except CalledProcessError:
+        return None
+
+def xdotool_send(terminal, command):
+    """ send a command (key per key) to a window (terminal)
+
+    Args:
+        terminal: the terminal [window] id
+        command: the command to execute (the keys to send)
+    """
+    special_characters = {
+        " ": "space",
+        ".": "period",
+        "%": "percent",
+        "=": "equal",
+        "-": "minus",
+        "|": "bar",
+        "/": "slash",
+        "\\": "backslash",
+        "\n": "Return",
+        # some special characters signifying control operations
+        "🛑": "control+c", # stop sign emoji
+        "📋": "alt+v", # clipboard emoji
+    }
+    characters = [special_characters.get(c, c) for c in command]
+    output = check_output(["xdotool", "key", "--window", terminal] + characters)
+    return output
+
+def new_terminal(name=None, execute=None):
+    """ spawn a new terminal
+
+    Args:
+        name: the classname of the new terminal
+        execute: the (single word) command to execute inside the terminal
+    """
+    name_list = ["-n", name] if name else []
+    execute_list = ["-e", execute] if execute else []
+    Popen([TERMINAL] + name_list + execute_list)
+    for i in range(5):  # five tries to find the newly spawned terminal.
+        sleep(0.1)
+        terminal = xdotool_search(name)
+        if terminal is not None:
+            return terminal
+    # if no terminal is found, raise an error:
+    raise CalledProcessError(
+        f"cannot find terminal with process name {process_name}"
+    )
+
+def run_python(filename):
+    """ run a python file
+
+    Args:
+        filename: the filename of the file to run
+    """
+    # un-escape filename if it is escaped:
+    filename = filename.replace("\\ ", " ")
+    # create a process name [classname] for the new terminal 
+    process_name = f"ipython_{filename}".replace("/", "_").replace(" ", "_")
+    escaped_filename = filename.replace(" ", "\\ ")
+    terminal = xdotool_search(process_name)
+    if terminal is None:
+        terminal = new_terminal(name=process_name, execute="ipython --matplotlib")
+    xdotool_send(terminal, f"%run {escaped_filename}\n")
+
+def run_python_selection(filename):
+    """ run a selection
+
+    Args:
+        filename: the filename of the file of which a selection is run.
+
+    Notes:
+        - assumes the selection has been copied into the normal
+            clipboard buffer [ + buffer ] by nvim
+        - assumes the hotkey to paste in the terminal is alt+v
+    """
+    # un-escape filename if it is escaped:
+    filename = filename.replace("\\ ", " ")
+    # create a process name [classname] for the new terminal 
+    process_name = f"ipython_{filename}".replace("/", "_").replace(" ", "_")
+    terminal = xdotool_search(process_name)
+    if terminal is None:
+        terminal = new_terminal(name=process_name, execute="ipython --matplotlib")
+        sleep(2) # give time for the terminal to spawn
+    xdotool_send(terminal, f"📋\n")
+
+def run_latex(filename):
+    """ build a latex project
+
+    Args:
+        filename: filename of the latex source file (.tex file) to build
+
+    Note:
+        if the environment variable TEXBASE is defined, TEXBASE will be used
+        as latex base file on which to run `latexmk`. Setting this environment 
+        variable is useful when the current Latex file is imported (`input`/`include`)
+        into another Latex file.
+    """
+    # un-escape filename if it is escaped:
+    filename = filename.replace("\\ ", " ")
+    # create a process name [classname] for the new terminal 
+    process_name = f"latex_{filename}".replace("/", "_").replace(" ", "_")
+    # run latex on TEXBASE in stead of current file if TEXBASE is defined:
+    filename = TEXBASE or filename[:-4]
+    escaped_filename = filename.replace(" ", "\\ ")
+    terminal = xdotool_search(process_name)
+    if terminal is None:
+        terminal = new_terminal(name=process_name)
+    xdotool_send(terminal, f"🛑latexmk -xelatex -synctex=1 -interaction=nonstopmode {escaped_filename} | less -FKX\n")
+
+def run_markdown(filename):
+    """ preview a markdown file with w3m
+
+    Args:
+        filename: the markdown file to preview
+    """
+    # un-escape filename if it is escaped:
+    filename = filename.replace("\\ ", " ")
+    # create a process name [classname] for the new terminal 
+    process_name = f"markdown_{filename}".replace("/", "_").replace(" ", "_")
+    # escape filename
+    escaped_filename = filename.replace(" ", "\\ ")
+    terminal = xdotool_search(process_name)
+    if terminal is None:
+        terminal = new_terminal(name=process_name)
+    xdotool_send(terminal, f"qy\npandoc --to html {escaped_filename} | w3m -T text/html\n")
+
+def run_markdown_selection(filename):
+    """ run a selection code from a markdown file
+
+    Args:
+        filename: the filename of the file of which a selection is run.
+
+    Notes:
+        - assumes the selection has been copied into the normal
+            clipboard buffer [ + buffer ] by nvim
+        - assumes the hotkey to paste in the terminal is alt+v
+    """
+    # un-escape filename if it is escaped:
+    filename = filename.replace("\\ ", " ")
+    # create a process name [classname] for the new terminal 
+    # TODO: figure out which code is being run and execute the respective interpreter
+    # for now, python (ipython) is assumed:
+    process_name = f"ipython_{filename}".replace("/", "_").replace(" ", "_")
+    terminal = xdotool_search(process_name)
+    if terminal is None:
+        terminal = new_terminal(name=process_name, execute="ipython --matplotlib")
+        sleep(2) # give time for the terminal to spawn
+    xdotool_send(terminal, f"📋\n")
+
+# Main script
+
+if __name__ == "__main__":
+    # checks
+    run_selection = False
+    if len(sys.argv) > 2:
+        run_selection = (sys.argv[2] == "SELECTION")
+        if not run_selection:
+            print("Too many arguments.")
+
+    # important variables
+    filename = sys.argv[1]
+
+    with open(filename, "r") as file:
+        shebang = file.readline()
+
+    # different cases:
+    if filename.endswith(".py") or "python" in shebang:
+        if not run_selection:
+            run_python(filename)
+        else:
+            run_python_selection(filename) # assumes the selection has been copied by nvim!
+    elif filename.endswith(".tex") or "latex" in shebang:
+        run_latex(filename)
+    if filename.endswith(".md") or "markdown" in shebang:
+        if not run_selection:
+            run_markdown(filename)
+        else:
+            run_markdown_selection(filename) # assumes the selection has been copied by nvim!
+    else:
+        exit(1)

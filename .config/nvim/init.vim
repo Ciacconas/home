@@ -99,9 +99,10 @@ inoremap jj <Esc>
 " latex synctex forward
 " <Leader>s
 function! SyncTexForward()
-    " either do synctex on the pdf path stored in $SYNCTEXPDF, or do synctex
-    " on the pdf with the same base name as the tex file.
-    let execstr = "![ $SYNCTEXPDF ] && zathura --synctex-forward ".line(".").":".col(".").":%:p $SYNCTEXPDF"
+    " either do synctex on the pdf with basename [filename without extension] $TEXBASE, 
+    " or do synctex on the pdf with the same base name as the current tex file if 
+    " the environment variable $TEXBASE does not exist.
+    let execstr = "silent ![ $TEXBASE ] && zathura --synctex-forward ".line(".").":".col(".").":%:p $TEXBASE.pdf"
     let execstr = execstr." || zathura --synctex-forward ".line(".").":".col(".").":%:p %:p:r.pdf &"
     exec execstr
 endfunction
@@ -142,15 +143,15 @@ nnoremap <F2> :e ~/.config/nvim/init.vim<CR>
 inoremap <F2> <Esc>:e ~/.config/nvim/init.vim<CR>
 
 " save and execute file (requires tmux and i3)
-nnoremap <F5> :w<CR>:silent !~/.config/nvim/run %<CR>
-inoremap <F5> <Esc>:w<CR>:silent !~/.config/nvim/run %<CR>
+nnoremap <F5> :w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
+inoremap <F5> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
 
 " save and execute file choma (requires tmux and i3)
 nnoremap <F7> :w<CR>:silent !~/.config/nvim/run1 %<CR>
 inoremap <F7> <Esc>:w<CR>:silent !~/.config/nvim/run1 %<CR>
 
 " save and execute selection
-vnoremap <F5> "+y:w<CR>:!~/.config/nvim/run_selection %<CR>
+vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
 
 " enable spell checker:
 nnoremap <F6> :setlocal spell! spelllang=en_us<CR>

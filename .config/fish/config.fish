@@ -6,6 +6,10 @@
 #   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 #
 
+## Note
+#-------------------------------------------------------------------------------
+# I switched to zsh, so this file will not run except when running fish explicitly
+
 
 ## Fish greeting
 #-------------------------------------------------------------------------------
@@ -35,6 +39,7 @@ set -gx PYTHONPATH (tr '\n' ':' < $HOME/.pythonpath | head -c -1 | sed -e 's|~|'
 # enable anaconda python
 if test -e "$HOME/.anaconda/etc/fish/conf.d/conda.fish"
     source "$HOME/.anaconda/etc/fish/conf.d/conda.fish"
+    conda activate base
 end
 
 ## Alias
