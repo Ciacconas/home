@@ -12,6 +12,8 @@ from pathlib import Path
 from subprocess import call, Popen, check_output, PIPE
 
 FILENAME = sys.argv[1]
+print(sys.argv[0])
+print(sys.argv[1])
 TERMINAL = os.environ.get("TERMINAL")
 with open(FILENAME, "r") as file:
     SHEBANG = file.readline()

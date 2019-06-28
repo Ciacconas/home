@@ -145,6 +145,10 @@ inoremap <F2> <Esc>:e ~/.config/nvim/init.vim<CR>
 nnoremap <F5> :w<CR>:silent !~/.config/nvim/run %<CR>
 inoremap <F5> <Esc>:w<CR>:silent !~/.config/nvim/run %<CR>
 
+" save and execute file choma (requires tmux and i3)
+nnoremap <F7> :w<CR>:silent !~/.config/nvim/run1 %<CR>
+inoremap <F7> <Esc>:w<CR>:silent !~/.config/nvim/run1 %<CR>
+
 " save and execute selection
 vnoremap <F5> "+y:w<CR>:!~/.config/nvim/run_selection %<CR>
 

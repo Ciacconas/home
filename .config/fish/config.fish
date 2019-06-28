@@ -37,6 +37,11 @@ if test -e "$HOME/.anaconda/etc/fish/conf.d/conda.fish"
     source "$HOME/.anaconda/etc/fish/conf.d/conda.fish"
 end
 
+## Alias
+#-------------------------------------------------------------------------------
+# alias
+alias note="cd ~/Documents/Notes"
+alias work="cd ~/Documents/Work/photonsim"
 
 ## Keyboard shortcuts
 #-------------------------------------------------------------------------------
@@ -46,3 +51,9 @@ bind \cp accept-autosuggestion
 bind -M insert \cn accept-autosuggestion
 bind \cn accept-autosuggestion
 
+# Start X at login
+if status is-login
+    if test -z "$DISPLAY" -a $XDG_VTNR = 1
+        exec startx -- -keeptty
+    end
+end
