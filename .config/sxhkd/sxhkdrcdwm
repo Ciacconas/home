@@ -1,11 +1,11 @@
-#    _____ _     ____  ____  ____  ____  _____ 
+#    _____ _     ____  ____  ____  ____  _____
 #   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
-#   |  __\| |   | / \||  \/|| / \||  \/|  / \  
-#   | |   | |_/\| |-|||  __/| \_/||    /  | |  
-#   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/  
+#   |  __\| |   | / \||  \/|| / \||  \/|  / \
+#   | |   | |_/\| |-|||  __/| \_/||    /  | |
+#   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 #
 
-# open vifm file manager 
+# open vifm file manager
 super + a
     st -e vifm
 
@@ -78,16 +78,18 @@ super + K
 super + l
     # handled by dwm
 
+# lock computer
 super + L
     ~/.scripts/lock_screen
+    # lock_screen
 
 # dmenu mount drive menu
 super + m
-    dmenu_mount mount -i 
+    dmenu_mount mount -i
 
 # dmenu unmount drive menu
 super + M
-    dmenu_mount unmount -i 
+    dmenu_mount unmount -i
 
 # make current monitor the master monitor
 super + n
@@ -105,7 +107,7 @@ super + O
 
 # dmenu choose screen layout
 super + p
-    dmenu_screenlayout -i -l 100 -p "screen layout" 
+    dmenu_screenlayout -i -l 100 -p "screen layout"
 
 # default screen layout
 super + P
@@ -127,11 +129,11 @@ super + R
 
 # run a program
 super + s
-    dmenu_run -i -l 15 
+    dmenu_run -i -l 15
 
 # start/stop a service
 super + S
-    dmenu_services -i 
+    dmenu_services -i
 
 # toggle between last two layouts
 super + t
@@ -163,7 +165,7 @@ super + w
 
 # search the web
 super + W
-    ~/.scripts/search --dmenuargs -i 
+    ~/.scripts/search --dmenuargs -i
 
 # shift focus to monitor X
 super + x
@@ -215,7 +217,7 @@ super + space
     # handled by dwm
 
 super + control + space
-    
+
 # toggle floating for current window
 super + shift + space
     # handled by dwm
@@ -334,7 +336,7 @@ super + shift + 9
 
 # select keyboard shortcut
 super + F1
-    dmenu_keyboard_shortcuts -i 
+    dmenu_keyboard_shortcuts -i
 
 super + F2
 

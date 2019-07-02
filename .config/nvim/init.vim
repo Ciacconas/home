@@ -1,8 +1,8 @@
-"    _____ _     ____  ____  ____  ____  _____ 
+"    _____ _     ____  ____  ____  ____  _____
 "   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
-"   |  __\| |   | / \||  \/|| / \||  \/|  / \  
-"   | |   | |_/\| |-|||  __/| \_/||    /  | |  
-"   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/  
+"   |  __\| |   | / \||  \/|| / \||  \/|  / \
+"   | |   | |_/\| |-|||  __/| \_/||    /  | |
+"   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 "
 
 "" Plugins
@@ -72,9 +72,9 @@ source ~/.config/nvim/plugins.vim
 inoremap <C-s> <Esc>:w<CR>
 nnoremap <C-s> <Esc>:w<CR>
 
-" exit without saving
-inoremap <C-c> <Esc>:qa!<CR>
-nnoremap <C-c> <Esc>:qa!<CR>
+" exit current buffer without saving
+inoremap <C-c> <Esc>:bd!<CR>
+nnoremap <C-c> <Esc>:bd!<CR>
 
 " save and exit
 inoremap <C-q> <Esc>:wqa<CR>
@@ -85,39 +85,35 @@ nnoremap <Leader>n :bn<cr>
 nnoremap <Leader>p :bp<cr>
 " buffer deleter
 nnoremap <Leader>q :Bdelete<cr>
+" make current split the Only split
+nnoremap <C-o> :only<CR>
 
-"" Insert mode shortcuts
-"-------------------------------------------------------------------------------
+" close split Below
+nnoremap <C-b> <C-w>j:q!<CR>
 
-" exit insert mode
-inoremap jj <Esc>
+" edit this configuration file (requires set hidden)
+nnoremap <F2> :e ~/.config/nvim/init.vim<CR>
+inoremap <F2> <Esc>:e ~/.config/nvim/init.vim<CR>
+
+" enable spell checker:
+nnoremap <F7> :setlocal spell! spelllang=en_us<CR>
+inoremap <F7> <Esc>:setlocal spell! spelllang=en_us<CR>
+" use zg to add a word to the dictionary
+" use zuw to remove word from dictionary
+" use ]s and [s to navigate between misspelled words
+" use z= to find a suggestion for the misspelled word
 
 
 "" Normal mode shortcuts
 "-------------------------------------------------------------------------------
 
-" latex synctex forward
-" <Leader>s
-function! SyncTexForward()
-    " either do synctex on the pdf with basename [filename without extension] $TEXBASE, 
-    " or do synctex on the pdf with the same base name as the current tex file if 
-    " the environment variable $TEXBASE does not exist.
-    let execstr = "silent ![ $TEXBASE ] && zathura --synctex-forward ".line(".").":".col(".").":%:p $TEXBASE.pdf"
-    let execstr = execstr." || zathura --synctex-forward ".line(".").":".col(".").":%:p %:p:r.pdf &"
-    exec execstr
-endfunction
-au FileType tex nmap <Leader>s :call SyncTexForward()<CR>
 
-" latex synctex backward
-" Ctrl-Click
-" NOTE: for backward synctex to work, one has to run neovim-remote on port 9999:
-" nvr --servername 127.0.0.1:9999 filename.tex
-" And add the following two lines to zathurarc:
-" set synctex true
-" set synctex-editor-command "nvr --servername 127.0.0.1:9999 +%{line} %{input}"
-" normally, the custom nvim script in the nvim config folder will execute nvr
-" in stead of nvim when a latex file is opened.
 
+"" Custom functions
+"-------------------------------------------------------------------------------
+command! -nargs=* T term <args>
+command! -nargs=* HT split | resize 10 | terminal <args>
+command! -nargs=* VT vsplit | terminal <args>
 
 "" Navigation
 "-------------------------------------------------------------------------------
@@ -134,32 +130,56 @@ nnoremap <C-h> <C-w>h
 " move to split right of current split
 nnoremap <C-l> <C-w>l
 
+" cycle through buffers
+nnoremap <C-]> :bnext<CR>
+nnoremap <C-[> :bprevious<CR>
+" <C-^> switch between last two buffers
 
-"" Function keys
+
+"" Run / compile / visualize
 "-------------------------------------------------------------------------------
 
-" edit this configuration file (requires set hidden)
-nnoremap <F2> :e ~/.config/nvim/init.vim<CR>
-inoremap <F2> <Esc>:e ~/.config/nvim/init.vim<CR>
-
-" save and execute file (requires tmux and i3)
-nnoremap <F5> :w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
-inoremap <F5> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
+" python
+autocmd FileType python nnoremap <F5> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
+autocmd FileType python inoremap <F5> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
+autocmd FileType python vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
 
 " save and execute file choma (requires tmux and i3)
-nnoremap <F7> :w<CR>:silent !~/.config/nvim/run1 %<CR>
-inoremap <F7> <Esc>:w<CR>:silent !~/.config/nvim/run1 %<CR>
+nnoremap <F5> :w<CR>:silent !~/.config/nvim/run %<CR>
+inoremap <F5> <Esc>:w<CR>:silent !~/.config/nvim/run %<CR>
 
 " save and execute selection
 vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
+" tex / latex / xelatex
+autocmd FileType tex nnoremap <F5> <Esc>:w<CR>:only<CR>:HT [ -f $TEXBASE ] && latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode -shell-escape $TEXBASE \|\| latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode<CR>G<C-w>k
+autocmd FileType tex inoremap <F5> <Esc>:w<CR>:only<CR>:HT [ -f $TEXBASE ] && latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode -shell-escape $TEXBASE \|\| latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode<CR>G<C-w>k
+autocmd BufWritePost *.tex silent ![ -f $TEXBASE ] && latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode -shell-escape $TEXBASE || latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode
+" <Leader>s  "--> latex synctex forward
+function! SyncTexForward()
+    " either do synctex on the pdf with basename [filename without extension] $TEXBASE,
+    " or do synctex on the pdf with the same base name as the current tex file if
+    " the environment variable $TEXBASE does not exist.
+    let execstr = "silent ![ $TEXBASE ] && zathura --synctex-forward ".line(".").":".col(".").":%:p $TEXBASE.pdf"
+    let execstr = execstr." || zathura --synctex-forward ".line(".").":".col(".").":%:p %:p:r.pdf &"
+    exec execstr
+endfunction
+autocmd FileType tex nmap <Leader>s :call SyncTexForward()<CR>
+" latex synctex backward
+" Ctrl-Click
+" NOTE: for backward synctex to work, one has to run neovim-remote on port 9999:
+" nvr --servername 127.0.0.1:9999 filename.tex
+" And add the following two lines to zathurarc:
+" set synctex true
+" set synctex-editor-command "nvr --servername 127.0.0.1:9999 +%{line} %{input}"
+" normally, the custom nvim script in the nvim config folder will execute nvr
+" in stead of nvim when a latex file is opened.
 
-" enable spell checker:
-nnoremap <F6> :setlocal spell! spelllang=en_us<CR>
-inoremap <F6> <Esc>:setlocal spell! spelllang=en_us<CR>
-" use zg to add a word to the dictionary
-" use zuw to remove word from dictionary
-" use ]s and [s to navigate between misspelled words
-" use z= to find a suggestion for the misspelled word
+" markdown
+autocmd FileType markdown nnoremap <C-i> 0v$"*y:read !~/.scripts/nvim/nvim_markdown_image<CR>kddk
+autocmd FileType markdown nnoremap <F5> <Esc>:w<CR>:silent !smdv %<CR>
+autocmd FileType markdown inoremap <F5> <Esc>:w<CR>:silent !smdv %<CR>
+autocmd FileType markdown vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
+autocmd BufWritePost *.md silent !smdv -S %
 
 
 "" Settings
@@ -176,30 +196,30 @@ autocmd BufEnter * silent! lcd %:p:h
 syntax enable
 
 " underline current line if in insert mode
-:autocmd InsertEnter * set cul
+autocmd InsertEnter * set cul
 
 " remove underline when in normal mode
-:autocmd InsertLeave * set nocul
+autocmd InsertLeave * set nocul
 
 " clear trailing spaces in python files at saving
-autocmd BufWritePre *.py :%s/\s\+$//e
+autocmd BufWritePre *.py %s/\s\+$//e
 
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
 
 " enable undo after file save
 set undofile
-set undodir=$HOME/.config/nvim/undo
+set undodir=$HOME/.local/share/nvim/undo
 
 " save as sudo (make sure SUDO_ASKPASS is set to a password asking program)
 ca w!! w !sudo -A tee '%' &> /dev/null
 
 " remove ugly vertical lines in split
-set fillchars+=vert:\ 
+set fillchars+=vert:\
 
-" fix problems with uncommon shells (fish, zsh, xonsh, ...) and plugins 
+" fix problems with uncommon shells (fish, zsh, xonsh, ...) and plugins
 " running shell commands (neomake, ...)
-set shell=/bin/bash 
+set shell=/bin/bash
 
 " set a column at 90 characters
 set colorcolumn=90
