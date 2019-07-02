@@ -131,8 +131,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " cycle through buffers
-nnoremap <C-]> :bnext<CR>
-nnoremap <C-[> :bprevious<CR>
+"nnoremap <C-]> :bnext<CR>
+"nnoremap <C-[> :bprevious<CR>
 " <C-^> switch between last two buffers
 
 
@@ -144,12 +144,6 @@ autocmd FileType python nnoremap <F5> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_r
 autocmd FileType python inoremap <F5> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
 autocmd FileType python vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
 
-" save and execute file choma (requires tmux and i3)
-nnoremap <F5> :w<CR>:silent !~/.config/nvim/run %<CR>
-inoremap <F5> <Esc>:w<CR>:silent !~/.config/nvim/run %<CR>
-
-" save and execute selection
-vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
 " tex / latex / xelatex
 autocmd FileType tex nnoremap <F5> <Esc>:w<CR>:only<CR>:HT [ -f $TEXBASE ] && latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode -shell-escape $TEXBASE \|\| latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode<CR>G<C-w>k
 autocmd FileType tex inoremap <F5> <Esc>:w<CR>:only<CR>:HT [ -f $TEXBASE ] && latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode -shell-escape $TEXBASE \|\| latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode<CR>G<C-w>k
