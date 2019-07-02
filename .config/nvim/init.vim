@@ -169,11 +169,15 @@ autocmd FileType tex nmap <Leader>s :call SyncTexForward()<CR>
 " in stead of nvim when a latex file is opened.
 
 " markdown
+redir => neovim_server
+silent echo v:servername
+redir end
 autocmd FileType markdown nnoremap <C-i> 0v$"*y:read !~/.scripts/nvim/nvim_markdown_image<CR>kddk
-autocmd FileType markdown nnoremap <F5> <Esc>:w<CR>:silent !smdv %<CR>
-autocmd FileType markdown inoremap <F5> <Esc>:w<CR>:silent !smdv %<CR>
+autocmd FileType markdown nnoremap <F5> <Esc>:w<CR>:silent execute '!killall smdv; smdv % -v "'.v:servername'" &> /dev/null & disown'<CR>
+autocmd FileType markdown inoremap <F5> <Esc>:w<CR>:silent execute '!killall smdv; smdv % -v "'.v:servername'" &> /dev/null & disown'<CR>
 autocmd FileType markdown vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
-autocmd BufWritePost *.md silent !smdv -S %
+
+autocmd BufWritePost *.md silent !smdv --sync %
 
 
 "" Settings
