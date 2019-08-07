@@ -7,15 +7,11 @@ text/x-python=nvim.desktop
 image/jpeg=sxiv.desktop
 image/png=sxiv.desktop
 image/svg+xml=inkscape.desktop;
-<<<<<<< HEAD
-inode/directory=nemo.desktop
-=======
 inode/directory=nemo.desktop;
 application/pdf=org.pwmt.zathura.desktop
 x-scheme-handler/magnet=transmission.desktop
 application/x-bittorrent=transmission.desktop
 video/mp4=mpv.desktop
->>>>>>> a71d861b5eb0ed58e97b0b51ee61c923a1fe4382
 
 [Added Associations]
 application/x-ipynb+json=jupyter.desktop

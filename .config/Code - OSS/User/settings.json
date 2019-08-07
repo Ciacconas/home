@@ -55,10 +55,6 @@
         "%DOC%"
     ],
     "vim.useSystemClipboard": true,
-<<<<<<< HEAD
-    "python.dataScience.sendSelectionToInteractiveWindow": false,
-=======
     "python.linting.pydocstyleEnabled": true,
     "git.autofetch": true,
->>>>>>> a71d861b5eb0ed58e97b0b51ee61c923a1fe4382
 }
