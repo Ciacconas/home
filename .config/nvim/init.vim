@@ -73,8 +73,8 @@ inoremap <C-s> <Esc>:w<CR>
 nnoremap <C-s> <Esc>:w<CR>
 
 " exit current buffer without saving
-inoremap <C-c> <Esc>:bd!<CR>
-nnoremap <C-c> <Esc>:bd!<CR>
+"inoremap <C-c> <Esc>:bd!<CR>
+"nnoremap <C-c> <Esc>:bd!<CR>
 
 " save and exit
 inoremap <C-q> <Esc>:wqa<CR>

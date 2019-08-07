@@ -79,6 +79,11 @@ alias :q=exit
 alias :x=exit
 alias :e=$EDITOR
 
+# some alias
+alias note="cd ~/Documents/Notes/"
+alias kee="cd ~/Documents/self_file/"
+alias work="cd ~/Documents/Work/photonsim/"
+alias dev="cd ~/Documents/dev/Python/"
 
 ## Fish-like autosuggestions
 #-------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ text/x-python=nvim.desktop
 image/jpeg=sxiv.desktop
 image/png=sxiv.desktop
 image/svg+xml=inkscape.desktop;
-inode/directory=vifm.desktop
+inode/directory=nemo.desktop
 
 [Added Associations]
 application/x-ipynb+json=jupyterhubopen.desktop

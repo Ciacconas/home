@@ -44,3 +44,9 @@ export TERMINAL="st"
 #-------------------------------------------------------------------------------
 CONDA_INIT="$( $HOME/.anaconda/bin/conda shell.bash hook 2> /dev/null)"
 [ $? = 0 ] && eval "$CONDA_INIT"
+
+## Autostart starx
+#-------------------------------------------------------------------------------
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+  exec startx
+fi
