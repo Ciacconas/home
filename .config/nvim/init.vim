@@ -148,13 +148,8 @@ nnoremap <silent> <leader>z :call DoWindowSwap()<CR><C-w>h<C-w>h<C-w>h<C-w>k<C-w
 
 
 " cycle through buffers
-<<<<<<< HEAD
-"nnoremap <C-]> :bnext<CR>
-"nnoremap <C-[> :bprevious<CR>
-=======
 nnoremap <C-]> :bnext<CR>
 " nnoremap <C-[> :bprevious<CR> " disabled as this is the Esc combination
->>>>>>> a71d861b5eb0ed58e97b0b51ee61c923a1fe4382
 " <C-^> switch between last two buffers
 
 
