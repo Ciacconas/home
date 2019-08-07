@@ -138,7 +138,7 @@ function! DoWindowSwap()
     "Switch to dest and shuffle source->dest
     exe curNum . "wincmd w"
     "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' markedBuf 
+    exe 'hide buf' markedBuf
 endfunction
 " zoom split:
 nnoremap <silent> <leader>z :call DoWindowSwap()<CR><C-w>h<C-w>h<C-w>h<C-w>k<C-w>k<C-w>k
