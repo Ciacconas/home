@@ -95,7 +95,9 @@ super + M
 super + n
     # handled by dwm
 
+# open ~/Notes with smdv
 super + N
+    notes
 
 # activate all tags to which current window belongs
 super + o

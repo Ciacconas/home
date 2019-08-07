@@ -91,22 +91,8 @@ nnoremap <C-o> :only<CR>
 " close split Below
 nnoremap <C-b> <C-w>j:q!<CR>
 
-" edit this configuration file (requires set hidden)
-nnoremap <F2> :e ~/.config/nvim/init.vim<CR>
-inoremap <F2> <Esc>:e ~/.config/nvim/init.vim<CR>
-
-" enable spell checker:
-nnoremap <F7> :setlocal spell! spelllang=en_us<CR>
-inoremap <F7> <Esc>:setlocal spell! spelllang=en_us<CR>
-" use zg to add a word to the dictionary
-" use zuw to remove word from dictionary
-" use ]s and [s to navigate between misspelled words
-" use z= to find a suggestion for the misspelled word
-
-
-"" Normal mode shortcuts
-"-------------------------------------------------------------------------------
-
+" go to edit mode in terminal emulator:
+tnoremap <Esc> <C-\><C-n>
 
 
 "" Custom functions
@@ -119,37 +105,100 @@ command! -nargs=* VT vsplit | terminal <args>
 "-------------------------------------------------------------------------------
 
 " move to split below of current split
-nnoremap <C-j> <C-w>j
+nnoremap <C-j> <C-w>j<C-A>
+tnoremap <C-j> <C-\><C-N><C-w>j " navigation out of terminal mode
 
 " move to split above of current split
 nnoremap <C-k> <C-w>k
+tnoremap <C-k> <C-\><C-N><C-w>k " navigation out of terminal mode
 
 " move to split left of current split
 nnoremap <C-h> <C-w>h
+tnoremap <C-h> <C-\><C-N><C-w>h " navigation out of terminal mode
 
 " move to split right of current split
 nnoremap <C-l> <C-w>l
+tnoremap <C-l> <C-\><C-N><C-w>l " navigation out of terminal mode
+
+" make current split the only split
+nnoremap <C-o> :only<cr>
+tnoremap <C-o> <C-\><C-N>:only<cr>
+
+" swap splits (from https://stackoverflow.com/questions/2586984/how-can-i-swap-positions-of-two-open-files-in-splits-in-vim#2591946)
+function! DoWindowSwap()
+    let g:markedWinNum = 0
+    "Mark destination
+    let curNum = winnr()
+    let curBuf = bufnr( "%" )
+    exe g:markedWinNum . "wincmd w"
+    "Switch to source and shuffle dest->source
+    let markedBuf = bufnr( "%" )
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' curBuf
+    "Switch to dest and shuffle source->dest
+    exe curNum . "wincmd w"
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' markedBuf 
+endfunction
+" zoom split:
+nnoremap <silent> <leader>z :call DoWindowSwap()<CR><C-w>h<C-w>h<C-w>h<C-w>k<C-w>k<C-w>k
+
+" move current split in small horizontal split and make split behind the main
+" one.
+
 
 " cycle through buffers
+<<<<<<< HEAD
 "nnoremap <C-]> :bnext<CR>
 "nnoremap <C-[> :bprevious<CR>
+=======
+nnoremap <C-]> :bnext<CR>
+" nnoremap <C-[> :bprevious<CR> " disabled as this is the Esc combination
+>>>>>>> a71d861b5eb0ed58e97b0b51ee61c923a1fe4382
 " <C-^> switch between last two buffers
 
 
 "" Run / compile / visualize
 "-------------------------------------------------------------------------------
 
+" inside vim
+
+" edit this configuration file (requires set hidden)
+nnoremap <F2> :e ~/.config/nvim/init.vim<CR>
+inoremap <F2> <Esc>:e ~/.config/nvim/init.vim<CR>
+
+" enable spell checker:
+nnoremap <F3> <Esc>:setlocal spell! spelllang=en_us<CR>
+inoremap <F3> <Esc>:setlocal spell! spelllang=en_us<CR>
+" use zg to add a word to the dictionary
+" use zuw to remove word from dictionary
+" use ]s and [s to navigate between misspelled words
+" use z= to find a suggestion for the misspelled word
+
+" execute last command
+nnoremap <F4> <Esc>:<C-p><CR>
+inoremap <F4> <Esc>:<C-p><CR>
+
+
+
 " python
-autocmd FileType python nnoremap <F5> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
-autocmd FileType python inoremap <F5> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
+
+autocmd FileType python nnoremap <F6> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
+autocmd FileType python inoremap <F6> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
 autocmd FileType python vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
+<<<<<<< HEAD
 autocmd FileType python nnoremap <F6> <Esc>:w<CR>:HT python %<CR>
 autocmd FileType python inoremap <F6> <Esc>:w<CR>:HT python %<CR>
+=======
+autocmd FileType python nnoremap <F5> <Esc>:w<CR>:only<CR>:HT ipython -i %<CR>G<C-w>k
+autocmd FileType python inoremap <F5> <Esc>:w<CR>:only<CR>:HT ipython -i %<CR>G<C-w>k
+
+>>>>>>> a71d861b5eb0ed58e97b0b51ee61c923a1fe4382
 
 " tex / latex / xelatex
+
 autocmd FileType tex nnoremap <F5> <Esc>:w<CR>:only<CR>:HT [ -f $TEXBASE ] && latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode -shell-escape $TEXBASE \|\| latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode<CR>G<C-w>k
 autocmd FileType tex inoremap <F5> <Esc>:w<CR>:only<CR>:HT [ -f $TEXBASE ] && latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode -shell-escape $TEXBASE \|\| latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode<CR>G<C-w>k
-autocmd BufWritePost *.tex silent ![ -f $TEXBASE ] && latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode -shell-escape $TEXBASE || latexmk -xelatex -cd -synctex=1 -interaction=nonstopmode
 " <Leader>s  "--> latex synctex forward
 function! SyncTexForward()
     " either do synctex on the pdf with basename [filename without extension] $TEXBASE,
@@ -170,7 +219,9 @@ autocmd FileType tex nmap <Leader>s :call SyncTexForward()<CR>
 " normally, the custom nvim script in the nvim config folder will execute nvr
 " in stead of nvim when a latex file is opened.
 
+
 " markdown
+
 redir => neovim_server
 silent echo v:servername
 redir end
@@ -178,7 +229,8 @@ autocmd FileType markdown nnoremap <C-i> 0v$"*y:read !~/.scripts/nvim/nvim_markd
 autocmd FileType markdown nnoremap <F5> <Esc>:w<CR>:silent execute '!killall smdv; smdv % -v "'.v:servername'" &> /dev/null & disown'<CR>
 autocmd FileType markdown inoremap <F5> <Esc>:w<CR>:silent execute '!killall smdv; smdv % -v "'.v:servername'" &> /dev/null & disown'<CR>
 autocmd FileType markdown vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
-
+autocmd FileType markdown nnoremap <Leader>d "ayi(:execute ":edit ".@a<CR>:silent !smdv --sync %<CR>
+autocmd FileType markdown nnoremap <Leader>s :silent !smdv --sync %<CR>
 autocmd BufWritePost *.md silent !smdv --sync %
 
 
@@ -270,7 +322,7 @@ set noautoindent
 set showmatch
 
 " when scrolling, keep cursor 3 lines away from screen border
-set scrolloff=3
+set scrolloff=1000
 
 " code folding
 " zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one

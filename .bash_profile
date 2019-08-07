@@ -14,11 +14,10 @@
 # current shell: zsh
 #
 
-## Path
+## Anaconda python
 #-------------------------------------------------------------------------------
-# web apps
-export PATH="$HOME/.webapps:$PATH"
-
+CONDA_INIT="$( $HOME/.anaconda/bin/conda shell.bash hook 2> /dev/null)"
+[ $? = 0 ] && eval "$CONDA_INIT"
 
 ## Environment variables
 #-------------------------------------------------------------------------------
@@ -37,9 +36,10 @@ export PATH="$HOME/.local/bin:$PATH"
 export PYTHONSTARTUP="$HOME/.pythonstartup"
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export READER="zathura"
-export SUDO_ASKPASS="$HOME/.config/dmenu/dmenu_askpass"
+export SUDO_ASKPASS="dmenu_askpass"
 export TERMINAL="st"
 
+<<<<<<< HEAD
 ## Anaconda python
 #-------------------------------------------------------------------------------
 CONDA_INIT="$( $HOME/.anaconda/bin/conda shell.bash hook 2> /dev/null)"
@@ -50,3 +50,5 @@ CONDA_INIT="$( $HOME/.anaconda/bin/conda shell.bash hook 2> /dev/null)"
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
+=======
+>>>>>>> a71d861b5eb0ed58e97b0b51ee61c923a1fe4382
