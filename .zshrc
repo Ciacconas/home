@@ -107,3 +107,5 @@ export PYTHONPATH="$(tr '\n' ':' < ~/.pythonpath | head -c -1 | sed 's|~|'$HOME'
 # enable conda commands
 CONDA="$HOME/.anaconda/etc/profile.d/conda.sh" && [ -f $CONDA ] && source $CONDA
 
+# "text"
+
