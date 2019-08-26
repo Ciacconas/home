@@ -165,7 +165,8 @@ submodule_install(){ # will only install the first argument!
 
     printf "sudo make clean install\n" >> $LOG
     printf "sudo make clean install\n" >> $ERR
-    echo $password | sudo -S make clean install >> $LOG 2>> $ERR
+    echo $password | sudo -S make clean >> $LOG 2>> $ERR
+    echo $password | sudo -S make install >> $LOG 2>> $ERR
     echo_success $?
 
     printf "cd $HOME\n" >> $LOG
@@ -220,6 +221,7 @@ link() {
 ## Security
 pacman_install gnupg # gpg --full-gen-key (generate gpg key)
 pacman_install pass # pass init floris.laporte@gmail.com (use gpg key to store passwords securely)
+pacman_install passff-host  # host for the firefox extension
 
 ## Source control
 pacman_install git
@@ -239,6 +241,8 @@ pacman_install neovim
 link /usr/bin/nvim /usr/bin/vim
 # rsync: safe and secure copy & backup
 pacman_install rsync
+# syncthing: syncronization between devices
+pacman_install syncthing
 # atool gives information about archives
 pacman_install atool
 # zip
@@ -377,6 +381,8 @@ pacman_install zathura
 pacman_install zathura-pdf-mupdf
 # djvu reader extension
 pacman_install zathura-djvu
+# etcher: GUI dd alternative
+# yay_install etcher
 
 ## Paint etc
 pacman_install pinta
@@ -387,6 +393,8 @@ pacman_install inkscape
 ## Office
 # open-source office
 # pacman_install libreoffice
+# open-source office with better compatibility with microsoft office
+# yay_install onlyoffice-bin
 # sqlite database browser
 # pacman_install sqlitebrowser
 
@@ -418,7 +426,7 @@ pacman_install ntfs-3g
 # access media on external device (phone, ...)
 pacman_install libmtp
 pacman_install fuse
-yay_install jmtpfs
+yay_install android-file-transfer # android access
 # access ssh file system
 pacman_install sshfs
 # install scripts for bootstrapping new arch installation
@@ -493,14 +501,34 @@ systemctl_enable mpd
 # bibliographies
 # pacman_install biber
 
+
 ## Browsers
-# pacman_install firefox
-pacman_install chromium
-pacman_install qutebrowser
-pacman_install webkit2gtk # surf build dependency
-pacman_install gcr # surf build dependency
-pacman_install xorg-xprop # surf build dependency
-pacman_install surf
+
+# firefox
+pacman_install firefox
+# patch firefox to work with some legacy extensions (like vimfx)
+submodule_install LegacyFox
+# cleanup
+echo $password | sudo -S rm ~/.build/LegacyFox/*.gz
+
+# chromium
+# pacman_install chromium
+# yay_install ungoogled-chromium
+# yay_install ungoogled-chromium-archlinux  # preferred
+# yay_install ungoogled-chromium-bin
+
+# qutebrowser
+# pacman_install qutebrowser
+
+# surf
+# pacman_install webkit2gtk # surf build dependency
+# pacman_install gcr # surf build dependency
+# pacman_install xorg-xprop # surf build dependency
+# pacman_install surf
+
+# brave
+# yay_install brave-bin
+
 
 ## Email
 # send email
@@ -511,9 +539,10 @@ pacman_install isync
 pacman_install neomutt
 link /usr/bin/neomutt /usr/bin/mutt
 # html email view (also browser!)
-pacman_install w3m
-# mutt wizard
-yay_install mutt-wizard
+# pacman_install w3m
+pacman_install lynx
+# mutt wizard (disabled; manual configuration preferred)
+# yay_install mutt-wizard
 
 ## Power & sleep
 # sleep on low power
@@ -558,6 +587,10 @@ pip3_install ueberzug
 # automate gui tasks with pyautogui
 pip3_install pyautogui
 
+# to enable wordcloud background
+pip3_install pillow
+pip3_install wordcloud
+
 # document portability
 pip3_install pandoc
 pip2_install pandoc
@@ -578,6 +611,7 @@ pip3_install smdv
 
 echo $password | sudo -S $HOME/.install/services >> $LOG 2>> $ERR
 echo $password | sudo -S systemctl daemon-reload >> $LOG 2>> $ERR
+systemctl_enable syncthing.service
 systemctl_enable jupyterhub.service
 
 
