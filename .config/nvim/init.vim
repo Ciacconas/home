@@ -312,9 +312,15 @@ set noautoindent
 set showmatch
 
 " when scrolling, keep cursor 3 lines away from screen border
-set scrolloff=1000
+set scrolloff=10
 
 " code folding
 " zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
 set foldmethod=indent
 
+" emmet html support
+" set emmet triger key to ';'
+let g:user_emmet_leader_key=';'
+" Enable just for html/css
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
