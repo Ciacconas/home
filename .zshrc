@@ -86,6 +86,7 @@ alias work="cd ~/Documents/Work/photonsim/"
 alias dev="cd ~/Documents/dev/Python/"
 alias lowres="cd ~/Documents/Work/LowRes_Phresco/"
 alias net="cd ~/Documents/net/"
+alias paper="cd ~/Documents/Papers/mypapers/"
 
 ## Fish-like autosuggestions
 #-------------------------------------------------------------------------------

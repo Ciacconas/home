@@ -181,8 +181,9 @@ inoremap <F4> <Esc>:<C-p><CR>
 autocmd FileType python nnoremap <F6> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
 autocmd FileType python inoremap <F6> <Esc>:w<CR>:silent !~/.scripts/nvim/nvim_run %<CR>
 autocmd FileType python vnoremap <F5> "+y:silent !~/.scripts/nvim/nvim_run % SELECTION<CR>
-autocmd FileType python nnoremap <F5> <Esc>:w<CR>:only<CR>:HT ipython -i %<CR>G<C-w>k
-autocmd FileType python inoremap <F5> <Esc>:w<CR>:only<CR>:HT ipython -i %<CR>G<C-w>k
+autocmd FileType python nnoremap <F5> <Esc>:w<CR>:only<CR>:HT ipython -i %<CR>G
+autocmd FileType python inoremap <F5> <Esc>:w<CR>:only<CR>:HT ipython -i %<CR>G
+"autocmd FileType python inoremap <F5> <Esc>:w<CR>:only<CR>:HT ipython -i %<CR>G<C-w>k
 
 
 " tex / latex / xelatex
