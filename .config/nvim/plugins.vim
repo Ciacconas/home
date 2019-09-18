@@ -1,8 +1,8 @@
-"    _____ _     ____  ____  ____  ____  _____ 
+"    _____ _     ____  ____  ____  ____  _____
 "   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
-"   |  __\| |   | / \||  \/|| / \||  \/|  / \  
-"   | |   | |_/\| |-|||  __/| \_/||    /  | |  
-"   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/  
+"   |  __\| |   | / \||  \/|| / \||  \/|  / \
+"   | |   | |_/\| |-|||  __/| \_/||    /  | |
+"   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 "
 
 "" Plugin installer
@@ -36,7 +36,9 @@ Plug 'mattn/emmet-vim' " html support
 Plug 'tpope/vim-fugitive' " git support
 Plug 'tpope/vim-repeat' " better repeating of last command
 Plug 'tpope/vim-surround' " Surround word with character
+Plug 'tpope/vim-markdown' " markdown syntax highlighting
 Plug 'junegunn/fzf.vim' " fuzzy file search (needs fzf installed)
+Plug 'junegunn/goyo.vim' " distraction free writing
 Plug 'Shougo/context_filetype.vim' " Completion from other opened files
 Plug 'Shougo/deoplete.nvim' " Async autocompletion
 Plug 'davidhalter/jedi-vim' " Python go-to-definition [autocompletion disabled]
@@ -55,6 +57,12 @@ Plug 'scrooloose/nerdcommenter' " Code commenter
 Plug 'Townk/vim-autoclose' " Automatically close parenthesis, etc
 Plug 'moll/vim-bbye' " vim buffer delete without close current window
 Plug 'morhetz/gruvbox' " gruvbox colorscheme
+Plug 'sirver/ultisnips' " snippets
+Plug 'honza/vim-snippets' " snippets
+" Plug 'kien/rainbow_parentheses.vim' " different color paranthesis depending on nesting
+" Plug 'powerline/powerline'
+" Plug 'vim-airline/vim-airline'
+" Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 call plug#end() " stop loading plugins
 
 "" Install Plugins
@@ -116,7 +124,7 @@ let g:context_filetype#same_filetypes._ = '_'
 
 " Ack.vim ----------------------------------------------------------------------
 " smart search and replace
-nmap <Leader>r :Ack 
+nmap <Leader>r :Ack
 " smart word search and replace
 nmap <Leader>wr :Ack <cword><CR>
 
@@ -130,4 +138,24 @@ let g:AutoClosePumvisible = {"ENTER": "\<C-Y>", "ESC": "\<Esc>"}
 let g:yankring_clipboard_monitor = 0
 " set directory where yankring can be stored.
 let g:yankring_history_dir = '~/.config/nvim/'
+
+" Relative numbers -----------------------
+let g:numbers_exclude = ["goyo"]
+
+" Goyo -----------------------------------
+nnoremap <C-x> :Goyo!<cr>:set tw=0<cr>
+nnoremap <CR> :Goyo<cr>:set tw=70<cr>
+let g:goyo_linenr = 0
+let g:goyo_height = "75%"
+let g:goyo_width = 80
+
+" Ultisnips ------------------------------
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-.>"
+let g:UltiSnipsJumpBackwardTrigger="<c-,>"
+
+" Instant markdown -----------------------
+let g:instant_markdown_port = 9876
+let g:instant_markdown_autoscroll = 1
+let g:instant_markdown_python = 0
 

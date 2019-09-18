@@ -166,6 +166,7 @@ submodule_install(){ # will only install the first argument!
     printf "sudo make clean install\n" >> $LOG
     printf "sudo make clean install\n" >> $ERR
     echo $password | sudo -S make clean >> $LOG 2>> $ERR
+    echo $password | sudo -S make all >> $LOG 2>> $ERR
     echo $password | sudo -S make install >> $LOG 2>> $ERR
     echo_success $?
 
@@ -234,8 +235,6 @@ pacman_install make
 git_install https://aur.archlinux.org/yay.git
 
 ## Terminal
-# suckless terminal (Luke Smith fork)
-yay_install st-luke-git
 # vim / neovim
 pacman_install neovim
 link /usr/bin/nvim /usr/bin/vim
@@ -316,6 +315,8 @@ pacman_install xorg-server-xvfb
 yay_install unclutter-xfixes-git
 # viewer with synctex support, and some custom plugins
 pacman_install xdotool
+# my st fork
+submodule_install st
 
 ## Desktop Environment / Window Manager
 # i3-gaps: allow gaps between windows
@@ -333,11 +334,12 @@ pacman_install xautolock
 # wallpapers
 pacman_install feh
 # simple theme to make gtk applications look better
+pacman_install gtk3
 pacman_install arc-solid-gtk-theme
-# dmenu
-submodule_install dmenu
-# dwm
+# my dwm fork
 submodule_install dwm
+# my dmenu fork
+submodule_install dmenu
 
 ## Printers
 # printer system (cups @ localhost:631)
@@ -507,9 +509,7 @@ systemctl_enable mpd
 # firefox
 pacman_install firefox
 # patch firefox to work with some legacy extensions (like vimfx)
-submodule_install LegacyFox
-# cleanup
-echo $password | sudo -S rm ~/.build/LegacyFox/*.gz
+submodule_install legacyfox
 
 # chromium
 # pacman_install chromium
@@ -556,14 +556,15 @@ echo $password | sudo -S chmod a+w /sys/power/state
 # pacman_install cuda-toolkit
 
 ## GDS Layouts
-# Klayout (takes very long, hence disabled by default)
-# yay_install klayout
+# Klayout
+yay_install klayout
 
 ## Python
 #-------------------------------------------------------------------------------
 
 # system python packages
 pacman_install tk
+pacman_install python-gobject
 pacman_install python-pip
 pacman_install python2-pip
 pacman_install python-tqdm

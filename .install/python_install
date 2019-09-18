@@ -106,6 +106,9 @@ $PIP install bayesian-optimization >> $LOG 2>> $ERR # optimization of hyperparam
 echo "installing pygmo for environment: base"
 $PIP install pygmo >> $LOG 2>> $ERR # optimization of multi-variable functions
 
+echo "installing smdv for environment: base"
+$PIP install smdv >> $LOG 2>> $ERR # simple markdown viewer
+
 echo "installing neovim support for environment: base"
 $PIP install neovim >> $LOG 2>> $ERR
 $NPM install -g neovim >> $LOG 2>> $ERR
@@ -197,8 +200,6 @@ labextension_install(){
 # jupyterlab extensions
 echo "installing jupyterlab vim extension"
 labextension_install jupyterlab_vim >> $LOG 2>> $ERR
-echo "installing jupyterlab hub extension"
-labextension_install @jupyterlab/hub-extension >> $LOG 2>> $ERR
 echo "installing jupyterlab plotly extension"
 labextension_install @jupyterlab/plotly-extension >> $LOG 2>> $ERR
 echo "installing jupyterlab table of contents extension"
@@ -219,3 +220,8 @@ echo "installing jupyterlab code formatter extension"
 labextension_install @ryantam626/jupyterlab_code_formatter >> $LOG 2>> $ERR
 $PIP install jupyterlab_code_formatter >> $LOG 2>> $ERR
 $JUPYTER serverextension enable --py jupyterlab_code_formatter >> $LOG 2>> $ERR
+echo "installing jupyterlab tensorboard"
+labextension_install jupyterlab_tensorboard
+$PIP install jupyter_tensorboard
+$JUPYTER serverextension enable --py jupyter_tensorboard >> $LOG 2>> $ERR
+
