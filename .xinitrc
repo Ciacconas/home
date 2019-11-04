@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-#    _____ _     ____  ____  ____  ____  _____ 
+#    _____ _     ____  ____  ____  ____  _____
 #   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
-#   |  __\| |   | / \||  \/|| / \||  \/|  / \  
-#   | |   | |_/\| |-|||  __/| \_/||    /  | |  
-#   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/  
+#   |  __\| |   | / \||  \/|| / \||  \/|  / \
+#   | |   | |_/\| |-|||  __/| \_/||    /  | |
+#   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 #
 
 # select window manager [i3 / dwm]
@@ -37,7 +37,7 @@ dunst &
 nm-applet &
 
 # automatically lock screen after 10 minutes
-xautolock -time 10 -locker validate_and_lock_screen &
+xautolock -time 10 -locker lock_screen &
 
 # make the mouse invisible after a brief period of not using it.
 unclutter &
