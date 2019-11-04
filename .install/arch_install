@@ -13,7 +13,7 @@
 ## Checks
 #-------------------------------------------------------------------------------
 
-## Pre-installation checks
+## pre-installation checks
 if [ $USER == root ]; then
     echo
     echo "first_install.sh should not be run as root / with sudo."
@@ -151,7 +151,7 @@ git_install(){ # will only install the first argument!
     printf "rm -rf /tmp/gitpkg\n" >> $LOG
     printf "rm -rf /tmp/gitpkg\n" >> $ERR
     rm -rf /tmp/gitpkg >> $LOG 2>> $ERR
-    
+
 }
 
 submodule_install(){ # will only install the first argument!
@@ -222,7 +222,7 @@ link() {
 ## Security
 pacman_install gnupg # gpg --full-gen-key (generate gpg key)
 pacman_install pass # pass init floris.laporte@gmail.com (use gpg key to store passwords securely)
-pacman_install passff-host  # host for the firefox extension
+yay_install passff-host  # host for the firefox extension
 
 ## Source control
 pacman_install git
@@ -235,12 +235,14 @@ pacman_install make
 git_install https://aur.archlinux.org/yay.git
 
 ## Terminal
+# my st fork
+submodule_install st
 # vim / neovim
 pacman_install neovim
 link /usr/bin/nvim /usr/bin/vim
 # rsync: safe and secure copy & backup
 pacman_install rsync
-# syncthing: syncronization between devices
+# syncthing: synchronization between devices
 pacman_install syncthing
 # atool gives information about archives
 pacman_install atool
@@ -262,10 +264,10 @@ pacman_install vifm
 # yay_install googler
 # terminal internet search: duckduckgo
 # yay_install ddgr
+# search tool
+pacman_install grep
 # search tool (grep alternative, necessary for some vim extensions)
 pacman_install ack
-# faster navigation in the shell (combine with zsh extension of the same name)
-pacman_install autojump
 # fuzzy finder tool
 pacman_install fzf
 # multiple terminals in one
@@ -293,9 +295,14 @@ pacman_install socat
 # torrents: transmission
 pacman_install transmission-cli
 yay_install transmission-remote-cli-git
+# a more beautiful ls command
+pacman_install lsd
+# reverse proxy
+pacman_install nginx
 
 ## Graphical server: xorg
 # the graphical server
+pacman_install xorg
 pacman_install xorg-server
 # querying window information
 pacman_install xorg-xwininfo
@@ -305,8 +312,6 @@ pacman_install xorg-xinit
 pacman_install xorg-xprop
 # for transparent windows etc.
 pacman_install xcompmgr
-# for changing brightnes etc:
-pacman_install xorg-xbacklight
 # get info on current active windows
 pacman_install xorg-xdpyinfo
 # virtual x server
@@ -315,14 +320,21 @@ pacman_install xorg-server-xvfb
 yay_install unclutter-xfixes-git
 # viewer with synctex support, and some custom plugins
 pacman_install xdotool
-# my st fork
-submodule_install st
+# for changing brightness etc:
+pacman_install xorg-xbacklight
+# correct settings for xorg-xbacklight:
+cat /etc/X11/xorg.conf 2> /dev/null | grep "Intel Graphics" &> /dev/null
+already_configured=$?
+if [ -d /sys/class/backlight/intel_backlight ] && [ $already_configured -ne 0 ]; then
+    pacman_install xf86-video-intel
+    printf "\nSection \"Device\"\n    Identifier \"Intel Graphics\"\n    Driver \"intel\"\n    Option \"Backlight\" \"intel_backlight\"\nEndSection\n" | sudo tee -a /etc/X11/xorg.conf &> /dev/null
+fi
 
 ## Desktop Environment / Window Manager
 # i3-gaps: allow gaps between windows
 # pacman_install i3-gaps
 # i3-blocks: status bar for i3
-# pacman_install i3blocks
+# pacman_install i3-blocks
 # i3-lock: screen lock for i3 (and also for dwm!)
 pacman_install i3lock
 # xsetroot: for status bar in dwm
@@ -336,14 +348,19 @@ pacman_install feh
 # simple theme to make gtk applications look better
 pacman_install gtk3
 pacman_install arc-solid-gtk-theme
+sudo rsync -a /usr/share/themes/Arc-solid/gtk-2.0/ /etc/gtk-2.0/ > $LOG 2> $ERR
 # my dwm fork
 submodule_install dwm
-# my dmenu fork
-submodule_install dmenu
+# my dmenu fork (disabled in favor of rofi)
+# submodule_install dmenu
+# rofi (dmenu alternative)
+pacman_install rofi
 
 ## Printers
 # printer system (cups @ localhost:631)
 pacman_install cups
+# common printer drivers
+pacman_install gutenprint
 # for network printing
 pacman_install avahi
 pacman_install nss-mdns
@@ -395,7 +412,10 @@ pacman_install inkscape
 ## Office
 # open-source office
 # pacman_install libreoffice
-# open-source office with better compatibility with microsoft office
+# recommended font packages for compatibility with MS Office
+# yay_install ttf-ms-fonts
+# yay_install ttf-vista-fonts
+# open-source office MS Office look-and-feel.
 # yay_install onlyoffice-bin
 # sqlite database browser
 # pacman_install sqlitebrowser
@@ -447,9 +467,9 @@ pacman_install dunst
 pacman_install sxiv
 # imagemagick: for images
 pacman_install imagemagick
-# youtube-dl: download youtube videos
+# youtube-dl: download YouTube videos
 pacman_install youtube-dl
-# youtube-viewer
+# YouTube-viewer
 pacman_install youtube-viewer
 # vlc media player
 # pacman_install vlc
@@ -492,9 +512,9 @@ pacman_install alsa-utils
 pacman_install alsa-plugins
 pacman_install pulseaudio
 # media control
-pacman_install mpc 
+pacman_install mpc
 # media daemon
-pacman_install mpd 
+pacman_install mpd
 systemctl_enable mpd
 
 ## Latex
@@ -551,7 +571,7 @@ systemctl_enable acpid
 echo $password | sudo -S chmod a+w /sys/power/state
 
 ## nvidia graphics card:
-# this is disabled by default, as it gives troubles on devices without nvidia gpu
+# this is disabled by default, as it gives troubles on devices without nvidia GPU
 # pacman_install nvidia
 # pacman_install cuda-toolkit
 
@@ -573,8 +593,10 @@ pacman_install python-numpy
 pacman_install python2-numpy
 pacman_install python-matplotlib
 pacman_install python2-matplotlib
+pacman_install python-websockets
+pacman_install python-powerline
 
-# Scientific computing octave (matlab alternative)
+# Scientific computing octave (Matlab alternative)
 pacman_install octave
 
 # install neovim integration for system python
@@ -585,7 +607,7 @@ pip3_install neovim-remote
 # image previews in vifm
 pip3_install ueberzug
 
-# automate gui tasks with pyautogui
+# automate GUI tasks with pyautogui
 pip3_install pyautogui
 
 # to enable wordcloud background
@@ -628,21 +650,25 @@ ln -s ~/.config/Xresources/solarizeddark ~/.Xresources >> $LOG 2>> $ERR
 
 ## Alternative shell
 #-------------------------------------------------------------------------------
-# dash is a posix complient shell
+# dash: a minimal implementation of sh:
 pacman_install dash
-# we will make sh point to dash in stead to bash
+# we'll make sh point to dash in stead to bash
 link /usr/bin/dash /bin/sh
 
-# fish is not posix complient, but friendly and interactive ;)
+# fish: alternative shell. It's not posix complient, but friendly and interactive ;)
 # pacman_install fish
-# we will make fish our main shell
 # echo $password | chsh -s /usr/bin/fish
 
-# zsh is posix complient + many extra's (some might call it bloat, but I like it)
+# zsh: another alternative shell. In contrast to fish, it *is* posix complient.
+# it's my preferred shell.
 pacman_install zsh
-yay_install oh-my-zsh-git
-# fish-like autosuggestions
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zsh/zsh-autosuggestions >> $LOG 2>> $ERR
-# we will make zsh our main shell
+# zsh-extensions:
+pacman_install autojump
+pacman_install zsh-autosuggestions
+pacman_install zsh-syntax-highlighting
+
+# optional: make customizing zsh easy:
+# yay_install oh-my-zsh-git
+# we'll make zsh our main shell
 echo $password | chsh -s /usr/bin/zsh
 

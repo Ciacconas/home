@@ -56,9 +56,10 @@ bind \cp accept-autosuggestion
 bind -M insert \cn accept-autosuggestion
 bind \cn accept-autosuggestion
 
-# Start X at login
-if status is-login
-    if test -z "$DISPLAY" -a $XDG_VTNR = 1
-        exec startx -- -keeptty
-    end
-end
+
+## Extensions
+#-------------------------------------------------------------------------------
+
+# autojump
+source /usr/share/autojump/autojump.fish
+

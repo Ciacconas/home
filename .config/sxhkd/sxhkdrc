@@ -1,0 +1,437 @@
+#    _____ _     ____  ____  ____  ____  _____
+#   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
+#   |  __\| |   | / \||  \/|| / \||  \/|  / \
+#   | |   | |_/\| |-|||  __/| \_/||    /  | |
+#   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
+#
+
+# decrease alpha of windows
+super + control + a
+    alpha set -10 && dwm_status
+
+# increase alpha of windows
+super + shift + a
+    alpha set +10 && dwm_status
+
+# toggle window transparency (toggle xcompmgr)
+super + a
+    pidof xcompmgr && killall xcompmgr || xcompmgr &; dwm_status
+
+# connect to bluetooth device (devices should be paired using bluetoothctl)
+super + b
+    dmenu_bluetooth
+
+# show/hide status bar
+super + B
+    # handled by dwm
+
+# shift focus to monitor C
+super + c
+    # handled by dwm
+
+# move active window to monitor C
+super + C
+    # handled by dwm
+
+# decrease number of windows in master area
+super + d
+    # handled by dwm
+
+super + D
+
+# show a list of emojis
+super + e
+    dmenu_emoji
+
+super + E
+
+# full screen (monocle) layout
+super + f
+    # handled by dwm
+
+# floating layout
+super + F
+
+# greek letters menu
+super + g
+    dmenu_greek
+
+super + G
+
+# decrease master window size
+super + h
+    # handled by dwm
+
+super + H
+
+# increase number of windows in master area
+super + i
+    # handled by dwm
+
+super + I
+
+# focus on window higher on the stack
+super + j
+    # handled by dwm
+
+super + J
+
+# focus on window lower on the stack
+super + k
+    # handled by dwm
+
+# run passmenu
+super + K
+    /usr/bin/passmenu -l 20
+
+# increase master window size
+super + l
+    # handled by dwm
+
+# lock computer
+super + shift + L
+    ~/.local/bin/lock_screen
+    # lock_screen
+
+# dmenu mount drive menu
+super + m
+    dmenu_mount mount -i
+
+# dmenu unmount drive menu
+super + M
+    dmenu_mount unmount -i
+
+# open nemo file browser
+super + n
+    nemo
+
+super + N
+
+# activate all tags to which current window belongs
+super + o
+    # handled by dwm
+
+# enable all tags
+super + O
+    # handled by dwm
+
+# dmenu choose screen layout
+super + p
+    dmenu_screenlayout -i -l 10 -p "screen layout"
+
+# default screen layout
+super + P
+    default_screenlayout
+
+# kill current window
+super + q
+    # handled by dwm
+
+# quit dwm
+super + Q
+    # handled by dwm
+
+# start an ipython repl
+super + r
+    cd ~; $TERMINAL -e ipython
+
+super + R
+
+# run a program
+super + s
+    dmenu_run -i -l 15
+
+# start/stop a service
+super + S
+    dmenu_services -i
+
+# toggle between last two layouts
+super + t
+    # handled by dwm
+
+# enable default layout
+super + T
+    # handled by dwm
+
+# start transmission-cli
+super + u
+    transmission --new-terminal
+
+# stop transmission-cli
+super + U
+    transmission --stop
+
+# shift focus to monitor V
+super + v
+    # handled by dwm
+
+# move active window to monitor V
+super + V
+    # handled by dwm
+
+# start default browser
+super + w
+    $BROWSER
+
+# search the web
+super + W
+    ~/.scripts/search --dmenuargs -i
+
+# shift focus to monitor X
+super + x
+    # handled by dwm
+
+# move active window to monitor X
+super + X
+
+# change color scheme
+super + y
+    xcs
+
+# change wallpaper
+super + Y
+    $TERMINAL -n float -e wallpaper
+
+# shift focus to monitor Z
+super + z
+    # handled by dwm
+
+# move active window to monitor Z
+super + Z
+    # handled by dwm
+
+# new terminal
+super + Return
+    cd ~; $TERMINAL
+
+# new non-transparent terminal
+super + shift + Return
+    cd ~; $TERMINAL
+
+# toggle pause / play
+super + shift + equal
+    notify-send "toggle pause / play"; browsercontrol togglepause; mpvcontrol togglepause
+
+# raise volume
+super + equal
+    amixer -D pulse set Master 5%+; dwm_status
+
+# lower volume
+super + minus
+    amixer -D pulse set Master 5%-; dwm_status
+
+# toggle mute volume
+super + shift + minus
+    amixer -D pulse set Master 1+ toggle; dwm_status
+
+super + shift + equal
+
+# promote (zoom) window
+super + space
+    # handled by dwm
+
+# promote monitor to master monitor
+super + control + space
+    # handled by dwm
+
+# toggle floating for current window
+super + shift + space
+    # handled by dwm
+
+# toggle between previous tags
+super + Tab
+    # handled by dwm
+
+# cycle forward through layout list
+super + semicolon
+    # handled by dwm
+
+# cycle backward through layout list
+super + shift + semicolon
+    # handled by dwm
+
+super + slash
+
+super + apostrophe
+
+super + comma
+
+super + period
+
+super + shift + comma
+
+super + shift + period
+
+# enable hidden tag
+super + grave
+    # handled by dwm
+
+# apply hidden tag to focused window
+super + shift + grave
+    # handled by dwm
+
+# enable all tags
+super + 0
+    # handled by dwm
+
+# apply all tags to focused windows
+super + shift + 0
+    # handled by dwm
+
+# view all windows with tag #1
+super + 1
+    # handled by dwm
+
+# apply tag 1 to focused window
+super + shift + 1
+    # handled by dwm
+
+# view all windows with tag #2
+super + 2
+    # handled by dwm
+
+# apply tag 2 to focused window
+super + shift + 2
+    # handled by dwm
+
+# view all windows with tag #3
+super + 3
+    # handled by dwm
+
+# apply tag 3 to focused window
+super + shift + 3
+    # handled by dwm
+
+# view all windows with tag #4
+super + 4
+    # handled by dwm
+
+# apply tag 4 to focused window
+super + shift + 4
+    # handled by dwm
+
+# view all windows with tag #5
+super + 5
+    # handled by dwm
+
+# apply tag 5 to focused window
+super + shift + 5
+    # handled by dwm
+
+# view all windows with tag #6
+super + 6
+    # handled by dwm
+
+# apply tag 6 to focused window
+super + shift + 6
+    # handled by dwm
+
+# view all windows with tag #7
+super + 7
+    # handled by dwm
+
+# apply tag 7 to focused window
+super + shift + 7
+    # handled by dwm
+
+# view all windows with tag #8
+super + 8
+    # handled by dwm
+
+# apply tag 8 to focused window
+super + shift + 8
+    # handled by dwm
+
+# view all windows with tag #9
+super + 9
+    # handled by dwm
+
+# apply tag 9 to focused window
+super + shift + 9
+    # handled by dwm
+
+# select keyboard shortcut
+super + F1
+    dmenu_keyboard_shortcuts -i
+
+super + F2
+
+super + F3
+
+super + F4
+
+super + F5
+
+super + F6
+
+super + F7
+
+super + F8
+
+super + F9
+
+super + F10
+
+# decrease brightness
+super + F11
+    [ $(printf %.0f $(xbacklight)) -gt 19 ] && xbacklight -dec 10; dwm_status
+
+# increase brightness
+super + F12
+    xbacklight -inc 10; dwm_status
+
+# mute volume
+XF86AudioMute
+    amixer -D pulse set Master 1+ toggle; dwm_status
+
+# lower volume
+XF86AudioLowerVolume
+    amixer -D pulse set Master 5%-; dwm_status
+
+# raise volume
+XF86AudioRaiseVolume
+    amixer -D pulse set Master 5%+; dwm_status
+
+# increase brightness
+XF86MonBrightnessUp
+    xbacklight -inc 10; dwm_status
+
+# decrease brightness
+XF86MonBrightnessDown
+    [ $(printf %.0f $(xbacklight)) -gt 19 ] && xbacklight -dec 10; dwm_status
+
+XF86AudioNext
+    notify-send XF86AudioNext "not implemented"
+
+XF86AudioPrev
+    notify-send XF86AudioPrev "not implemented"
+
+# toggle pause / play
+XF86AudioPause
+    notify-send "toggle pause / play"; browsercontrol togglepause; mpvcontrol togglepause
+
+# toggle pause / play
+XF86AudioPlay
+    notify-send "toggle pause / play"; mpvcontrol togglepause; browsercontrol togglepause
+
+XF86AudioStop
+    notify-send XF86AudioStop "not implemented"
+
+XF86AudioRewind
+    notify-send XF86AudioRewind "not implemented"
+
+XF86AudioForward
+    notify-send XF86AudioForward "not implemented"
+
+XF86AudioRecord
+    notify-send XF86AudioRecord "not implemented"
+
+XF86AudioMedia
+    notify-send XF86AudioMedia "not implemented"
+
+XF86Search
+    notify-send XF86Search "not implemented"
+
+XF86Calculator
+    notify-send XF86Calculator "not implemented"
+
