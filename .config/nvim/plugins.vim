@@ -32,37 +32,26 @@ endif
 " Run :PlugInstall to install extra packages after adding them to the list below
 " Run :UpdateRemotePlugins to update dependencies
 call plug#begin('~/.config/nvim/plugged') " start loading plugins
-Plug 'mattn/emmet-vim' " html support
-Plug 'tpope/vim-fugitive' " git support
-Plug 'tpope/vim-repeat' " better repeating of last command
-Plug 'tpope/vim-surround' " Surround word with character
-Plug 'tpope/vim-markdown' " markdown syntax highlighting
-Plug 'junegunn/fzf.vim' " fuzzy file search (needs fzf installed)
-Plug 'junegunn/goyo.vim' " distraction free writing
+Plug 'christoomey/vim-tmux-navigator' " tmux navigation
+Plug 'davidhalter/jedi-vim' " Python go-to-definition [autocompletion disabled]
+Plug 'junegunn/fzf.vim' " Fuzzy file finder (needs system wide fzf install)
+Plug 'kshenoy/vim-signature' " Show marks in margin
+Plug 'lilydjwg/colorizer' " Paint css colors with the real color
+Plug 'mhinz/vim-signify' " Git/mercurial/others diff icons on the side of the file lines
+Plug 'neomake/neomake' " Linters
+Plug 'psf/black' " black python plugin
 Plug 'Shougo/context_filetype.vim' " Completion from other opened files
 Plug 'Shougo/deoplete.nvim' " Async autocompletion
-Plug 'davidhalter/jedi-vim' " Python go-to-definition [autocompletion disabled]
-Plug 'zchee/deoplete-jedi'  " Python autocompletion
-Plug 'mileszs/ack.vim' " Ack code search (needs ack installed)
-Plug 'lilydjwg/colorizer' " Paint css colors with the real color
-Plug 'valloric/MatchTagAlways' " Highlight matching html tags
-Plug 'mattn/emmet-vim' " Generate html in a simple way
-Plug 'mhinz/vim-signify' " Git/mercurial/others diff icons on the side of the file lines
-Plug 'vim-scripts/YankRing.vim' " Yank history navigation
-Plug 'neomake/neomake' " Linters
-Plug 'myusuf3/numbers.vim' " Relative numbering of lines (0 is the current line)
-" choma add
-Plug 'scrooloose/nerdtree' " file browser
-Plug 'scrooloose/nerdcommenter' " Code commenter
-Plug 'Townk/vim-autoclose' " Automatically close parenthesis, etc
-Plug 'moll/vim-bbye' " vim buffer delete without close current window
-Plug 'morhetz/gruvbox' " gruvbox colorscheme
-Plug 'sirver/ultisnips' " snippets
-Plug 'honza/vim-snippets' " snippets
-" Plug 'kien/rainbow_parentheses.vim' " different color paranthesis depending on nesting
-" Plug 'powerline/powerline'
-" Plug 'vim-airline/vim-airline'
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'tpope/vim-commentary' " easy comment
+Plug 'tpope/vim-markdown' " markdown syntax highlighting
+Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
+Plug 'tpope/vim-speeddating' " increase date with <C-A>
+Plug 'tpope/vim-surround' " easily surround word with quotes or tags
+Plug 'valloric/MatchTagAlways' " Highlight matching html tags
+Plug 'vim-airline/vim-airline' " Better status bar
+Plug 'wikitopian/hardmode' " Vim hard mode (useful for training)
+Plug 'zchee/deoplete-jedi'  " Python autocompletion
 call plug#end() " stop loading plugins
 
 "" Install Plugins
@@ -71,91 +60,110 @@ call plug#end() " stop loading plugins
 if vim_plug_just_installed
     echo "Installing Bundles, please ignore key map error messages"
     :PlugInstall
+    :UpdateRemotePlugins
 endif
 
 
 "" Plugin Settings
 "-------------------------------------------------------------------------------
 
-" Neomake ----------------------------------------------------------------------
-" run linter on write
-autocmd! BufWritePost * Neomake
+" davidhalter/jedi-vim ---------------------------
+" default configuration of jedi-vim kinda sucks. A lot of settings mess with
+" the default vim completion and make it work not like expected. The
+" configuration below tries to disable those insensible defaults.
+let g:jedi#auto_initialization = 1 " initialize normally
+let g:jedi#completions_command = '' " just default omicompletion: <C-x><C-o>
+let g:jedi#smart_auto_mappings = 0 " this is incredibly annoying hence disabled
+let g:jedi#auto_vim_configuration = 0 " don't let the plugin mess with the default completion settings
+let g:jedi#popup_select_first = 0 " don't let the plugin mess with the default completion settings
+let g:jedi#show_call_signatures = 1 " show call signatures inline
+let g:jedi#squelch_py_warning = 1 " no warning when python not available
+let g:jedi#completions_enabled = 0 " use deoplete instead of jedi for completion
+let g:jedi#goto_command = '<Leader>d' " goto python definition
+let g:jedi#usages_command = '' " '<Leader>o'  find ocurrences (disabled)
+let g:jedi#rename_command = '<Leader>r' " rename python variable
+let g:jedi#documentation_command = 'K' " show python docstring
+let g:jedi#popup_on_dot = 0 " only after first letter
+let g:jedi#goto_assignments_command = '' " not used (partially covered by goto_command)
+let g:jedi#goto_definitions_command = '' " not used (partially covered by goto_command)
+
+" junegunn/fzf.vim -------------------------------
+" general code finder in current file mapping
+nmap <Leader>/ :BLines<CR>
+" general code finder in all files mapping
+nmap <Leader>f :Lines<CR>
+" file finder mapping
+nmap <Leader>e :Files<CR>
+" tags (symbols) in all files finder mapping
+nmap <Leader>t :Tag<CR>
+
+" kshenoy/vim-signature --------------------------
+" add a way to disable this for less wide margins
+nnoremap <leader>m :SignatureToggleSigns<CR>
+
+" lilydjwg/colorizer -----------------------------
+" do not color more than 1000 lines at once
+let g:colorizer_maxlines = 1000
+
+" mhinz/vim-signify ------------------------------
+" disable vim signify by default...
+let g:signify_disable_by_default = 1
+" but make a keyboard shortcut to show it when interested
+nnoremap <leader>g :SignifyToggle<CR>
+
+" neomake/neomake --------------------------------
+" run python linter on write
+autocmd! BufWritePost *.py Neomake
 " check code as python3 by default
 let g:neomake_python_python_maker = neomake#makers#ft#python#python()
 " use flake8 to check python code
 let g:neomake_python_flake8_maker = neomake#makers#ft#python#flake8()
 
-" Fzf --------------------------------------------------------------------------
-"" general code finder in current file mapping
-"nmap <Leader>f :BLines<CR>
-"" general code finder in all files mapping
-"nmap <Leader>F :Lines<CR>
-"" file finder mapping
-"nmap <Leader>e :Files<CR>
-"" tags (symbols) in current file finder mapping
-"nmap <Leader>g :BTag<CR>
-"" tags (symbols) in all files finder mapping
-"nmap <Leader>G :Tag<CR>
-"" commands finder mapping
-"" nmap <Leader>c :Commands<CR>
+" psf/black --------------------------------------
 
-" Jedi-vim ---------------------------------------------------------------------
-" disable autocompletion (using deoplete instead)
-let g:jedi#completions_enabled = 0
-" all these mappings work only for python code:
-" go to definition
-let g:jedi#goto_command = '<Leader>d'
-" find ocurrences
-let g:jedi#usages_command = '<Leader>o'
-" find assignments
-let g:jedi#goto_assignments_command = '<Leader>a'
 
-" Deoplete ---------------------------------------------------------------------
+" Shougo/context_filetype.vim --------------------
+" complete with words from any opened file
+let g:context_filetype#same_filetypes = {}
+" set underscore
+let g:context_filetype#same_filetypes._ = '_'
+
+" Shougo/deoplete.nvim ---------------------------
 " enable deoplete
 let g:deoplete#enable_at_startup = 1
 " ignore case when code completing with lower case letters
 let g:deoplete#enable_ignore_case = 1
 " do not ignore case when code completing with upper case letters
 let g:deoplete#enable_smart_case = 1
-" complete with words from any opened file
-let g:context_filetype#same_filetypes = {}
-" set underscore
-let g:context_filetype#same_filetypes._ = '_'
 
-" Ack.vim ----------------------------------------------------------------------
-" smart search and replace
-nmap <Leader>r :Ack
-" smart word search and replace
-nmap <Leader>wr :Ack <cword><CR>
-
-" Autoclose --------------------------------------------------------------------
-" fix to let ESC work as espected with Autoclose plugin
-" (without this, when showing an autocompletion window, ESC won't leave insert mode)
-let g:AutoClosePumvisible = {"ENTER": "\<C-Y>", "ESC": "\<Esc>"}
-
-" Yankring -------------------------------
-" fix for yankring and neovim problem when system has non-text copied in clipboard
-let g:yankring_clipboard_monitor = 0
-" set directory where yankring can be stored.
-let g:yankring_history_dir = '~/.config/nvim/'
-
-" Relative numbers -----------------------
-let g:numbers_exclude = ["goyo"]
-
-" Goyo -----------------------------------
-nnoremap <C-x> :Goyo!<cr>:set tw=0<cr>
-nnoremap <CR> :Goyo<cr>:set tw=70<cr>
-let g:goyo_linenr = 0
-let g:goyo_height = "75%"
-let g:goyo_width = 80
-
-" Ultisnips ------------------------------
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-.>"
-let g:UltiSnipsJumpBackwardTrigger="<c-,>"
-
-" Instant markdown -----------------------
+" suan/vim-instant-markdown ----------------------
+" always run on port 9876
 let g:instant_markdown_port = 9876
+" do not start when opening markdown file
 let g:instant_markdown_autostart = 0
+" obviously, enable markdown autoscroll
 let g:instant_markdown_autoscroll = 1
-let g:instant_markdown_python = 1
+" don't use the python server (requires npm package: `npm -g install instant-markdown-d`)
+let g:instant_markdown_python = 0
+
+" tpope/vim-markdown -----------------------------
+" inline code highlighting
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+" conceal markdown syntax
+let g:markdown_syntax_conceal = 1
+" highlight 100 lines
+let g:markdown_minlines = 100
+
+" valloric/MatchTagAlways ------------------------
+" jump to other/closing tag
+nnoremap <leader>. :MtaJumpToOtherTag<cr>
+
+" vim airline ------------------------------------
+" enable powerline fonts for vim airline
+let g:airline_powerline_fonts = 1
+" let g:airline_theme="base16_gruvbox_dark_hard"
+let g:airline_theme="xresources_airline"
+
+" wikitopian/hardmode ----------------------------
+" enable hard mode (for practice purposes)
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>

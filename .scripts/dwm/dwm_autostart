@@ -7,7 +7,54 @@
 
 
 # enable hotkeys
-sxhkd &> /dev/null &
+pidof sxhkd || sxhkd &> /dev/null &
+
+# set wallpaper
+wallpaper current-wallpaper &
+
+# enable transparent windows
+if [ -f "$HOME/.config/picom/blur-kern" ]; then
+    picom --blur-kern=$(cat $HOME/.config/picom/blur-kern) &
+else
+    picom &
+fi
+
+# update xrdb database
+if [ -f ~/.Xresources ]; then
+    xrdb ~/.Xresources &
+fi
+
+# start smdv (simple markdown viewer) in the background
+pidof smdv || smdv --no-browser &
+
+# export your desired screenlayout with `arandr`
+default_screenlayout &
+
+# notifications
+pidof dunst || dunst &
+
+# network manager applet (in most right corner of the screen)
+pidof nm-applet || nm-applet &
+
+# automatically lock screen after 10 minutes
+pidof xautolock || xautolock -time 10 -locker validate_and_lock_screen &
+
+# make the mouse invisible after a brief period of not using it.
+pidof unclutter || unclutter &
+
+# conky dashboards
+if ! pidof conky; then
+    conky -c $HOME/.config/conky/conky.conf -x 60 &
+    conky -c $HOME/.config/conky/conky.conf -x -1860 &
+    conky -c $HOME/.config/conky/conky.conf -x -3780 &
+fi
+
+# set cursor speed
+# wrapped into loop, as sometimes this stops working
+while true; do
+    xset r rate 200 45 &
+    sleep 60
+done &
 
 # update dwm status bar
 while true; do
@@ -17,9 +64,7 @@ done &
 
 # update weather report every hour
 while true; do
-    curl -s wttr.in > ~/.cache/weatherreport
-    printf "%s" "$(sed '16q;d' ~/.cache/weatherreport | grep -wo "[0-9]*%" | sort -n | sed -e '$!d' | sed -e "s/^/☔ /g" | tr -d '\n')" > ~/.cache/weatherreportshort
-    sed '13q;d' ~/.cache/weatherreport | grep -o "m\\(-\\)*[0-9]\\+" | sort -n -t 'm' -k 2n | sed -e 1b -e '$!d' | tr '\n|m' ' ' | awk '{print " ❄️",$1 "°","🌞",$2 "°"}' >> ~/.cache/weatherreportshort
+    update_weather &> /dev/null &
     sleep 3600s
 done &
 

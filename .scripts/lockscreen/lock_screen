@@ -7,4 +7,3 @@
 #
 xset dpms force off # turns off backlight
 i3lock --color 444444 --ignore-empty-password --show-failed-attempts
-

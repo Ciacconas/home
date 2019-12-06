@@ -1,6 +1,6 @@
 # First Installation of Arch Linux
 
-***Note:*** These installation instructions were last checked by me on 2019.06.26.
+***Note:*** These installation instructions were last checked by me on 2019.12.05.
 
 ***Note:*** These installation worked definitely for **UEFI** boot mode and should normally also work for **BIOS** boot mode, although I have not performed the latter myself.
 
@@ -35,32 +35,34 @@
     * Mount home partition:
         * `mkdir /mnt/home`
         * `mount /dev/sda4 /mnt/home`
+    * **UEFI**: Mount boot partition:
+        * `mkdir -p /mnt/boot/efi`
+        * `mount /dev/sda1 /mnt/boot/efi`
     * **BIOS**: Mount boot partition:
         * `mkdir /mnt/boot`
         * `mount /dev/sda1 /mnt/boot`
-    * **BIOS**: Set the bootable flag on `/dev/sda1`
-        * `cfdisk` -> `[ Type ]` -> `BIOS boot` -> `[ Write ]`
-* Finally, install archlinux: `pacstrap -i /mnt base base-devel dialog`. When prompted choose all the default answers. We need dialog to have `wifi-menu` working after installation.
+        * Set the bootable flag on `/dev/sda1`: `cfdisk` -> `[ Type ]` -> `BIOS boot` -> `[ Write ]`
+* Finally, install archlinux: `pacstrap -i /mnt base base-devel linux linux-firmware`. When prompted choose all the default answers.
 * Create fstab file: `genfstab -U /mnt >> /mnt/etc/fstab`
 * Change root: `arch-chroot /mnt`
 * Set the time zone: `ln -sf /usr/share/zoneinfo/Europe/Brussels /etc/localtime`
 * Set the hardware clock: `hwclock --systohc`
+* Install an editor such as `nano`, `vim` or `neovim`:
+    * `sudo pacman -S neovim`
 * Set the locale:
-    * edit `/etc/locale.gen` and uncomment the locale needed (e.g. `en_US.UTF-8 UTF-8` and `en_US.UTF-8 ISO`)
+    * edit `/etc/locale.gen` with one of the editors and uncomment the locale needed (e.g. `en_US.UTF-8 UTF-8` and `en_US.UTF-8 ISO`)
     * Generate the locales: `locale-gen`
     * Set your language `echo "LANG=en_US.UTF-8"  >> /etc/locale.conf`
 * Set your hostname in `echo "<hostname>" >> /etc/hostname`
 * Add matching entries to /etc/hosts
     * `127.0.0.1    localhost`
     * `::1          localhost`
-    * `127.0.1.1    flaporte.private.ugent.be flaporte`
+    * `127.0.1.1    flaport.domain.example flaport`
 * Install networkmanager
     * `pacman -S networkmanager`
     * `systemctl enable NetworkManager`
 * **UEFI**: Install a bootloader
     * `pacman -S grub efibootmgr`
-    * `mkdir /boot/efi`
-    * `mount /dev/sda1 /boot/efi`
     * `grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi`
     * Generate config file for bootloader: `grub-mkconfig -o /boot/grub/grub.cfg`
     * Copy the generated config to a new folder:
@@ -86,13 +88,11 @@ The first thing to do after booting up into the root account is to make a new us
 * Create a new user: `useradd -m flaport`. The `-m` flag makes sure a home directory is created. If you are *reinstalling* the root partition, you should leave this out.
 * Create a password for the new user: `passwd flaport`
 * Add `flaport` to the sudoers:
-    * edit the sudoers file `visudo`
+    * edit the sudoers file `export EDITOR=nvim; visudo`
     * add the line `flaport ALL=(ALL) ALL`
 * **Optional**: hide GRUB during boot (for single OS installations):
-    * Update `/etc/default/grub` by adding (uncommenting) the following two lines:
+    * Update `/etc/default/grub` by setting:
         * `GRUB_TIMEOUT=0`
-        * `GRUB_HIDDEN_TIMEOUT=0`
-        * `GRUB_HIDDEN_TIMEOUT_QUIET=true`
     * Regenerate the grub config: `sudo grub-mkconfig -o /boot/grub/grub.cfg`
 * Reboot and login as the newly created user
 * Install git: `sudo pacman -S git`
@@ -114,3 +114,5 @@ The first thing to do after booting up into the root account is to make a new us
 ```
     bash ~/.install/python_install
 ```
+
+* Reboot the computer one last time.

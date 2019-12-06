@@ -25,12 +25,14 @@ hi LineNr	ctermfg=3
 hi Question	ctermfg=2
 hi StatusLine	cterm=bold,reverse
 hi StatusLineNC cterm=reverse
-hi VertSplit	cterm=reverse
+hi VertSplit	cterm=NONE ctermbg=NONE
 hi Title	ctermfg=5
 hi Visual	cterm=reverse
 hi WildMenu	ctermfg=0 ctermbg=3
-hi Folded	ctermfg=8 ctermbg=15
+hi Folded	ctermfg=15 ctermbg=8
 hi FoldColumn	ctermfg=8 ctermbg=NONE
+hi SignColumn ctermbg=NONE
+hi ColorColumn ctermbg=4
 hi DiffAdd	ctermbg=4
 hi DiffChange	ctermbg=5
 hi DiffDelete	cterm=bold ctermfg=4 ctermbg=6

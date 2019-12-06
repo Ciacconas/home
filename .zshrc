@@ -30,32 +30,34 @@ bindkey -v '^?' backward-delete-char
 bindkey -v
 export KEYTIMEOUT=1
 
-# edit line in vim with ctrl-e:
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^e' edit-command-line
-
 # change cursor shape for different vi modes.
-if ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+if [ -z $NVIM_LISTEN_ADDRESS ]; then
+    BAR='\e[5 q\e\\'
+    BLOCK='\e[1 q\e\\'
+    UNDERSCORE='\e[4 q\e\\'
     function zle-keymap-select {
       if [[ ${KEYMAP} == vicmd ]] ||
          [[ $1 = 'block' ]]; then
-        echo -ne '\e[1 q'
+        echo -ne $BLOCK
       elif [[ ${KEYMAP} == main ]] ||
            [[ ${KEYMAP} == viins ]] ||
            [[ ${KEYMAP} = '' ]] ||
            [[ $1 = 'beam' ]]; then
-        echo -ne '\e[5 q'
+        echo -ne $UNDERSCORE
       fi
     }
     zle -N zle-keymap-select
     zle-line-init() {
-        zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-        echo -ne "\e[5 q"
+        echo -ne $UNDERSCORE
     }
     zle -N zle-line-init
-    echo -ne '\e[5 q' # Use beam shape cursor on startup.
-    preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+    echo -ne $UNDERSCORE # at startup.
+    preexec() { echo -ne $UNDERSCORE ;} # at new prompt.
 fi
+
+# go backward and forward in history (equivalent to up/down arrow)
+bindkey "^[h" up-line-or-history # alt + h
+bindkey "^[l" down-line-or-history # alt + l
 
 # colored zsh prompt
 setopt prompt_subst
@@ -71,6 +73,8 @@ alias :q=exit
 alias :x=exit
 alias :e=$EDITOR
 alias grep="grep --color=auto"
+alias base="conda activate base"
+alias system="conda deactivate && conda deactivate"
 
 alias note="cd ~/Documents/Notes/"
 alias kee="cd ~/Documents/self_file/"
@@ -89,10 +93,8 @@ touch $HOME/.pythonpath
 touch $HOME/.pythonstartup
 # set python path from "~/.pythonpath" file
 export PYTHONPATH="$(tr '\n' ':' < ~/.pythonpath | head -c -1 | sed 's|~|'$HOME'|g')"
-# enable conda commands
-CONDA="$HOME/.anaconda/etc/profile.d/conda.sh" && [ -f $CONDA ] && source $CONDA
-
-# "text"
+# enable conda commands but do not activate conda
+[ -f $HOME/.anaconda/etc/profile.d/conda.sh ] && source "$HOME/.anaconda/etc/profile.d/conda.sh"
 
 
 ## Extensions

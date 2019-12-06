@@ -6,34 +6,136 @@
 #   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 
 
-# Status bar widgets
+# Parse arguments
+#--------------------------------------------------------------------------------
+# the first argument to this script (if given) should equal the index of the widget
+# clicked.
+
+if [[ $1 == "-h" || $1 == "--help" ]]; then
+    echo "usage: dwm_status [widget-index] [mouse-button 1|2|3|4|5]"
+    exit 0
+fi
+
+WIDGET=""
+if [[ $1 ]]; then
+    WIDGET=$1
+fi
+
+# the second argument to this script (if given) should equal the mouse-button that was
+# used to click the widget.
+
+BUTTON=$2
+[[ $BUTTON -lt 1 || $BUTTON -gt 5 ]] && BUTTON=""
+
+# if no arguments are given then the status bar will be updated.
+
+
+# Status Command
+#--------------------------------------------------------------------------------
+
+# this is the command that pastes the widgets (defined below) together into the
+# status bar of dwm (by using xsetroot). The delimiter cannot be changed for
+# now, as (my fork of) dwm uses the same delimiter to figure out which widget
+# was clicked.
+
+status(){
+    s=""
+    delim=$(printf "\x$(printf %x 31)") # 31: invisible ascii character; 124: |
+    i=0
+    for func in $@
+    do
+        out=$($func)
+        if [ "$out" ]; then
+            s=$s" "$out$delim
+            if [[ $WIDGET == $i && $BUTTON ]]; then
+                $($func$BUTTON)
+            fi
+            i=$((i+1))
+        fi
+    done
+    xsetroot -name "$s"
+}
+
+# define the list of active widgets here (widgets defined below)
+set-status(){
+    status serv hub sync jelly cups sshd ssht vpn bt pcmn alpha vol brt bat wtr dte tme
+    #status cups vpn alpha vol brt bat wtr dte tme
+}
+
+# Helper functions
+#--------------------------------------------------------------------------------
+
+notifyservice(){
+    name=$1
+    if systemctl is-active $name &> /dev/null; then
+        notify-send "$name service" "\n$(systemctl status $name | grep Active | sed 's/^.*Active://g' | sed 's/\ (running)//g')\n\nmiddle click to stop\n\n[  +  + s: toggle any service ]"
+    else
+        notify-send "$name service" "\n$(systemctl status $name | grep Active | sed 's/^.*Active://g' | sed 's/\ (dead)//g')\n\nmiddle click to start\n\n[  +  + s: toggle any service ]"
+    fi
+}
+
+toggleservice(){
+    name=$1
+    if systemctl is-active $name &> /dev/null; then
+        sudo -A -p "[sudo] password to stop $name.service" systemctl stop $name
+    else
+        sudo -A -p "[sudo] password to restart $name.service" systemctl start $name
+    fi
+    sleep 2 && dwm_status &
+}
+
+
+# Widgets
 #--------------------------------------------------------------------------------
 
 # -----------
 
 alpha(){ # window transparency
-    pidof xcompmgr > /dev/null
+    pidof picom > /dev/null
     if [ $? -eq 0 ]; then
-        alpha=0"$(cat ~/.Xresources | grep alpha | sed s/\*alpha\:\ // | sed s/\[.\]//)"
-        echo -e α"$alpha"% | sed s/α00/α\ / | sed s/α0/α\ /
+        alpha=$(python -c "print(int(100*$(xrdb -query | grep alpha | cut -f 2)))")
+        echo -e α $alpha%
     else
         echo -e α -
     fi
 }
 alpha1(){ # mouse-button 1 action for alpha widget
-    notify-send "Window transparency" "◻️ + shift + a: increase alpha\n◻️ + ctrl + a: decrease alpha\n◻️ + a: toggle transparency on/off"
+    notify-send "Window transparency" "\nscroll to adjust\n\n + a: decrease transparency\n +  + a: increase transparency"
 }
-alpha2(){ # mouse-button 1 action for alpha widget
-    notify-send "Window transparency" "◻️ + shift + a: increase alpha\n◻️ + ctrl + a: decrease alpha\n◻️ + a: toggle transparency on/off"
+alpha4(){
+    $HOME/.scripts/x/alpha set +5 && dwm_status &
+}
+alpha5(){
+    $HOME/.scripts/x/alpha set -5 && dwm_status &
 }
 
 # -----------
 
 bat(){ # battery
-    BATTERY=$(acpi -b 2> /dev/null)
-    BATTERY=$(echo $BATTERY | sed "s/^.*: //" | sed "s/^Full,.*$//")
-    BATTERY=$(echo $BATTERY | sed "s/^Discharging,/🔋/" | sed "s/^Charging,/🔌/" | sed "s/^\(.*%\),.*/\1/")
-    echo -e $BATTERY
+    battery=$(acpi -b 2> /dev/null)
+    percentage=$(echo $battery |  sed 's/^.*, \([0-9]*\)%.*$/\1/g')
+    if [ -z $percentage ]; then
+        echo -e ""
+        return
+    fi
+    prompt_segment
+    if echo $battery | grep "Charging" &> /dev/null; then
+       echo -e 🔌" "$percentage%
+       return
+    fi
+    if echo $battery > grep Disharging &> /dev/null; then
+        if [[ $percentage > 90 ]]; then
+            echo -e " "$percentage%
+        elif [[ $percentage > 60 ]]; then
+            echo -e " "$percentage%
+        elif [[ $percentage > 30 ]]; then
+            echo -e " "$percentage%
+        elif [[ $percentage > 5 ]]; then
+            echo -e " "$percentage%
+        else
+            echo -e " "$percentage%
+        fi
+    fi
 }
 bat1(){ # mouse-button 1 action for battery widget
     notify-send "$(acpi -b)"
@@ -49,14 +151,14 @@ brt(){ # screen brightness
     fi
     max_brightness=$(cat $dir/max_brightness)
     brightness=$(cat $dir/brightness)
-    python -c "print('💡 %.0f'%(100*$brightness/$max_brightness)+'%')"
+    python -c "print('☀️ %.0f'%(100*$brightness/$max_brightness)+'%')"
 }
 brt1(){ # mouse-button 1 action for brightness widget
     dir=/sys/class/backlight/intel_backlight
     max_brightness=$(cat $dir/max_brightness)
     brightness=$(cat $dir/brightness)
     brightness=$(python -c "print('%.0f'%(100*$brightness/$max_brightness)+'%')")
-    notify-send "Screen brightness [$brightness]" "◻️ + F11: decrease brightness\n◻️ + F12: increase brightness"
+    notify-send "Screen brightness [$brightness]" " + F11: decrease brightness\n + F12: increase brightness"
 }
 
 # -----------
@@ -66,20 +168,24 @@ bt(){ # bluetooth
         echo -e ""
         return
     fi
-    device=$(echo exit | bluetoothctl | grep -o -m 1 "\b\[.*\]")
-    if [ $device = "[bluetooth]" ]; then
-        echo -e ""
+    device=$(echo exit | bluetoothctl | grep -o -m 1 "\b\[.*\]" | sed "s/.*\[\(.*\)\].*/\1/g")
+    if [[ $device == bluetooth ]]; then
+        echo -e ""
     else
-        echo -e 🦷
+        printf ""
     fi
 }
 bt1(){ # mouse-button 1 action for bluetooth widget
-    device=$(echo exit | bluetoothctl | grep -o -m 1 "\b\[.*\]")
-    if [[ $device == "\[bluetooth\]" ]]; then
-        notify-send Bluetooth disconnected.
+    device=$(echo exit | bluetoothctl | grep -o -m 1 "\b\[.*\]" | sed "s/.*\[\(.*\)\].*/\1/g")
+    if [[ $device == bluetooth ]]; then
+        notify-send Bluetooth "\ndisconnected\n\nmiddle click /  + b to connect"
     else
-        notify-send Bluetooth "connected to $device"
+        notify-send Bluetooth "\nconnected to $device\n\nmiddle click /  + b to disconnect"
     fi
+}
+bt2(){ # mouse-button 1 action for bluetooth widget
+    dmenu_bluetooth
+    sleep 2 && dwm_status &
 }
 
 # -----------
@@ -99,8 +205,20 @@ cpu1(){ # mouse-button 1 action for cpu widget
 
 # -----------
 
+cups(){ # jupyterhub status
+    systemctl is-active org.cups.cupsd &> /dev/null && echo -e 
+}
+cups1(){ # mouse-button 1 action for jupyterhub widget
+    notifyservice org.cups.cupsd
+}
+cups2(){
+    toggleservice org.cups.cupsd
+}
+
+# -----------
+
 dte(){ # date
-    date +'📅 %Y-%m-%d'
+    date +' %Y-%m-%d' # 📅
 }
 dte1(){ # mouse-button 1 action for date widget
     notify-send "Today is $(date +'%A, %B %d')" "$(asciicalendar)"
@@ -109,17 +227,25 @@ dte1(){ # mouse-button 1 action for date widget
 # -----------
 
 hub(){ # jupyterhub status
-    if [ -f /etc/systemd/system/jupyterhub.service ]; then
-        if [[ $(systemctl is-active jupyterhub) == "active" ]]; then
-            echo -e 🪐
-            return;
-        fi
-    fi
-    echo -e ""
+    systemctl is-active jupyterhub &> /dev/null && echo -e   #🪐
 }
 hub1(){ # mouse-button 1 action for jupyterhub widget
-    name=jupyterhub
-    notify-send "$(systemctl status $name | sed 1q)" "◻️ + shift + s: toggle a service on/off\n\n$(systemctl status $name | grep Active)"
+    notifyservice jupyterhub
+}
+hub2(){
+    toggleservice jupyterhub
+}
+
+# -----------
+
+jelly(){ # jupyterhub status
+    systemctl is-active jellyfin &> /dev/null && echo -e 
+}
+jelly1(){ # mouse-button 1 action for jupyterhub widget
+    notifyservice jellyfin
+}
+jelly2(){
+    toggleservice jellyfin
 }
 
 # -----------
@@ -135,40 +261,69 @@ mem1() { # mouse-button 1 action for memory widget
 
 # -----------
 
+pcmn(){ # pacman
+    num=$(pacman -Qu | wc -l)
+    [[ $num > 0 ]] && echo -e  $num || echo -e ""
+}
+pcmn1(){ # pacman
+    num=$(pacman -Qu | wc -l)
+    notify-send "Pacman ($num)" "$num packages can be updated\n\nmiddle click to update [pacman -Syu]"
+}
+pcmn2(){ # update packages
+    sudo -A -p "[sudo] password for 'pacman -Syu'" st -n float -e pacman -Syu
+    sleep 2 && dwm_status &
+}
+
+# -----------
+
+serv(){ # toggle a service
+    echo -e 
+}
+serv1(){ # pacman
+    dmenu_services
+}
+
+
+# -----------
+
 sshd(){ # ssh daemon
-    if [ -f /usr/lib/systemd/system/sshd.service ]; then
-        if [[ $(systemctl is-active sshd) == "active" ]]; then
-            echo -e ⛓️;
-            return;
-        fi
-    fi
-    echo -e ""
+    systemctl is-active sshd &> /dev/null && echo -e ⛓
 }
 sshd1(){ # mouse-button 1 action for ssh daemon widget
-    name=sshd
-    notify-send "$(systemctl status $name | sed 1q)" "◻️ + shift + s: toggle a service on/off\n\n$(systemctl status $name | grep Active)"
+    notifyservice sshd
+}
+sshd2(){
+    toggleservice sshd
 }
 
 # -----------
 
 ssht(){ # ssh tunnels
-    if [ -f /etc/systemd/system/sshtunnel.service ]; then
-        if [[ $(systemctl is-active sshtunnel) == "active" ]]; then
-            echo -e 🔗;
-            return;
-        fi
-    fi
-    echo -e ""
+    systemctl is-active sshtunnel &> /dev/null && echo -e  || echo -e ""
 }
 ssht1(){ # mouse-button 1 action for ssh tunnel widget
-    name=sshtunnel
-    notify-send "$(systemctl status $name | sed 1q)" "◻️ + shift + s: toggle a service on/off\n\n$(systemctl status $name | grep Active)"
+    notifyservice sshtunnel
+}
+ssht2(){
+    toggleservice sshtunnel
+}
+
+# -----------
+
+sync(){ # jupyterhub status
+    systemctl is-active sshtunnel &> /dev/null && echo -e 
+}
+sync1(){ # mouse-button 1 action for jupyterhub widget
+    notifyservice syncthing
+}
+sync2(){
+    toggleservice syncthing
 }
 
 # -----------
 
 tme(){ # time
-    date +'🕒 %H:%M'
+    date +' %H:%M' # 🕒
 }
 tme1(){ # mouse-button 1 action for time widget
     notify-send "Date: $(date)"
@@ -177,8 +332,7 @@ tme1(){ # mouse-button 1 action for time widget
 # -----------
 
 vol(){ # volume
-    sc=$(soundcard)
-    string=$(amixer -c $sc get Master)
+    string=$(amixer -D pulse get Master)
     if [[ $string == *"[on]"* ]]; then
         percentage=$(echo $string | cut -d "[" -f2 | cut -d "]" -f1)
         echo -e "🔊 $percentage"
@@ -187,103 +341,45 @@ vol(){ # volume
     fi
 }
 vol1(){ # mouse-button 1 action for volume widget
-    sc=$(soundcard)
-    string=$(amixer -c $sc get Master)
-    notify-send "Volume" "◻️ + plus: increase volume\n◻️ + minus: decrease volume\n◻️ + shift + minus: mute\n\n$string"
+    string=$(amixer -D pulse get Master)
+    percentage=$(echo $string | cut -d "[" -f2 | cut -d "]" -f1)
+    notify-send "Volume $percentage" "\nscroll to adjust\n\n + : volume up\n + : volume down\n +  + : mute"
+}
+vol4(){
+    amixer -D pulse set Master 5%+ && dwm_status &
+}
+vol5(){
+    amixer -D pulse set Master 5%- && dwm_status &
 }
 
 # -----------
 
 vpn(){ # openvpn
-    if [ -f /etc/systemd/system/openvpn.service ]; then
-        if [[ $(systemctl is-active openvpn) == "active" ]]; then
-            echo -e 🔒;
-            return;
-        fi
-    fi
-    echo -e ""
+    systemctl is-active openvpn &> /dev/null && echo -e   || echo -e ""
 }
 vpn1(){ # mouse-button 1 action for openvpn widget
-    name=openvpn
-    notify-send "$(systemctl status $name | sed 1q)" "$(systemctl status $name | grep Active)"
+    notifyservice openvpn
+}
+vpn2(){ # mouse-button 2 action for openvpn widget
+    toggleservice openvpn
 }
 
 # -----------
 
 wtr(){ # weather
-    s=$(cat ~/.cache/weatherreportshort)
-    if [ -n "$s" ]; then
-        echo -e "$s"
-    else
-        echo -e ""
-    fi
+    test -f ~/.cache/weatherreportshort && cat ~/.cache/weatherreportshort || echo -e ""
 }
 wtr1(){ # mouse-button 1 action for weather widget
-    s=$(cat ~/.cache/weatherreport)
     # cat out the weather report, show only the first 7 lines and remove all colors
-    report=$(cat ~/.cache/weatherreport | sed 7q | sed 's/\x1b\[[0-9;]*m//g')
-    notify-send Weather "$report"
+    report=$(cat ~/.cache/weatherreport | head -n 7 | sed 's/\x1b\[[0-9;]*m//g' | tail -n 6 | sed 's/\\/\\\\/g' | sed 's/―/-/g')
+    notify-send "Weather" "$report\n\nmiddle click for full report"
+}
+wtr2(){
+    st -n float -f mono:12 -g 130x40+1130 -e update_weather --block
 }
 
-
-# Which widget was clicked
-#--------------------------------------------------------------------------------
-
-# the first argument to this script should equal the index of the widget
-# clicked.
-
-WIDGET=""
-if [[ $1 ]]; then
-    WIDGET=$1
-fi
-
-
-# Which button was clicked
-#--------------------------------------------------------------------------------
-
-# the second argument to this script should equal the mouse-button that was
-# used to click the widget.
-
-BUTTON=""
-if [[ $2 == 1 ]]; then
-    BUTTON=1
-fi
-if [[ $2 == 2 ]]; then
-    BUTTON=2
-fi
-if [[ $2 == 3 ]]; then
-    BUTTON=3
-fi
 
 
 # Status Command
 #--------------------------------------------------------------------------------
-
-# this is the command that pastes the widgets together into the status bar of
-# dwm (by using xsetroot). The delimiter cannot be changed for now, as (my fork
-# of) dwm uses the same delimiter to figure out which widget was clicked.
-
-status(){
-    s=""
-    delim="|"
-    i=0
-    for func in $@
-    do
-        out=$($func)
-        if [ "$out" ]; then
-            s=$s" "$out" "$delim
-            if [[ $WIDGET == $i && $BUTTON ]]; then
-                $($func$BUTTON)
-            fi
-            i=$((i+1))
-        fi
-    done
-    xsetroot -name "$s"
-}
-
-
-# Set the status bar
-#--------------------------------------------------------------------------------
-
-status vol brt bat alpha bt vpn hub ssht sshd wtr dte tme
-
+set-status

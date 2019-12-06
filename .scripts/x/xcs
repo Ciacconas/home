@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/python3
 #    _____ _     ____  ____  ____  ____  _____
 #   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
 #   |  __\| |   | / \||  \/|| / \||  \/|  / \
@@ -6,50 +6,211 @@
 #   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 #
 
-usage(){
-    >&2 echo "usage: xcs [ --alpha <value> ] <colorscheme>"
-}
+# imports
+import os
+import sys
+import glob
+import json
+import shutil
+import argparse
+import subprocess
 
-available_colorschemes(){
-    echo
-    echo
-    echo available colorschemes [in \~/.config/Xresources]:
-    cd ~/.config/Xresources
-    find . -executable | sed s/[.]//g | sed s/[/]//g | sed '/^[[:space:]]*$/d'
-}
+def parse_args(args):
+    parser = argparse.ArgumentParser(description="xcs: X color scheme")
+    parser.add_argument(
+        "name",
+        type=str,
+        nargs="?",
+        default="current",
+        help=("xresources file to load (should be located in ~/.config/Xresources)."
+              "Special options:  - 'current' (don't change anything),\n"
+              "                  - 'generate' (use pywal to generate color scheme)."),
+    )
+    parser.add_argument(
+        "-l",
+        "--list",
+        default=False,
+        action="store_true",
+        help="show available colorschemes",
+    )
+    parser.add_argument(
+        "-a",
+        "--alpha",
+        type=float,
+        default=None,
+        help="window transparency",
+    )
+    parser.add_argument(
+        "-d",
+        "--dmenu",
+        default=False,
+        action="store_true",
+        help="use dmenu to select a colorscheme",
+    )
+    parsed_args = parser.parse_args(args=args)
+    if parsed_args.alpha is None:
+        with open(os.path.expanduser("~/.Xresources"), "r") as file:
+            for line in file:
+                if "alpha" in line:
+                    break
+            else:
+                line=f":{0.9}"
+        parsed_args.alpha = float(line.split(":")[1].strip().split(" ")[0])
+    if parsed_args.alpha > 1.0 or parsed_args.alpha < 0.0:
+        raise ValueError("alpha value should be between 0 and 1")
+    if parsed_args.dmenu and parsed_args.name != "current":
+        raise ValueError("when choosing a colorscheme with option `--dmenu`, the colorscheme name should be left blank.")
+    return parsed_args
 
-if [ -z "$1" ]; then
-    cd ~/.config/Xresources
-    cs=$(find . -executable | sed s/[.]//g | sed s/[/]//g | sed '/^[[:space:]]*$/d' | dmenu -p "select colorscheme" -i -l 20)
-fi
+def load_xresources(name = "gruvbox"):
+    """ load xresource file as dict.
+
+    Args:
+        name: name of the xresources file to load. This file should be
+            present in ~/.config/Xresources.
+    """
+    if name == "current":
+        filename = os.path.abspath(os.path.expanduser("~/.Xresources"))
+    else:
+        filename = os.path.abspath(os.path.expanduser(os.path.join("~/.config/Xresources/", name)))
+    with open(filename, "r") as file:
+        lines = file.read().replace("\t", " ").split("\n")
+    lines = [line.strip() for line in lines]
+    lines = [line for line in lines if line and not (line.startswith("!"))]
+    idxs = []
+    comment = False
+    for i, line in enumerate(lines):
+        if line.startswith("/*"):
+            comment = True
+        if comment:
+            idxs.append(i)
+        if line.endswith("*/"):
+            comment = False
+    for i in reversed(idxs):
+        del lines[i]
+    lines = [line if not line.startswith("*") else line[1:] for line in lines]
+    split_defined = [[word for word in line.split(" ") if word != "" and word != "#define"] for line in lines if "#define" in line]
+    defined_dict = {k.strip(): v.strip() for k, v in split_defined}
+    split_lines = [line.split(":") for line in lines if ":" in line]
+    split_lines = [line for line in split_lines if len(line) == 2]
+    xresources = {k.strip(): defined_dict.get(v.strip(), v.strip()).upper() for k, v in split_lines}
+    return xresources
+
+def set_terminal_colors(xresources):
+    """ set the colors of the currently open terminals given Xresources dictionary
+
+    Args:
+        xresources: dictionary containing the xresources parameters
+    """
+    colors = [f"\033]4;{i};{xresources[f'color{i}']}\033\\" for i in range(16)]
+    for term in glob.glob("/dev/pts/*"):
+        if term != "/dev/pts/ptmx":
+            with open(term, "w") as file:
+                file.write("".join(colors))
+
+def set_terminal_alphas(xresources):
+    """ set the colors of the currently open terminals given Xresources dictionary
+
+    Args:
+        xresources: dictionary containing the xresources parameters
+    """
+    # custom st build
+    color = f"\033]4;0;{xresources['color0']};{xresources['alpha']}\033\\"
+    for term in glob.glob("/dev/pts/*"):
+        if term != "/dev/pts/ptmx":
+            with open(term, "w") as file:
+                file.write(color)
+    # urxvt
+    color = f"\033]11;[{xresources['alpha']}]{xresources['color0']}\033\\"
+    for term in glob.glob("/dev/pts/*"):
+        if term != "/dev/pts/ptmx":
+            with open(term, "w") as file:
+                file.write(color)
+
+def colorscheme_list():
+    """ get a list of available colorschemes """
+    lst = sorted([name for name in os.listdir(os.path.expanduser("~/.config/Xresources")) if name != "readme.md"])
+    lst.append("[generate from wallpaper (requires pywal)]")
+    return lst
+
+def set_xresources(xresources):
+    with open(os.path.expanduser("~/.Xresources"), "w") as file:
+        for k, v in xresources.items():
+            if k == "alpha":
+                file.write(f"*{k}: {v:3.2f}\n")
+            else:
+                file.write(f"*{k}: {v}\n")
+    with open(os.devnull, "w") as file:
+        subprocess.call(["xrdb", os.path.expanduser("~/.Xresources")], stdout=file, stderr=file)
+
+def dmenu(list_in, prompt):
+    dmenu_in = subprocess.Popen(
+        ["echo", "\n".join([str(s) for s in list_in])], stdout=subprocess.PIPE
+    ).stdout
+    try:
+        choice = subprocess.check_output(
+            ["dmenu", "-l", "15", "-p", prompt], stdin=dmenu_in
+        ).decode()[:-1]
+    except subprocess.CalledProcessError:
+        raise RuntimeError("no colorscheme selected")
+    return choice
+
+def set_zathura_recolor(xresources):
+    darkcolor = xresources["color15"]
+    lightcolor = xresources["color0"]
+    with open(os.path.expanduser("~/.config/zathura/recolor"), "w") as file:
+        file.write(f'set recolor-darkcolor "{darkcolor}"\nset recolor-lightcolor "{lightcolor}"')
+
+def set_dwm_colors(xresources):
+    # my dwm build listens to fsignal:1 to update colors
+    subprocess.call(["xsetroot", "-name", "fsignal:1"])
+
+def set_rofi_colors(xresources):
+    # write some colors to ~/.config/rofi/xresources-colors to use in xresources-theme.rasi
+    alpha = hex(int(255*xresources["alpha"]))[2:]
+    colors = {
+        "text" : xresources["color15"],
+        "highlight": xresources["color6"],
+        "green": xresources["color2"],
+        "dark": xresources["color0"]+alpha,
+    }
+    content = "* " + json.dumps(colors).replace("{","{\n ").replace(",",";\n").replace("}",";\n}").replace('"', "")
+    with open(os.path.expanduser("~/.config/rofi/xresources-colors.rasi"), "w") as file:
+        file.write(content)
+
+def update_dwm_status_bar():
+    with open(os.devnull, "w") as file:
+        subprocess.Popen(["dwm_status"], stdout=file, stderr=file)
 
 
-if [ "$1" = "-a" ] || [ "$1" = "--alpha" ]; then
-    shift
-    alpha=$1
-    shift
-fi
+if __name__ == "__main__":
+    try:
+        if not sys.argv[1:]:
+            sys.argv.append("--dmenu")
+        args = parse_args(sys.argv[1:])
+        if args.list:
+            print("\n".join(colorscheme_list()))
+            exit(0)
+        if args.dmenu:
+            args.name = dmenu(colorscheme_list(), "select colorscheme")
+        if not args.name.strip():
+            raise RuntimeError("No colorscheme selected")
+        if args.name == "[generate from wallpaper (requires pywal)]" or args.name == "generate":
+            subprocess.call(["/usr/bin/wal", "-c"])
+            exitcode = subprocess.call(["/usr/bin/wal", "-i", os.path.expanduser("~/.local/share/wallpapers/current-wallpaper")])
+            shutil.copy(os.path.expanduser("~/.cache/wal/colors.Xresources"), os.path.expanduser("~/.Xresources"))
+            args.name = "current"
+        xresources = load_xresources(name=args.name)
+        if args.alpha is not None:
+            xresources["alpha"] = args.alpha
+        set_terminal_colors(xresources)
+        set_terminal_alphas(xresources)
+        set_xresources(xresources)
+        set_zathura_recolor(xresources)
+        set_dwm_colors(xresources)
+        set_rofi_colors(xresources)
+        update_dwm_status_bar()
+    except Exception as e:
+        print(e)
+        exit(1)
 
-if [ "$1" = "ls" ]; then
-    available_colorschemes
-    exit 0
-fi
-
-if [ -z "$cs" ]; then
-    if [ -z "$1" ]; then
-        usage
-        available_colorschemes
-        exit 1
-    fi
-    cs=$1
-fi
-
-rm -f ~/.Xresources
-cp ~/.config/Xresources/$cs ~/.Xresources
-
-if [ $alpha ]; then
-    echo *.alpha: $alpha >> ~/.Xresources
-fi
-
-xrdb ~/.Xresources 2> /dev/null
-dwm_status
