@@ -58,6 +58,7 @@ fi
 # go backward and forward in history (equivalent to up/down arrow)
 bindkey "^[h" up-line-or-history # alt + h
 bindkey "^[l" down-line-or-history # alt + l
+bindkey "^y" "" # noop
 
 # colored zsh prompt
 setopt prompt_subst
@@ -75,6 +76,7 @@ alias :e=$EDITOR
 alias grep="grep --color=auto"
 alias base="conda activate base"
 alias system="conda deactivate && conda deactivate"
+alias history="history 1"
 
 alias note="cd ~/Documents/Notes/"
 alias kee="cd ~/Documents/self_file/"
@@ -102,6 +104,8 @@ export PYTHONPATH="$(tr '\n' ':' < ~/.pythonpath | head -c -1 | sed 's|~|'$HOME'
 
 # autojump
 source /usr/share/autojump/autojump.zsh
+# my custom autojump commands (slightly different from default behavior):
+source $HOME/.scripts/autojump/autojump-improved.zsh
 
 # zsh autosuggestions (like in the fish shell)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

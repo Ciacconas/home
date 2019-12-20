@@ -79,7 +79,9 @@ super + I
 super + j
     # handled by dwm
 
+# open current url in mpv (firefox only)
 super + J
+    ff-open-in-mpv
 
 # focus on window lower on the stack
 super + k
@@ -112,7 +114,11 @@ super + n
 
 # open dmenu networkmanager
 super + N
-    dmenu_networkmanager
+    st -e vifm
+
+# switch between nemo and st
+super + control + n
+    switch-nemo-st
 
 # activate all tags to which current window belongs
 super + o
@@ -198,7 +204,11 @@ super + y
 
 # change wallpaper
 super + Y
-    $TERMINAL -n float -e wallpaper
+    wallpaper next && wal
+
+# change wallpaper
+super + control + y
+    wallpaper previous && wal
 
 # shift focus to monitor Z
 super + z
@@ -218,7 +228,7 @@ super + shift + Return
 
 # toggle pause / play
 super + shift + equal
-    notify-send "toggle pause / play"; browsercontrol togglepause; mpvcontrol togglepause
+    notify-send "toggle pause / play"; ff-toggle-pause; mpvcontrol togglepause
 
 # raise volume
 super + equal
@@ -384,9 +394,9 @@ super + F9
 
 super + F10
 
-# make screenshot [requires imagemagick]
+# make screenshot
 Print
-    xdotool mousemove_relative 1 1; import $HOME/screenshot.png && notify-send "screenshot" "saved at ~/screenshot.png"
+    flameshot gui
 
 # decrease brightness
 super + F11
@@ -424,11 +434,11 @@ XF86AudioPrev
 
 # toggle pause / play
 XF86AudioPause
-    notify-send "toggle pause / play"; browsercontrol togglepause; mpvcontrol togglepause
+    notify-send "toggle pause / play"; ff-toggle-pause; mpvcontrol togglepause
 
 # toggle pause / play
 XF86AudioPlay
-    notify-send "toggle pause / play"; mpvcontrol togglepause; browsercontrol togglepause
+    notify-send "toggle pause / play"; ff-toggle-pause; mpvcontrol togglepause
 
 XF86AudioStop
     notify-send XF86AudioStop "not implemented"

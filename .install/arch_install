@@ -9,7 +9,7 @@
 # !!! NOTE THAT THIS SCRIPT SHOULD NOT BE SOURCED. !!! #
 # ---------------------------------------------------- #
 
-# last full run: 2019.12.05
+# last full run: 2019.12.07
 
 # Note: this script can be run as often as you like. It will not attempt to re-install
 #       any already installed program, making it a very fast way update some preferences
@@ -172,8 +172,14 @@ submodule_install(){ # will only install the first argument!
     printf "cd $HOME/.build/$1\n" >> $ERR
     cd "$HOME/.build/$1" >> $LOG 2>> $ERR
 
+    printf "git pull\n" >> $LOG
+    printf "git pull\n" >> $ERR
+    git checkout master >> $LOG 2>> $ERR
+    git pull origin master >> $LOG 2>> $ERR
+
     printf "sudo make clean install\n" >> $LOG
     printf "sudo make clean install\n" >> $ERR
+    echo $password | sudo -S rm config.h >> $LOG 2>> $ERR
     echo $password | sudo -S make clean >> $LOG 2>> $ERR
     echo $password | sudo -S make all >> $LOG 2>> $ERR
     echo $password | sudo -S make install >> $LOG 2>> $ERR
@@ -531,7 +537,7 @@ pacman_install xcursor-simpleandsoft
 # systemctl_create syncthing
 # systemctl_enable syncthing
 # jellyfin: media center
-# pacman_install jellyfin
+# yay_install jellyfin
 # systemctl_enable jellyfin
 # nextcloud: your own dropbox at home :-)
 # pacman_install nextcloud
@@ -572,7 +578,7 @@ pacman_install awesome-terminal-fonts
 # specific symbols for powerlines (recommended dependency for my st build)
 pacman_install powerline-fonts
 # unicode symbols / emojis (these are standard unicode symbols, hence different than awesome terminal fonts!)
-# yay_install ttf-symbola
+yay_install ttf-symbola
 # pacman_install ttf-joypixels
 # yay_install ttf-twemoji-color
 pacman_install noto-fonts-emoji
@@ -601,6 +607,11 @@ link /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 ## GUIs
 # nemo: sometimes a non-terminal file browser can be useful
 pacman_install nemo
+# nemo settings: set default terminal to st:
+gsettings set org.cinnamon.desktop.default-applications.terminal exec st
+gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
+# nemo-terminal: show a small terminal window on top of the nemo windo
+pacman_install nemo-terminal
 # screen settings: arandr (xrandr included)
 pacman_install arandr
 # best pdf reader: general document reader with vim bindings
@@ -624,8 +635,12 @@ pacman_install inkscape
 # pacman_install krita
 # image viewer
 pacman_install sxiv
-# imagemagick: for images
+# imagemagick: for images, screenshots
 pacman_install imagemagick
+# scrot: alternative screenshot program [requires imagemagick]
+# pacman_install scrot
+# flameshot: arguably the best screenshot program
+pacman_install flameshot
 # youtube-dl: download YouTube videos
 # pacman_install youtube-dl
 # YouTube-viewer
@@ -724,7 +739,10 @@ pacman_install lynx
 
 ## Resources
 # a collection of very nice wallpapers:
-# [ -d "$HOME/.wallpapers" ] || git clone https://gitlab.com/dwt1/wallpapers $HOME/.wallpapers >> $LOG 2>> $ERR
+if [ ! -d "$HOME/.local/share/wallpapers" ]; then
+    echo "cloning a full repo of very nice wallpapers..."
+    git clone https://gitlab.com/dwt1/wallpapers $HOME/.local/share/wallpapers >> $LOG 2>> $ERR
+fi
 
 ## Other Services
 # run a service in the background that checks how many packages can be updated
@@ -791,14 +809,16 @@ pip3_install pyautogui
 # run jupyterlab as a systemd service:
 systemctl_create jupyterhub
 systemctl_enable jupyterhub
-
-
-## Services
-#-------------------------------------------------------------------------------
-# TODO: merge the services file with this one.
-
-echo $password | sudo -S $HOME/.install/services >> $LOG 2>> $ERR
-echo $password | sudo -S systemctl daemon-reload >> $LOG 2>> $ERR
+# castero: podcast client (dependencies installed first)
+# pacman_install flake8
+# pacman_install python-requests
+# pacman_install python-pytest
+# pacman_install python-cjkwrap
+# pacman_install python-coverage
+# pacman_install python-beautifulsoup4
+# yay_install python-mpv
+# yay_install python-vlc
+# yay_insall castero
 
 
 ## System settings
@@ -807,12 +827,15 @@ echo $password | sudo -S systemctl daemon-reload >> $LOG 2>> $ERR
 echo $password | sudo -S timedatectl set-local-rtc 1 >> $LOG 2>> $ERR
 # make sure everyone can mount in /mnt
 echo $password | sudo -S chmod a+rwx /mnt >> $LOG 2>> $ERR
-# copy preferred theme to ~/.Xresources -> default color scheme
-cp $HOME/.config/Xresources/gruvbox-dark $HOME/.Xresources >> $LOG 2>> $ERR
-# enable colorscheme
-xrdb $HOME/.Xresources >> $LOG 2>> $ERR
-# if the custom `xcs` script is in the path, enable it for currently open windows:
-xcs current
+if [ ! -f $HOME/.Xresources ]; then
+    # copy preferred theme to ~/.Xresources -> default color scheme
+    cp $HOME/.config/Xresources/gruvbox-dark $HOME/.Xresources >> $LOG 2>> $ERR
+    # enable colorscheme
+    xrdb $HOME/.Xresources >> $LOG 2>> $ERR
+    # if the custom `xcs` script is in the path,
+    # run it to apply colorscheme to currently open windows:
+    xcs current >> $LOG 2>> $ERR
+fi
 
 
 ## Alternative shell
@@ -831,6 +854,8 @@ link /usr/bin/dash /bin/sh
 pacman_install zsh
 # autojump extensionfor zsh, I could not live without it:
 yay_install autojump-git
+# patch autojump to only work with system python (acts weirdly when in a virtual env / conda env)
+sed 's|#!/usr/bin/env python|#!/usr/bin/python|' $(which autojump) | sudo tee $(which autojump) > /dev/null 2>> $ERR
 # same fo the autosuggestions, simply ctrl+p [at least for my .zshrc] to accept suggestion. Priceless.
 pacman_install zsh-autosuggestions
 # syntax highlighting is also useful for zsh:
