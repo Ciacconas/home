@@ -157,17 +157,17 @@ set ruler
 set laststatus=2
 set showcmd
 
-" tex / latex / xelatex
-autocmd FileType tex set nonumber
-autocmd FileType tex set norelativenumber
-autocmd FileType tex set textwidth=70
-autocmd FileType tex set foldcolumn=8
-autocmd FileType tex set colorcolumn=0
-autocmd FileType tex let s:status_hidden = 1
-autocmd FileType tex set noshowmode
-autocmd FileType tex set noruler
-autocmd FileType tex set laststatus=0
-autocmd FileType tex set noshowcmd
+" tex / latex / xelatex / markdown
+autocmd FileType tex,markdown set nonumber
+autocmd FileType tex,markdown set norelativenumber
+autocmd FileType tex,markdown set textwidth=70
+autocmd FileType tex,markdown set foldcolumn=8
+autocmd FileType tex,markdown set colorcolumn=0
+autocmd FileType tex,markdown let s:status_hidden = 1
+autocmd FileType tex,markdown set noshowmode
+autocmd FileType tex,markdown set noruler
+autocmd FileType tex,markdown set laststatus=0
+autocmd FileType tex,markdown set noshowcmd
 
 
 "" Custom commands
@@ -430,8 +430,8 @@ autocmd FileType tex nmap <Leader>s :call SyncTex()<CR>
 " make tags (may need to install ctags first)
 nnoremap <leader>T :!ctags -R .<CR>
 
-" swap splits (from https://stackoverflow.com/questions/2586984/how-can-i-swap-positions-of-two-open-files-in-splits-in-vim#2591946)
-" note that this only works when NOT in the main split.
+" swap splits. Note that this only works when NOT in the main split.
+" from https://stackoverflow.com/questions/2586984/how-can-i-swap-positions-of-two-open-files-in-splits-in-vim#2591946
 function! Zoom()
     let g:markedWinNum = 1
     "Mark destination
@@ -447,7 +447,7 @@ function! Zoom()
     "Hide and open so that we aren't prompted and keep history
     exe 'hide buf' markedBuf
 endfunction
-" zoom split:
+" zoom split and go to main split (should eventually get rid of this hacky line...):
 nnoremap <leader>z :call Zoom()<CR><C-w>h<C-w>h<C-w>h<C-w>k<C-w>k<C-w>k
 
 

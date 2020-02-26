@@ -188,7 +188,7 @@ super + w
 
 # search the web
 super + W
-    $HOME/.scripts/search --dmenuargs -i
+    chromium
 
 # shift focus to monitor X
 super + x
@@ -378,9 +378,13 @@ super + F1
 
 super + F2
 
+# paste NO [cross mark (❌)]
 super + F3
+    dmenu_emoji cross mark
 
+# paste YES [white heavy check mark (✅)]
 super + F4
+    dmenu_emoji white heavy check mark
 
 super + F5
 

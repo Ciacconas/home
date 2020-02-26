@@ -9,7 +9,7 @@
 # !!! NOTE THAT THIS SCRIPT SHOULD NOT BE SOURCED. !!! #
 # ---------------------------------------------------- #
 
-# last full run: 2019.12.07
+# last run: 2019.01.30
 
 # Note: this script can be run as often as you like. It will not attempt to re-install
 #       any already installed program, making it a very fast way update some preferences
@@ -261,13 +261,6 @@ pacman_install cmake
 ## AUR package manager
 git_install https://aur.archlinux.org/yay.git
 
-
-## Security
-pacman_install gnupg # gpg --full-gen-key (generate gpg key)
-pacman_install pass # pass init floris.laporte@gmail.com (use gpg key to store passwords securely)
-yay_install passff-host  # host for the firefox extension
-
-
 ## Terminal
 # search tool
 pacman_install grep
@@ -343,6 +336,8 @@ sudo npm -g install instant-markdown-d >> $LOG 2>> $ERR
 pacman_install ctags
 # scim: terminal spreadsheet viewer/editor
 # yay_install sc-im
+# wordgrinder: terminal word processor
+# yay_install wordgrinder
 # terminal internet search: google
 # yay_install googler
 # terminal internet search: duckduckgo
@@ -407,7 +402,11 @@ if [ -d /sys/class/backlight/intel_backlight ] && [ $already_configured -ne 0 ];
     pacman_install xf86-video-intel
     printf "\nSection \"Device\"\n    Identifier \"Intel Graphics\"\n    Driver \"intel\"\n    Option \"Backlight\" \"intel_backlight\"\nEndSection\n" | sudo tee -a /etc/X11/xorg.conf &> /dev/null
 fi
-
+# libxft-bgra; alternative to libxft, helper library for color emojis in my st build:
+# the reason it is installed this way is because this library replaces libxft
+# requiring you to answer yes on a [y/N] question...
+echo $password | sudo -S pacman -Q libxft-bgra >> $LOG 2>> $ERR
+[ $? = 0 ] || yes | LC_ALL=en_US.UTF-8 yay -S -q libxft-bgra >> $LOG 2>> $ERR
 
 ## Desktop Environment / Window Manager
 # i3lock: screen lock for i3 and other window managers like in this case dwm.
@@ -575,14 +574,19 @@ pacman_install ttf-droid
 pacman_install ttf-inconsolata
 # awesome terminal fonts: glyph dependencies (lsd and dwm [my build] dependency)
 pacman_install awesome-terminal-fonts
+# hack nerd font (requirement for lsd)
+yay_install nerd-fonts-hack
 # specific symbols for powerlines (recommended dependency for my st build)
 pacman_install powerline-fonts
 # unicode symbols / emojis (these are standard unicode symbols, hence different than awesome terminal fonts!)
-yay_install ttf-symbola
+# yay_install ttf-symbola
 # pacman_install ttf-joypixels
 # yay_install ttf-twemoji-color
-pacman_install noto-fonts-emoji
+# pacman_install noto-fonts-emoji
+pacman_install ttf-joypixels
 # yay_install ttf-twemoji-color
+# monospace font with ligatures:
+# pacman_install ttf-fira-code
 # adobe fonts (dependency of GNOME apps. Yes, you'll probably have a few of them...)
 # pacman_install adobe-source-code-pro-fonts
 # cantarell fonts (dependency of GNOME apps.  Yes, you'll probably have a few of them...)
@@ -611,7 +615,7 @@ pacman_install nemo
 gsettings set org.cinnamon.desktop.default-applications.terminal exec st
 gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 # nemo-terminal: show a small terminal window on top of the nemo windo
-pacman_install nemo-terminal
+# pacman_install nemo-terminal
 # screen settings: arandr (xrandr included)
 pacman_install arandr
 # best pdf reader: general document reader with vim bindings
@@ -674,6 +678,10 @@ yay_install ttf-vista-fonts
 pacman_install biber
 # convert document types into each other
 pacman_install pandoc
+# open-source note taking app
+# yay_install joplin
+# make joplin-desktop and joplin [terminal] share the same database:
+# cd ~ && ln -srf .config/joplin-desktop/database.sqlite .config/joplin/database.sqlite
 
 
 ## Programming
@@ -787,6 +795,8 @@ pacman_install python-isort
 pacman_install python2-isort
 pacman_install python-black
 pacman_install python-pywal
+# connectivity (requirement for calcurse-caldav synchronization)
+pacman_install python-httplib2
 # image processing in python
 # pacman_install python-pillow
 # sockets
@@ -837,6 +847,15 @@ if [ ! -f $HOME/.Xresources ]; then
     xcs current >> $LOG 2>> $ERR
 fi
 
+## Password manager
+#-------------------------------------------------------------------------------
+pacman_install gnupg # gpg --full-gen-key (generate gpg key)
+pacman_install pass # pass init floris.laporte@gmail.com (use gpg key to store passwords securely)
+# yay_install passff-host  # host for the pass "passFF" firefox extension
+pacman_install browserpass # host for the pass "browserpass" chromium/firefox extension
+pacman_install browserpass-chromium # host for the pass "browserpass" chromium extension
+pacman_install browserpass-firefox # host for the pass "browserpass" firefox extension
+
 
 ## Alternative shell
 #-------------------------------------------------------------------------------
@@ -854,6 +873,8 @@ link /usr/bin/dash /bin/sh
 pacman_install zsh
 # autojump extensionfor zsh, I could not live without it:
 yay_install autojump-git
+# stderred: show stderr messages in red:
+yay_install stderred
 # patch autojump to only work with system python (acts weirdly when in a virtual env / conda env)
 sed 's|#!/usr/bin/env python|#!/usr/bin/python|' $(which autojump) | sudo tee $(which autojump) > /dev/null 2>> $ERR
 # same fo the autosuggestions, simply ctrl+p [at least for my .zshrc] to accept suggestion. Priceless.
