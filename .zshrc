@@ -81,7 +81,7 @@ alias history="history 1"
 alias note="cd ~/Documents/Notes/"
 alias kee="cd ~/Documents/self_file/"
 alias work="cd ~/Documents/Work/photonsim/"
-alias dev="cd ~/Documents/dev/Python/"
+alias dev="cd ~/Documents/dev/Python/photondev/photondev/"
 alias lowres="cd ~/Documents/Work/LowRes_Phresco/"
 alias net="cd ~/Documents/net/"
 alias paper="cd ~/Documents/Papers/mypapers/"
@@ -108,7 +108,7 @@ source /usr/share/autojump/autojump.zsh
 source $HOME/.scripts/autojump/autojump-improved.zsh
 
 # broot (fuzzy file finder/jumper/...)
-source /home/flaport/.config/broot/launcher/bash/br
+# source /home/flaport/.config/broot/launcher/bash/br
 
 # zsh autosuggestions (like in the fish shell)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
