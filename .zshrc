@@ -9,6 +9,11 @@
 ## General settings
 #-------------------------------------------------------------------------------
 
+# source function (ignore file if file does not exist)
+function sourcefile {
+    [[ -f $1 ]] && source $1
+}
+
 # enable colors
 autoload -U colors && colors
 
@@ -30,7 +35,7 @@ bindkey -v '^?' backward-delete-char
 bindkey -v
 export KEYTIMEOUT=1
 
-# change cursor shape for different vi modes.
+# change cursor shape for different vi modes. █ = normal; _ = insert
 if [ -z $NVIM_LISTEN_ADDRESS ]; then
     BAR='\e[5 q\e\\'
     BLOCK='\e[1 q\e\\'
@@ -55,6 +60,17 @@ if [ -z $NVIM_LISTEN_ADDRESS ]; then
     preexec() { echo -ne $UNDERSCORE ;} # at new prompt.
 fi
 
+# colored man pages:
+man() {
+    LESS_TERMCAP_md=$'\e[01;31m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;44;33m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;32m' \
+    command man "$@"
+}
+
 # go backward and forward in history (equivalent to up/down arrow)
 bindkey "^[h" up-line-or-history # alt + h
 bindkey "^[l" down-line-or-history # alt + l
@@ -62,11 +78,9 @@ bindkey "^y" "" # noop
 
 # colored zsh prompt
 setopt prompt_subst
-if [[ $(tty) == /dev/tty* ]]; then
-    source $HOME/.config/zsh/themes/dieter.zsh
-else
-    source ~/.config/zsh/themes/powerline.zsh
-fi
+
+# PROMPT THEME
+sourcefile $HOME/.config/zsh/themes/spaceship.zsh
 
 ## Aliases
 #-------------------------------------------------------------------------------
@@ -89,29 +103,24 @@ alias paper="cd ~/Documents/Papers/mypapers/"
 
 ## Python
 #-------------------------------------------------------------------------------
-# create python startup file if it does not exist
-touch $HOME/.pythonpath
-# create python path file if it does not exist
-touch $HOME/.pythonstartup
-# set python path from "~/.pythonpath" file
-export PYTHONPATH="$(tr '\n' ':' < ~/.pythonpath | head -c -1 | sed 's|~|'$HOME'|g')"
+
 # enable conda commands but do not activate conda
-[ -f $HOME/.anaconda/etc/profile.d/conda.sh ] && source "$HOME/.anaconda/etc/profile.d/conda.sh"
+sourcefile "$HOME/.anaconda/etc/profile.d/conda.sh"
 
 
 ## Extensions
 #-------------------------------------------------------------------------------
 
 # autojump
-source /usr/share/autojump/autojump.zsh
+sourcefile /usr/share/autojump/autojump.zsh
 # my custom autojump commands (slightly different from default behavior):
-source $HOME/.scripts/autojump/autojump-improved.zsh
+sourcefile $HOME/.scripts/autojump/autojump-improved.zsh
 
 # broot (fuzzy file finder/jumper/...)
-# source /home/flaport/.config/broot/launcher/bash/br
+sourcefile $HOME/.config/broot/launcher/bash/br
 
 # zsh autosuggestions (like in the fish shell)
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+sourcefile /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^p' autosuggest-accept #-execute
 bindkey '^n' autosuggest-accept #-execute
 
@@ -119,5 +128,5 @@ bindkey '^n' autosuggest-accept #-execute
 [ -f /usr/lib/libstderred.so ] && export LD_PRELOAD="/usr/lib/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
 
 # Load zsh-syntax-highlighting; should be last.
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+sourcefile /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

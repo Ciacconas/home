@@ -9,6 +9,11 @@
 #-------------------------------------------------------------------------------
 # I switched to zsh, so this file will not run except when running bash explicitly
 
+# source function (ignore file if file does not exist)
+function sourcefile {
+    [[ -f $1 ]] && source $1
+}
+
 
 ## General settings
 #-------------------------------------------------------------------------------
@@ -19,6 +24,16 @@ stty -ixon
 # colored bash prompt.
 PS1='\[\033[01;32m\]\w\[\033[00m\]\$  '
 
+# colored man pages:
+man() {
+    LESS_TERMCAP_md=$'\e[01;31m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;44;33m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;32m' \
+    command man "$@"
+}
 
 ## Aliases
 #-------------------------------------------------------------------------------
@@ -32,25 +47,20 @@ alias system="conda deactivate && conda deactivate"
 
 ## Python
 #-------------------------------------------------------------------------------
-# create python startup file if it does not exist
-touch $HOME/.pythonpath
-# create python path file if it does not exist
-touch $HOME/.pythonstartup
-# set python path from "~/.pythonpath" file
-export PYTHONPATH="$(tr '\n' ':' < ~/.pythonpath | head -c -1 | sed 's|~|'$HOME'|g')"
-# enable conda commands
-source "$HOME/.anaconda/etc/profile.d/conda.sh"
+
+# enable conda commands but do not activate conda
+sourcefile "$HOME/.anaconda/etc/profile.d/conda.sh"
 
 
 ## Extensions
 #-------------------------------------------------------------------------------
 
 # autojump
-source /usr/share/autojump/autojump.bash
+sourcefile /usr/share/autojump/autojump.bash
 
 # stderr in red:
 [ -f /usr/lib/libstderred.so ] && export LD_PRELOAD="/usr/lib/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
 
 # broot (fuzzy file finder/jumper/...)
-source /home/flaport/.config/broot/launcher/bash/br
+sourcefile $HOME/.config/broot/launcher/bash/br
 

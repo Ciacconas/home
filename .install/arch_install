@@ -344,6 +344,12 @@ pacman_install ctags
 # yay_install ddgr
 # trans: command line translation engine
 # pacman_install translate-shell
+# ncmpcpp: terminal music client
+# pacman_install ncmpcpp
+# spotify daemon (dependency for spotify-tui)
+# yay_install spotifyd-full
+# spotify-tui: terminal client for spotify
+# yay_install spotify-tui
 
 
 ## Drive and file system drivers
@@ -580,7 +586,6 @@ yay_install nerd-fonts-hack
 pacman_install powerline-fonts
 # unicode symbols / emojis (these are standard unicode symbols, hence different than awesome terminal fonts!)
 # yay_install ttf-symbola
-# pacman_install ttf-joypixels
 # yay_install ttf-twemoji-color
 # pacman_install noto-fonts-emoji
 pacman_install ttf-joypixels
@@ -871,6 +876,8 @@ link /usr/bin/dash /bin/sh
 # zsh: another alternative shell. In contrast to fish, it is posix complient + extras
 # it's my preferred shell.
 pacman_install zsh
+# spaceship theme for zsh (my preferred zsh theme):
+yay_install spaceship-prompt-git
 # autojump extensionfor zsh, I could not live without it:
 yay_install autojump-git
 # stderred: show stderr messages in red:

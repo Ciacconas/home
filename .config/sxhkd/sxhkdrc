@@ -102,11 +102,11 @@ super + shift + L
 
 # dmenu mount drive menu
 super + m
-    dmenu_mount mount -i
+    dmenu_mount mount
 
 # dmenu unmount drive menu
 super + M
-    dmenu_mount unmount -i
+    dmenu_mount unmount
 
 # open nemo file browser
 super + n
@@ -128,7 +128,7 @@ super + O
 
 # dmenu choose screen layout
 super + p
-    dmenu_screenlayout -i -l 10 -p "screen layout"
+    dmenu_screenlayout
 
 # default screen layout
 super + P
@@ -146,17 +146,15 @@ super + Q
 super + r
     cd $HOME; $TERMINAL -n float -e $HOME/.anaconda/bin/ipython
 
-# dmenu file manager
 super + R
-    dmenufm
 
 # run a program
 super + s
-    dmenu_run -i -l 15
+    dmenu_run
 
 # start/stop a service
 super + S
-    dmenu_services -i
+    dmenu_services
 
 # toggle between last two layouts
 super + t
@@ -374,7 +372,7 @@ super + shift + 9
 
 # select keyboard shortcut
 super + F1
-    dmenu_keyboard_shortcuts -i
+    dmenu_keyboard_shortcuts
 
 super + F2
 

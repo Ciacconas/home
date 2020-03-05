@@ -19,12 +19,13 @@ with open(os.devnull, "w") as out:
     has_xdotool = not call(["which", "xdotool"], stdout=out, stderr=out)
 
 # functions
-def dmenu(list_in, prompt):
+def dmenu(list_in, prompt=""):
     time.sleep(0.1)
+    prompt = [] if not prompt else ["-p", prompt.replace(" ", "-")]
     try:
         dmenu_in = Popen(["echo", "\n".join(list_in)], stdout=PIPE).stdout
         choice = check_output(
-            ["dmenu", "-l", "20", "-p", prompt] + sys.argv[2:], stdin=dmenu_in
+            ["dmenu"] + prompt + sys.argv[2:], stdin=dmenu_in
         ).decode().strip()
         return choice
     except CalledProcessError:
@@ -78,7 +79,7 @@ def paste_letter(letter):
         if not has_xdotool:
             notify(f"'{letter}' copied to clipboard.")
             exit(0)
-        middle_click() 
+        middle_click()
     elif pyautogui is not None:
         middle_click()
         pyautogui.press("apps")
@@ -92,7 +93,7 @@ def paste_letter(letter):
 if __name__ == "__main__":
     letters = get_letters()
     windowname, x, y = get_current_window_name_and_position()
-    name = dmenu(letters.keys(), "")
+    name = dmenu(letters.keys())
     letter = letters.get(name, "")
     if letter:
         status = copy_to_clipboard(letter)
