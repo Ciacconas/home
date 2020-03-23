@@ -57,15 +57,15 @@ super + F
 super + g
     dmenu_greek
 
-# latex synctex zathura-> vim (TODO: make this a zathura keyboard shortcut)
 super + G
-    ctrl-click
 
 # decrease master window size
 super + h
     # handled by dwm
 
+# open current url in mpv (firefox and chromium only)
 super + H
+    open-in-mpv
 
 # increase number of windows in master area
 super + i
@@ -79,9 +79,7 @@ super + I
 super + j
     # handled by dwm
 
-# open current url in mpv (firefox only)
 super + J
-    ff-open-in-mpv
 
 # focus on window lower on the stack
 super + k
@@ -164,9 +162,10 @@ super + t
 super + T
     # handled by dwm
 
-# start transmission-cli
+# insert accented character
 super + u
-    transmission --new-terminal
+    dmenu_accents
+
 
 # stop transmission-cli
 super + U
