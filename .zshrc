@@ -5,7 +5,6 @@
 #   | |   | |_/\| |-|||  __/| \_/||    /  | |
 #   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 
-
 ## General settings
 #-------------------------------------------------------------------------------
 
@@ -35,31 +34,6 @@ bindkey -v '^?' backward-delete-char
 bindkey -v
 export KEYTIMEOUT=1
 
-# change cursor shape for different vi modes. █ = normal; _ = insert
-if [ -z $NVIM_LISTEN_ADDRESS ]; then
-    BAR='\e[5 q\e\\'
-    BLOCK='\e[1 q\e\\'
-    UNDERSCORE='\e[4 q\e\\'
-    function zle-keymap-select {
-      if [[ ${KEYMAP} == vicmd ]] ||
-         [[ $1 = 'block' ]]; then
-        echo -ne $BLOCK
-      elif [[ ${KEYMAP} == main ]] ||
-           [[ ${KEYMAP} == viins ]] ||
-           [[ ${KEYMAP} = '' ]] ||
-           [[ $1 = 'beam' ]]; then
-        echo -ne $UNDERSCORE
-      fi
-    }
-    zle -N zle-keymap-select
-    zle-line-init() {
-        echo -ne $UNDERSCORE
-    }
-    zle -N zle-line-init
-    echo -ne $UNDERSCORE # at startup.
-    preexec() { echo -ne $UNDERSCORE ;} # at new prompt.
-fi
-
 # colored man pages:
 man() {
     LESS_TERMCAP_md=$'\e[01;31m' \
@@ -79,14 +53,56 @@ bindkey "^y" "" # noop
 # colored zsh prompt
 setopt prompt_subst
 
-# PROMPT THEME
+# zsh theme
 sourcefile $HOME/.config/zsh/themes/spaceship.zsh
+
+# change prompt and change cursor shape for different vi modes.
+# cursor shape: normal: "█"; insert: "_"
+# prompt: normal: ""; insert: ""
+NORMAL='\e[1 q\e\\' # █
+INSERT='\e[4 q\e\\' # _   - INSERT='\e[5 q\e\\' # |
+SPACESHIP_CHAR_SYMBOL_NORMAL=" "
+SPACESHIP_CHAR_SYMBOL_INSERT=" "
+# in neovim, don't change cursor shape as that doesn't work anyhow :(
+[ -z $NVIM_LISTEN_ADDRESS ] || INSERT=$NORMAL
+# initialize at startup:
+echo -ne $INSERT
+SPACESHIP_CHAR_SYMBOL=$SPACESHIP_CHAR_SYMBOL_INSERT
+function zle-keymap-select { # gets run every time the mode changes
+    if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+        echo -ne $NORMAL
+        SPACESHIP_CHAR_SYMBOL=$SPACESHIP_CHAR_SYMBOL_NORMAL
+    elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
+        echo -ne $INSERT
+        SPACESHIP_CHAR_SYMBOL=$SPACESHIP_CHAR_SYMBOL_INSERT
+    fi
+    zle reset-prompt
+}
+function zle-line-init() { # gets run every new line
+    # fzf + ueberzug (nasty hack needed for correct position of the preview)
+    echo -ne "\033[6n" > /dev/tty
+    read -t 1 -s -d 'R' line < /dev/tty
+    line="${line##*\[}"
+    export FZF_UBZ_LINE="$((${line%;*}+1))"
+    # vi mode
+    echo -ne $INSERT
+    SPACESHIP_CHAR_SYMBOL=$SPACESHIP_CHAR_SYMBOL_INSERT
+    zle reset-prompt
+}
+function preexec() { # gets run at new prompt.
+    echo -ne $INSERT
+    SPACESHIP_CHAR_SYMBOL=$SPACESHIP_CHAR_SYMBOL_INSERT
+}
+zle -N zle-keymap-select
+zle -N zle-line-init
 
 ## Aliases
 #-------------------------------------------------------------------------------
 alias :q=exit
 alias :x=exit
 alias :e=$EDITOR
+alias ll="ls -l"
+alias la="ls -la"
 alias grep="grep --color=auto"
 alias base="conda activate base"
 alias system="conda deactivate && conda deactivate"
@@ -113,6 +129,7 @@ sourcefile "$HOME/.anaconda/etc/profile.d/conda.sh"
 
 # autojump
 sourcefile /usr/share/autojump/autojump.zsh
+
 # my custom autojump commands (slightly different from default behavior):
 sourcefile $HOME/.scripts/autojump/autojump-improved.zsh
 

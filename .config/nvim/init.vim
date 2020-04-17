@@ -38,6 +38,13 @@ set wildmenu
 " use newline characters instead of cariage return
 set ff=unix
 
+" tell vim where to find the ctags
+set tags=./.tags;,.tags;
+
+" spell check, set default to en_us and turn it off by default
+setlocal spell spelllang=en_us
+setlocal spell!
+
 " underline current line if in insert mode
 autocmd InsertEnter * set cul
 
@@ -52,10 +59,15 @@ function! DoOnSave()
     normal `m
     normal mm
 endfunction
-autocmd BufWritePre * call DoOnSave()
+autocmd BufWritePre * :call DoOnSave()
 
 " save on focus lost
-au FocusLost * :wa
+function! MaybeSave()
+    if bufname('%') != ''
+        exec "wa"
+    endif
+endfunction
+au FocusLost * :silent call MaybeSave()
 
 " enable syntax highlighting
 syntax enable
@@ -76,9 +88,11 @@ set shell=/usr/bin/zsh
 
 " set a column at 90 characters
 set colorcolumn=90
+autocmd BufRead,BufNewFile /tmp/neomutt-* set colorcolumn=0
 
 " disable line wrapping
 set nowrap
+autocmd BufRead,BufNewFile /tmp/neomutt-* set wrap
 
 " allow pattern matching with special characters
 set magic
@@ -150,6 +164,9 @@ set foldcolumn=2
 " lower updatetime (for vim signify)
 set updatetime=200
 
+" better autocomplete:
+set wildmode=longest,list,full
+
 " show status bar (variable is for toggle functionality <leader>b)
 let s:status_hidden = 0
 set showmode
@@ -158,6 +175,9 @@ set laststatus=2
 set showcmd
 
 " tex / latex / xelatex / markdown
+autocmd BufNewFile,BufRead *.tex set filetype=tex
+autocmd BufRead,BufNewFile *.md,/tmp/neomutt*,/tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
+autocmd FileType tex,markdown setlocal spell spelllang=en_us
 autocmd FileType tex,markdown set nonumber
 autocmd FileType tex,markdown set norelativenumber
 autocmd FileType tex,markdown set textwidth=70
@@ -180,9 +200,6 @@ command! -nargs=* VT vsplit | terminal <args>
 
 "" Special keyboard shortcuts
 "-------------------------------------------------------------------------------
-
-" easier access to command mode
-nnoremap ; :
 
 " back to normal mode
 inoremap jj <Esc>
@@ -232,8 +249,19 @@ tnoremap `<Esc> <C-\><C-n>
 " <C-a> " standard vim keybinding
 
 " exit current buffer without saving
-inoremap <C-c> <Esc>:bd!<CR>
-nnoremap <C-c> <Esc>:bd!<CR>
+function! CloseBuffer()
+    if bufname('%') == 'NetrwTreeListing'
+        " execute it twice for netrw
+        exec "bd!"
+    endif
+    if bufname('%') != ''
+        exec "bd!"
+    else
+        exec "qa!"
+    endif
+endfunction
+inoremap <C-c> <Esc>:call CloseBuffer()<CR>
+nnoremap <C-c> <Esc>:call CloseBuffer()<CR>
 
 " down half screen
 " <C-d> " standard vim keybinding
@@ -256,7 +284,6 @@ tnoremap <C-h> <C-\><C-N><C-w>h " navigation out of terminal mode
 
 " jump to next position in text
 " <C-i> = TAB " standard vim keybinding
-autocmd FileType markdown nnoremap <C-i> 0v$"*y:read !~/.scripts/nvim/nvim_markdown_image<CR>kddk
 
 " move to split below of current split
 nnoremap <C-j> <C-w>j
@@ -337,7 +364,7 @@ nnoremap <leader>] :bnext<CR>
 nnoremap <leader>[ :bprevious<CR>
 
 " fuzzy find in current file
-" <Leader>/ " from fzf plugin
+" <leader>/ " from fzf plugin
 
 " jump to other/closing tag
 " <leader>. " from MatchTagAlways plugin
@@ -355,16 +382,19 @@ nnoremap <leader>cs :e ~/.config/nvim/snippets/snippets.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
 
 " go to definition (python only) -- inherited from plugins
-" <Leader>d
+" <leader>d
 
 " fuzzy open file
-" <Leader>e " from fzf plugin
+" <leader>e " from fzf plugin
 
 " fuzzy find in all files in tree
-" <Leader>f " from fzf plugin
+" <leader>f " from fzf plugin
 
 " Toggle (git) diff bar
-" <Leader>g " from signify plugin
+" <leader>g " from signify plugin
+
+" Toggle Goyo
+" <leader>G
 
 " enable hard mode (for practice purposes)
 " <leader>h " from hard mode plugin
@@ -402,7 +432,7 @@ nnoremap <leader>l :call RelativeNumberToggle()<CR>
 " <leader>m " from vim-signature
 
 " find ocurrences (only for python)
-" <Leader>o " from jedi plugin
+" <leader>o " from jedi plugin
 
 " show only current buffer (overrides above)
 nnoremap <leader>o :only<CR>
@@ -411,8 +441,27 @@ nnoremap <leader>o :only<CR>
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 
+function! ChooseCommandFunc()
+    let str = system("nvim_commands")
+    exec str
+endfunc
+nnoremap <leader><F1> :redir! > /tmp/nvim_map \| silent nnoremap \| redir END<CR>:call ChooseCommandFunc()<CR>
+
+function! ClipboardImageFunc(...)
+    let str = a:0 >= 1 ? a:1 : ""
+    exec "let @i = system(\"nvim_clipboard_image ".str."\")"
+    exec "normal a\<C-R>i"
+endfunc
+command! -nargs=* ClipboardImage :call ClipboardImageFunc(<f-args>)
+command! -nargs=0 ClipboardImageBase64 :call ClipboardImageFunc("--base64")
+nnoremap "ip :ClipboardImage<Space>
+nnoremap "hp :ClipboardImageBase64<Return>
+
 " rename variable (only for python)
-" <Leader>r " from jedi plugin
+" <leader>r " from jedi plugin
+
+"<leader>S: open current file as sudo (requires xdotool)
+nnoremap <leader>S ggVG"+ygg<CR>:!nvim_close_and_open_as_sudo '%' & disown<CR>
 
 "<leader>s: latex synctex tex->pdf
 function! SyncTex()
@@ -421,18 +470,21 @@ function! SyncTex()
     " the environment variable $TEXBASE does not exist.
     exec "silent !test -z $TEXBASE && TEXBASE=%:p:r; zathura --synctex-editor-command 'nvr --servername ".v:servername." +\\%{line} \\%{input}' --synctex-forward ".line(".").":".col(".").":%:p $TEXBASE.pdf &"
 endfunction
-autocmd FileType tex nmap <Leader>s :call SyncTex()<CR>
+autocmd FileType tex nmap <leader>s :call SyncTex()<CR>
 "FYI: Ctrl-Click  --> latex synctex zathura pdf->tex
 
-" fuzzy find in tags
-" <Leader>t :Tag<CR>
+"<leader>s: sort (visual mode)
+vnoremap <leader>s :!sort<CR>
 
-" make tags (may need to install ctags first)
-nnoremap <leader>T :!ctags -R .<CR>
+" create tags
+nnoremap <leader>tt :silent !ctags -f .tags -R .<CR>
 
-" swap splits. Note that this only works when NOT in the main split.
-" from https://stackoverflow.com/questions/2586984/how-can-i-swap-positions-of-two-open-files-in-splits-in-vim#2591946
-function! Zoom()
+" set filetype
+nnoremap <leader>tf :set filetype=<CR>:source ~/.config/nvim/init.vim<CR>:set filetype=
+
+" Move currently active buffer to the 'main' split.
+" adapted from https://stackoverflow.com/questions/2586984/how-can-i-swap-positions-of-two-open-files-in-splits-in-vim#2591946
+function! MoveToMainSplit()
     let g:markedWinNum = 1
     "Mark destination
     let curNum = winnr()
@@ -448,7 +500,7 @@ function! Zoom()
     exe 'hide buf' markedBuf
 endfunction
 " zoom split and go to main split (should eventually get rid of this hacky line...):
-nnoremap <leader>z :call Zoom()<CR><C-w>h<C-w>h<C-w>h<C-w>k<C-w>k<C-w>k
+nnoremap <leader>z :call MoveToMainSplit()<CR><C-w>h<C-w>h<C-w>h<C-w>k<C-w>k<C-w>k
 
 
 "" Function key keyboard shortcuts
@@ -456,8 +508,10 @@ nnoremap <leader>z :call Zoom()<CR><C-w>h<C-w>h<C-w>h<C-w>k<C-w>k<C-w>k
 
 
 " enable spell checker:
-nnoremap <F3> <Esc>:setlocal spell! spelllang=en_us<CR>
-inoremap <F3> <Esc>:setlocal spell! spelllang=en_us<CR>
+nnoremap <F3> <Esc>:setlocal spell!<CR>
+inoremap <F3> <Esc>:setlocal spell!<CR>
+nnoremap <F3><F3> <Esc>:setlocal spell spelllang=
+inoremap <F3><F3> <Esc>:setlocal spell spelllang=
 " use zg to add a word to the dictionary
 " use zuw to remove word from dictionary
 " use ]s and [s to navigate between misspelled words

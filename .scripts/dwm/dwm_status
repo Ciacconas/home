@@ -5,72 +5,115 @@
 #   | |   | |_/\| |-|||  __/| \_/||    /  | |
 #   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 
+# Widget selection
+#--------------------------------------------------------------------------------
+
+# the widget delimiter:
+DELIM=$(printf "\x$(printf %x 32)") # 32: standard ascii space (make sure the ascii code matches with the one defined in dwm's config.h !)
+
+# The widget array determines which widgets are included in the status bar.
+# Each included widget needs to be defined below by a function with the same name.
+
+WIDGETS=(
+    transmission # torrenting status
+    playercontrol # status of currently open media player (pause/play)
+    appointments # show time of current/next appointment.
+    services # clickable icon to start/stop services
+    bluetooth # show  if bluetooth is connected,  otherwise
+    network # shows a clickable globe icon.
+    syncthing # show icon if syncthing service is active
+    sshd # show icon if sshd service is active
+    sshtunnel # show icon if sshtunnel service is active
+    jellyfin # show icon if jellyfin service is active
+    jupyterhub # show icon if jupyterhub service is active
+    openvpn # show icon if openvpn is connected
+    openconnect # show icon if openconnect is connected
+    cups # show icon if the CUPS printer service is running
+    gpg # show icon if a gpg key password is currently cached
+    email # number of unread emails
+    pacmanstatus # number of updatable packages
+    volume # volume (managed by pulseaudio)
+    brightness # brightness
+    battery # shows battery percentage left
+    alpha # shows terminal transparency (managed by Xresources, enabled by picom)
+    # memory # uses same icon as disk. Know which one is which.
+    # cpu # shows cpu usage
+    # disk # uses same icon as memory. Know which one is which.
+    weather # reads from cache! Make sure you have it regularly update somewhere else.
+    calendar # shows the current date
+    clock # shows a clock
+    # localip # same info after clicking network icon
+    # publicip # introduces lag due to curl call better not to place in status bar.
+    # wifi # same info after clicking network icon
+)
 
 # Parse arguments
 #--------------------------------------------------------------------------------
-# the first argument to this script (if given) should equal the index of the widget
-# clicked.
 
-if [[ $1 == "-h" || $1 == "--help" ]]; then
-    echo "usage: dwm_status [widget-index] [mouse-button 1|2|3|4|5]"
-    exit 0
+usage(){
+    >&2 echo "usage: dwm_status [widget-name|widget-index] [mouse-button-index 1|2|3]"
+    >&2 echo ""
+    >&2 echo "* without arguments: status bar is updated."
+    >&2 echo "* with arguments: when a widget name OR widget-index is specified, a mouse button index (1,2,3) MUST be specified as well."
+    >&2 echo ""
+    exit $1
+}
+
+([ "$1" == "-h" ] || [ "$1" == "--help" ]) && usage 0
+WIDGET="$1"
+BUTTON="$2"
+if [ ! -z "$WIDGET" ]; then
+    [ -z "$BUTTON" ] && usage 1
+    [ "$BUTTON" -ge 1 ] 2> /dev/null || usage 1
+    [ "$BUTTON" -le 3 ] 2> /dev/null || usage 1
 fi
-
-WIDGET=""
-if [[ $1 ]]; then
-    WIDGET=$1
-fi
-
-# the second argument to this script (if given) should equal the mouse-button that was
-# used to click the widget.
-
-BUTTON=$2
-[[ $BUTTON -lt 1 || $BUTTON -gt 5 ]] && BUTTON=""
-
-# if no arguments are given then the status bar will be updated.
 
 
 # Status Command
 #--------------------------------------------------------------------------------
 
-# this is the command that pastes the widgets (defined below) together into the
-# status bar of dwm (by using xsetroot). The delimiter cannot be changed for
-# now, as (my fork of) dwm uses the same delimiter to figure out which widget
-# was clicked.
+# the status function pastes the output of each widget (defined below) together
+# into the status bar of dwm (by using xsetroot).
 
 status(){
-    s=""
-    delim=$(printf "\x$(printf %x 31)") # 31: invisible ascii character; 124: |
-    i=0
-    for func in $@
+    idx=0
+    rootname=""
+    tempdelim="#DELIM#" # temporary delimiter, will be replaced by $DELIM later on. Defining a temporary delimiter is necessary as it ensures one can use a normal space as delimiter.
+    for widget in "${WIDGETS[@]}"
     do
-        out=$($func)
-        if [ "$out" ]; then
-            s=$s" "$out$delim
-            if [[ $WIDGET == $i && $BUTTON ]]; then
-                $($func$BUTTON)
+        out=$($widget)
+        if [ ! -z "$out" ]; then
+            if [ ! -z "$BUTTON" ] && ([ "$WIDGET" -eq "$idx" ]); then
+                $widget$BUTTON &> /dev/null || usage 1
+                out=$($widget)
             fi
-            i=$((i+1))
+            rootname="$rootname $out$tempdelim"
+            idx=$((idx+1))
         fi
     done
-    xsetroot -name "$s"
+    unicodespace=$(printf "\u$(printf %u 2000)") # unicode space U+2000 (replace all normal spaces by this one bc normal space is reserved as a possible delimiter)
+    rootname="$unicodespace$unicodespace$(echo $rootname | sed "s/[ ]/$unicodespace/g" | sed "s/$tempdelim/$DELIM/g" | sed "s/$DELIM\$//g" )$unicodespace"
+    xsetroot -name "$rootname" &> /dev/null
+    mkdir -p $HOME/.cache
+    echo $rootname > $HOME/.cache/dwm_status 2> /dev/null
 }
 
-# define the list of active widgets here (widgets defined below)
-set-status(){
-    status serv hub sync jelly cups sshd ssht vpn bt pcmn alpha vol brt bat wtr dte tme
-    #status cups vpn alpha vol brt bat wtr dte tme
-}
 
 # Helper functions
 #--------------------------------------------------------------------------------
 
 notifyservice(){
     name=$1
+    [ -z "$2" ] || icon="$2 "
+    dte=$(date +'%a %Y-%m-%d')
+    tz=$(timedatectl | grep "Time zone" | sed 's/^[^(]*(\([^,]*\),.*/\1/g')
+    title=$(echo $name | sed 's/org.cups.cupsd/CUPS printer/g' | sed 's/^[ ]*//g' )
+    status=$(systemctl status $name | grep Active: | sed 's/^[^)]*)[ ]*//g' | sed "s/$dte //g" | sed "s/ $tz//g" | sed 's/;[ ]/\n/g' | sed 's/^[ ]*//g' )
+    suffix="\n[  +  + s: toggle any service ]"
     if systemctl is-active $name &> /dev/null; then
-        notify-send "$name service" "\n$(systemctl status $name | grep Active | sed 's/^.*Active://g' | sed 's/\ (running)//g')\n\nmiddle click to stop\n\n[  +  + s: toggle any service ]"
+        notify-send "$icon$title service 🔵" "\nactive $status\n\n[ middle click to stop ]$suffix"
     else
-        notify-send "$name service" "\n$(systemctl status $name | grep Active | sed 's/^.*Active://g' | sed 's/\ (dead)//g')\n\nmiddle click to start\n\n[  +  + s: toggle any service ]"
+        notify-send "$icon$title service 🔴" "\ndead $status\n\n[ middle click to start ]$suffix"
     fi
 }
 
@@ -81,7 +124,6 @@ toggleservice(){
     else
         sudo -A -p "[sudo] password to restart $name.service" systemctl start $name
     fi
-    sleep 2 && dwm_status &
 }
 
 
@@ -93,98 +135,135 @@ toggleservice(){
 alpha(){ # window transparency
     pidof picom > /dev/null
     if [ $? -eq 0 ]; then
-        alpha=$(python -c "print(int(100*$(xrdb -query | grep alpha | cut -f 2)))")
-        echo -e α $alpha% # 👓
+        echo  $($HOME/.scripts/x/alpha get)%
     else
-        echo -e α -
+        echo  -
     fi
 }
 alpha1(){ # mouse-button 1 action for alpha widget
-    notify-send "Window transparency" "\nscroll to adjust\n\n + a: decrease transparency\n +  + a: increase transparency"
-}
-alpha4(){
-    $HOME/.scripts/x/alpha set +5 && dwm_status &
-}
-alpha5(){
-    $HOME/.scripts/x/alpha set -5 && dwm_status &
+    notify-send "[α] window transparency" "\n[  + a: decrease transparency ]\n[  +  + a: increase transparency ]"
 }
 
 # -----------
 
-bat(){ # battery
-    battery=$(acpi -b 2> /dev/null)
-    percentage=$(echo $battery |  sed 's/^.*, \([0-9]*\)%.*$/\1/g')
-    if [ -z $percentage ]; then
-        echo -e ""
+battery(){ # battery
+    pct=$(cat /sys/class/power_supply/BAT*/capacity | head -1)
+    [ -z $pct ] && return
+    batstatus=$(cat /sys/class/power_supply/BAT*/status | head -1)
+    if [ "$batstatus" = "Discharging" ] &> /dev/null; then
+        [ "$pct" -gt 90 ] && echo " $pct%" && return
+        [ "$pct" -gt 60 ] && echo " $pct%" && return
+        [ "$pct" -gt 30 ] && echo " $pct%" && return
+        [ "$pct" -gt  5 ] && echo " $pct%" && return
+        echo "$pct\%" && return
+    fi
+    echo " $pct%"
+}
+battery1(){ # mouse-button 1 action for battery widget
+    pct=$(cat /sys/class/power_supply/BAT*/capacity | head -1)
+    batstatus=$(cat /sys/class/power_supply/BAT*/status | head -1)
+    timeleft="   $(acpi -b | sed 's/.*,//g' | sed 's/^[ ]*//g' | sed 's/^00://g')"
+    if [ "$batstatus" = "Discharging" ] &> /dev/null; then
+        [ "$pct" -gt 95 ] && notify-send "🔋 battery fully charged." "$timeleft" && return
+        notify-send "🔋 battery discharging." "$timeleft"
         return
     fi
-    if echo $battery | grep "Charging" &> /dev/null; then
-       echo -e " "$percentage%
-       return
-    fi
-    if echo $battery | grep "Discharging" &> /dev/null; then
-        if [[ $percentage -gt 90 ]]; then
-            echo -e "  "$percentage% # 🔋
-        elif [[ $percentage -gt 60 ]]; then
-            echo -e "  "$percentage%
-        elif [[ $percentage -gt 30 ]]; then
-            echo -e "  "$percentage%
-        elif [[ $percentage -gt 5 ]]; then
-            echo -e "  "$percentage%
-        else
-            echo -e "  "$percentage%
-        fi
-    fi
-}
-bat1(){ # mouse-button 1 action for battery widget
-    notify-send "$(acpi -b)"
+    [ "$pct" -gt 95 ] && notify-send "🔌 battery fully charged." && return
+    notify-send "🔌 battery charging." "$timeleft"
 }
 
 # -----------
 
-brt(){ # screen brightness
+brightness(){ # screen brightness
     dir=/sys/class/backlight/intel_backlight
     if [ ! -d $dir ]; then
-        echo -e ""
+        echo ""
         return
     fi
     max_brightness=$(cat $dir/max_brightness)
     brightness=$(cat $dir/brightness)
-    python -c "print(' %.0f'%(100*$brightness/$max_brightness)+'%')" # ☀️
+    python -c "print(' %.0f'%(100*$brightness/$max_brightness)+'%')"
 }
-brt1(){ # mouse-button 1 action for brightness widget
+brightness1(){ # mouse-button 1 action for brightness widget
     dir=/sys/class/backlight/intel_backlight
     max_brightness=$(cat $dir/max_brightness)
     brightness=$(cat $dir/brightness)
     brightness=$(python -c "print('%.0f'%(100*$brightness/$max_brightness)+'%')")
-    notify-send "Screen brightness [$brightness]" " + F11: decrease brightness\n + F12: increase brightness"
+    notify-send "☀ brightness [$brightness]" "\n[  + F11: brightness up   ]\n[  + F12: brightness down ]"
 }
 
 # -----------
 
-bt(){ # bluetooth
-    if [ ! -d /sys/class/bluetooth ]; then
-        echo -e ""
-        return
-    fi
+bluetooth(){ # bluetooth
+    [ ! -d /sys/class/bluetooth ] && echo "" && return
+    device=$(echo exit | bluetoothctl | grep -o -m 1 "\b\[.*\]" | sed "s/.*\[\(.*\)\].*/\1/g")
+    [ "$device" == "bluetooth" ] && echo  || echo 
+}
+bluetooth1(){ # mouse-button 1 action for bluetooth widget
     device=$(echo exit | bluetoothctl | grep -o -m 1 "\b\[.*\]" | sed "s/.*\[\(.*\)\].*/\1/g")
     if [[ $device == bluetooth ]]; then
-        echo -e "" #
+        notify-send " Bluetooth disconnected" "\n[ middle click /  + b to connect ]"
     else
-        printf ""
+        notify-send " Bluetooth connected" "to $device\n\n[ middle click /  + b to disconnect ]"
     fi
 }
-bt1(){ # mouse-button 1 action for bluetooth widget
-    device=$(echo exit | bluetoothctl | grep -o -m 1 "\b\[.*\]" | sed "s/.*\[\(.*\)\].*/\1/g")
-    if [[ $device == bluetooth ]]; then
-        notify-send Bluetooth "\ndisconnected\n\nmiddle click /  + b to connect"
-    else
-        notify-send Bluetooth "\nconnected to $device\n\nmiddle click /  + b to disconnect"
-    fi
-}
-bt2(){ # mouse-button 1 action for bluetooth widget
+bluetooth2(){ # mouse-button 1 action for bluetooth widget
     dmenu_bluetooth
-    sleep 2 && dwm_status &
+}
+
+# -----------
+appointments(){
+    hm=$(grep $(date +'%m/%d/%Y') $HOME/.calcurse/apts | sed 's/[^@]*@\ \([0-9]*:[0-9]*\)[^@]*@[^|]*|/\1: /g' | grep $(date +'%H') | sed 's/^\([0-9][0-9]:[0-9][0-9]\).*/\1/g')
+    if [ -z "$hm" ]; then
+        next=$(calcurse --next | sed '/next.*/d')
+        [ -z "$next" ] && return
+        H=$(date +'%H')
+        M=$(date +'%M')
+        h=$(echo $next | sed 's/^[^0-9]*\([0-9]*\).*/\1/g')
+        m=$(echo $next | sed 's/^[^:]*:[^0-9]*\([0-9]*\).*/\1/g')
+        m=$((M+m))
+        h=$((H+h))
+        while [ "$m" -ge 60 ]; do
+            m=$((m-60))
+            h=$((h+1))
+        done
+        m=$(echo "0$m" | sed 's/^0\([0-9][0-9]$\)/\1/g')
+        while [ "$h" -ge 24 ]; do
+            h=$((h-24))
+        done
+        h=$(echo "0$h" | sed 's/^0\([0-9][0-9]$\)/\1/g')
+        hm=$h:$m
+    fi
+    echo  $hm
+}
+appointments1(){
+    apt1=$(grep $(date +'%m/%d/%Y') $HOME/.calcurse/apts | sed 's/[^@]*@\ \([0-9]*:[0-9]*\)[^@]*@[^|]*|/\1: /g' | grep $(date +'%H') | sed 's/^[0-9][0-9]:[0-9][0-9]:\ //g')
+    apt2=$(calcurse --next | sed '/next.*/d')
+    echo $apt2 | grep "$apt1" &> /dev/null && apt1=""
+    [ -z $apt1 ] || apt1="   [ now ] $apt1\n"
+    notify-send "📅 Appointment:" "$apt1$apt2\n\n[ middle click to open calcurse. ]"
+}
+appointments2(){
+    $TERMINAL -e calcurse
+}
+
+# -----------
+
+calendar(){ # date
+    date +'  %Y-%m-%d'
+}
+calendar1(){ # mouse-button 1 action for date widget
+    notify-send "📅 $(date +'%A, %B %d')" "\n$(cal | sed "s/\<$(date +%-d)\>//g")"
+}
+
+# -----------
+
+clock(){ # time
+    date +' %H:%M'
+}
+clock1(){ # mouse-button 1 action for time widget
+    notify-send "🕐 $(date +'%H:%M')"
+    calendar1
 }
 
 # -----------
@@ -196,19 +275,19 @@ cpu(){ # cpu
     read cpu a b c idle rest < /proc/stat
     total=$((a+b+c+idle))
     cpu=$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))
-    echo -e " $cpu% cpu" # 💻
+    echo " $cpu%"
 }
 cpu1(){ # mouse-button 1 action for cpu widget
-    notify-send "cpu"
+    notify-send "🖥 cpu"
 }
 
 # -----------
 
-cups(){ # jupyterhub status
-    systemctl is-active org.cups.cupsd &> /dev/null && echo -e 
+cups(){ # CUPS printer status
+    systemctl is-active org.cups.cupsd &> /dev/null && echo 
 }
-cups1(){ # mouse-button 1 action for jupyterhub widget
-    notifyservice org.cups.cupsd
+cups1(){
+    notifyservice org.cups.cupsd 🖨
 }
 cups2(){
     toggleservice org.cups.cupsd
@@ -216,69 +295,183 @@ cups2(){
 
 # -----------
 
-dte(){ # date
-    date +'  %Y-%m-%d' # 📅
+disk(){ # memory
+    usage=$(df -h . | grep -v Filesystem | awk '{print $5}')
+    echo " $usage"
 }
-dte1(){ # mouse-button 1 action for date widget
-    notify-send "$(date +'%A, %B %d')" "\n$(cal | sed "s/\<$(date +%-d)\>//g")"
+disk1() { # mouse-button 1 action for memory widget
+    notify-send "💾 disk usage:" "$(df -h $HOME)"
 }
 
 # -----------
 
-hub(){ # jupyterhub status
-    systemctl is-active jupyterhub &> /dev/null && echo -e   #🪐
+gpg(){ # cached gpg keys
+    gpg-connect-agent 'keyinfo --list' /bye | grep "1 P" &> /dev/null
+    [ $? -eq 0 ] && echo 
 }
-hub1(){ # mouse-button 1 action for jupyterhub widget
-    notifyservice jupyterhub
+gpg1(){ # mouse-button 1 to display cached keys
+    key=$(gpg-connect-agent 'keyinfo --list' /bye | grep "1 P" | sed 's/.*KEYINFO\ *\([^\ !]*\).*/\1/g')
+    notify-send "🔑 passwords cached for these gpg keys:" "$key\n\n[ middle click to empty cache ]"
 }
-hub2(){
+gpg2(){ # mouse-button 2 to empty gpg password cache
+    kill -SIGHUP $(pidof gpg-agent)
+}
+
+
+# -----------
+
+jupyterhub(){ # jupyterhub status
+    systemctl is-active jupyterhub &> /dev/null && echo 
+}
+jupyterhub1(){ # mouse-button 1 action for jupyterhub widget
+    notifyservice jupyterhub 🪐
+}
+jupyterhub2(){
     toggleservice jupyterhub
 }
 
 # -----------
 
-jelly(){ # jupyterhub status
-    systemctl is-active jellyfin &> /dev/null && echo -e  # 📺
+jellyfin(){ # jupyterhub status
+    systemctl is-active jellyfin &> /dev/null && echo 
 }
-jelly1(){ # mouse-button 1 action for jupyterhub widget
-    notifyservice jellyfin
+jellyfin1(){ # mouse-button 1 action for jupyterhub widget
+    notifyservice jellyfin 📺
 }
-jelly2(){
+jellyfin2(){
     toggleservice jellyfin
 }
 
 # -----------
 
-mem(){ # memory
-    mem=`free | awk '/Mem/ {printf "%d MiB/%d MiB\n", $3 / 1024.0, $2 / 1024.0 }'`
-    echo -e " $mem" # 💾
+email(){ # number of unread emails
+    [ -f $HOME/.msmtprc ] || return
+    gpg-connect-agent 'keyinfo --list' /bye | grep "1 P" &> /dev/null
+    if [ $? -eq 0 ]; then
+        num_unread=$(find $HOME/.local/share/email/*/INBOX/new/ -type f | wc -l 2> /dev/null)
+        echo " $num_unread"
+    else
+        echo " "
+    fi
 }
-mem1() { # mouse-button 1 action for memory widget
-    mem=`free | awk '/Mem/ {printf "%d MiB/%d MiB\n", $3 / 1024.0, $2 / 1024.0 }'`
-    notify-send "free memory" mem
+email1(){ # give more email info
+    num_unread=$(find $HOME/.local/share/email/*/INBOX/new/ -type f | wc -l 2> /dev/null)
+    gpg-connect-agent 'keyinfo --list' /bye | grep "1 P" &> /dev/null
+    if [ $? -eq 0 ]; then
+        notify-send "📧 $num_unread unread emails" "\n[ middle click to sync now. ]"
+    else
+        notify-send "📧 emails not syncing." "($num_unread unread emails)\n\n[ middle click to unlock gpg key and sync now ]"
+    fi
+}
+email2(){ # start syncing emails
+    $HOME/.scripts/email/syncmail
 }
 
 # -----------
 
-pcmn(){ # pacman
-    num=$(pacman -Qu | wc -l)
-    [[ $num > 0 ]] && echo -e  $num || echo -e "" # 📦
+localip(){ # local ip address
+    nmcli -a | grep inet4 | sed 's/^[^ ]*[ ]\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*/\1/g' | head -1
 }
-pcmn1(){ # pacman
-    num=$(pacman -Qu | wc -l)
-    notify-send "Pacman ($num)" "$num packages can be updated\n\nmiddle click to update [pacman -Syu]"
-}
-pcmn2(){ # update packages
-    sudo -A -p "[sudo] password for 'pacman -Syu'" st -n float -e pacman -Syu
-    sleep 2 && dwm_status &
+localip1(){
+    network1
 }
 
 # -----------
 
-serv(){ # toggle a service
-    echo -e  # 🔖
+memory(){ # memory
+    used=$(free | awk '/Mem/ {print $3 }')
+    total=$(free | awk '/Mem/ {print $2 }')
+    percentage=$(python -c "print(f'{100*$used/$total:.0f}%')")
+    echo " $percentage"
 }
-serv1(){ # pacman
+memory1() { # mouse-button 1 action for memory widget
+    mem=`free | awk '/Mem/ {printf "%d MiB/%d MiB\n", $3 / 1024.0, $2 / 1024.0 }'`
+    notify-send "💾 free RAM" mem
+}
+
+# -----------
+
+network(){
+    echo 
+}
+network1(){
+    notify-send "🌐 Network:" "connected to: $(wifi)\nlocal ip:     $(localip)\npublic ip:    $(publicip)"
+}
+
+# -----------
+
+openconnect(){ # openconnect
+    pidof openconnect &> /dev/null && echo   #|| echo ""
+}
+openconnect1(){ # mouse-button 1 action for openconnect widget
+    pidof openconnect &> /dev/null && notify-send "🔐 openconnect" "running.\n\n[ middle click to stop ]" || notify-send "🔐 openconnect" "stopped.\n\n[ middle click to start ]"
+}
+openconnect2(){ # mouse-button 1 action for openconnect widget
+    pidof openconnect &> /dev/null && sudo -A killall openconnect
+}
+
+# -----------
+
+openvpn(){ # openvpn
+    systemctl is-active openvpn &> /dev/null && echo   || echo ""
+}
+openvpn1(){ # mouse-button 1 action for openvpn widget
+    notifyservice openvpn 🔐
+}
+openvpn2(){ # mouse-button 2 action for openvpn widget
+    toggleservice openvpn
+}
+
+# -----------
+
+pacmanstatus(){ # pacman
+    num=$(pacman -Qu | wc -l)
+    [[ $num > 0 ]] && echo  $num
+}
+pacmanstatus1(){ # pacman
+    num=$(pacman -Qu | wc -l)
+    notify-send "📦 pacman" "$num packages can be updated\n\n[ middle click to update with \"pacman -Syu\" ]"
+}
+pacmanstatus2(){ # update packages
+    sudo -A -p "[sudo] password for 'pacman -Syu'" $TERMINAL -n float -e pacman -Syu
+}
+
+# -----------
+
+playercontrol(){ # toggle a service
+    # the icon needs to be cached as sometimes playerctl gives Stopped when nothing has happened.
+    previous_icon=$(cat $HOME/.cache/dwm_playercontrol)
+    [ -z $previous_icon ] && previous_icon=
+    icon=$(timeout 1s playerctl status 2> /dev/null | sed 's/Playing//g' | sed 's/Paused//g' | sed "s/Stopped/$previous_icon/g") || icon=""
+    echo $icon > $HOME/.cache/dwm_playercontrol
+    echo $icon
+}
+playercontrol1(){ # toggle a service
+    timeout 1s playerctl play-pause
+    icon1=$(cat $HOME/.cache/dwm_playercontrol)
+    [ "$icon1" = "" ] && icon2= && notify-send "⏯"
+    [ "$icon1" = "" ] && icon2= && notify-send "⏯"
+    echo $icon2 > $HOME/.cache/dwm_playercontrol
+    sed -i "s/$icon1/$icon2/g" $HOME/.cache/dwm_status
+    xsetroot -name "$(cat $HOME/.cache/dwm_status)"
+}
+
+# -----------
+
+publicip(){ # local ip address
+    curl -s https://ipinfo.io/ip | head -1
+}
+publicip1(){
+    network1
+}
+
+
+# -----------
+
+services(){ # toggle a service
+    echo 
+}
+services1(){
     dmenu_services
 }
 
@@ -286,10 +479,10 @@ serv1(){ # pacman
 # -----------
 
 sshd(){ # ssh daemon
-    systemctl is-active sshd &> /dev/null && echo -e  # ⛓
+    systemctl is-active sshd &> /dev/null && echo  # ⛓
 }
 sshd1(){ # mouse-button 1 action for ssh daemon widget
-    notifyservice sshd
+    notifyservice sshd ⛓
 }
 sshd2(){
     toggleservice sshd
@@ -297,88 +490,103 @@ sshd2(){
 
 # -----------
 
-ssht(){ # ssh tunnels
-    systemctl is-active sshtunnel &> /dev/null && echo -e  || echo -e "" # ⛓
+sshtunnel(){ # ssh tunnels
+    systemctl is-active sshtunnel &> /dev/null && echo  || echo "" # ⛓
 }
-ssht1(){ # mouse-button 1 action for ssh tunnel widget
-    notifyservice sshtunnel
+sshtunnel1(){ # mouse-button 1 action for ssh tunnel widget
+    notifyservice sshtunnel 🔗
 }
-ssht2(){
+sshtunnel2(){
     toggleservice sshtunnel
 }
 
 # -----------
 
-sync(){ # jupyterhub status
-    systemctl is-active syncthing &> /dev/null && echo -e  # ⭕
+syncthing(){ # jupyterhub status
+    systemctl is-active syncthing &> /dev/null && echo 
 }
-sync1(){ # mouse-button 1 action for jupyterhub widget
-    notifyservice syncthing
+syncthing1(){ # mouse-button 1 action for jupyterhub widget
+    notifyservice syncthing 
 }
-sync2(){
+syncthing2(){
     toggleservice syncthing
 }
 
 # -----------
 
-tme(){ # time
-    date +' %H:%M' # 🕒
-}
-tme1(){ # mouse-button 1 action for time widget
-    notify-send "Date: $(date)"
-}
-
-# -----------
-
-vol(){ # volume
-    string=$(amixer -D pulse get Master)
-    if [[ $string == *"[on]"* ]]; then
-        percentage=$(echo $string | cut -d "[" -f2 | cut -d "]" -f1)
-        echo -e "🔊 $percentage" # 🔊
-    else
-      echo -e 🔇
+transmission(){
+    pidof transmission-daemon &> /dev/null || return
+    transmission-remote --list \
+        | grep -v ID | grep -v Sum:\
+        | awk  '{ print $2;}' \
+        | sed '/100%/d' | sed 's/%//g' | sed 's|n/a||g' \
+        | xargs python -c "from sys import argv; print(f' {sum(int(i) for i in argv[1:])/len(argv[1:]):.0f}%')" 2> /dev/null
+    if [ $? -ne 0 ]; then
+        num=$(transmission-remote --list | grep -v ID | grep -v Sum: | wc -l)
+        [ $num -gt 0 ] && echo "🌱$num" && return # seeding
+        echo  # active
     fi
 }
-vol1(){ # mouse-button 1 action for volume widget
+transmission1(){
+    num=$(transmission-remote --list | grep -v ID | grep -v Sum: | wc -l)
+    title="$(transmission) Transmission: $(transmission | sed 's//active/g' | sed 's/🌱/seeding/g') [$num]"
+    msg="\n[ middle click to open transmission-cli   ]\n[ right click to stop transmission-daemon ]"
+    [ $num -gt 0 ] && msg="\n$(transmission-remote --list)\n$msg"
+    notify-send "$title" "$msg"
+}
+transmission2(){
+    $TERMINAL -e $HOME/.local/bin/transmission
+}
+transmission3(){
+    kill -SIGTERM $(pidof transmission-daemon)
+}
+
+
+# -----------
+
+volume(){ # volume
     string=$(amixer -D pulse get Master)
-    percentage=$(echo $string | cut -d "[" -f2 | cut -d "]" -f1)
-    notify-send "Volume $percentage" "\nscroll to adjust\n\n + : volume up\n + : volume down\n +  + : mute"
+    if [[ $string == *"[on]"* ]]; then
+        pct=$(echo $string | cut -d "[" -f2 | cut -d "%" -f1)
+        [ "$pct" -gt 60 ] && echo "🔊 $pct%" && return
+        [ "$pct" -gt 20 ] && echo "🔉 $pct%" && return
+        echo "🔈 $pct%"
+        return
+    fi
+    echo 🔇
 }
-vol4(){
-    amixer -D pulse set Master 5%+ && dwm_status &
-}
-vol5(){
-    amixer -D pulse set Master 5%- && dwm_status &
-}
-
-# -----------
-
-vpn(){ # openvpn
-    systemctl is-active openvpn &> /dev/null && echo -e   || echo -e ""
-}
-vpn1(){ # mouse-button 1 action for openvpn widget
-    notifyservice openvpn
-}
-vpn2(){ # mouse-button 2 action for openvpn widget
-    toggleservice openvpn
+volume1(){ # mouse-button 1 action for volume widget
+    icon=$(volume | sed 's/^\(.\).*/\1/g')
+    pct=$(volume | sed 's/^.\(.*\)/\1/g' | sed 's/^[ ]*//g')
+    notify-send "$icon volume $pct" "\n[  + : volume up   ]\n[  + : volume down ]\n[  +  + : mute    ]"
 }
 
 # -----------
 
-wtr(){ # weather
-    test -f ~/.cache/weatherreportshort && cat ~/.cache/weatherreportshort || echo -e ""
+weather(){ # weather
+    # reads from cache! Make sure you have it regularly update somewhere else.
+    test -f ~/.cache/weatherreportshort && cat ~/.cache/weatherreportshort | sed 's/[ ][ ]*/ /g' || echo ""
 }
-wtr1(){ # mouse-button 1 action for weather widget
+weather1(){ # mouse-button 1 action for weather widget
     # cat out the weather report, show only the first 7 lines and remove all colors
     report=$(cat ~/.cache/weatherreport | head -n 7 | sed 's/\x1b\[[0-9;]*m//g' | tail -n 6 | sed 's/\\/\\\\/g' | sed 's/―/-/g')
-    notify-send "Weather" "$report\n\nmiddle click for full report"
+    notify-send "⛅ weather" "$(weather)\n$report\n\n[ middle click for full report ]"
 }
-wtr2(){
-    st -n float -f mono:12 -g 130x40+1130 -e update_weather --block
+weather2(){
+    $TERMINAL -n float -f mono:12 -g 130x40+1130 -e update_weather --block
 }
+
+# -----------
+wifi(){
+    nmcli | grep "connected to" | sed 's/.*connected to //g' | head -1
+}
+wifi1(){
+    network1
+}
+
 
 
 
 # Status Command
 #--------------------------------------------------------------------------------
-set-status
+status

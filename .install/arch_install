@@ -9,7 +9,7 @@
 # !!! NOTE THAT THIS SCRIPT SHOULD NOT BE SOURCED. !!! #
 # ---------------------------------------------------- #
 
-# last run: 2019.01.30
+# last run: 2020.04.12
 
 # Note: this script can be run as often as you like. It will not attempt to re-install
 #       any already installed program, making it a very fast way update some preferences
@@ -19,7 +19,7 @@
 #-------------------------------------------------------------------------------
 
 ## pre-installation checks
-if [ $USER == root ]; then
+if [ "$USER" == root ]; then
     echo
     echo "first_install.sh should not be run as root / with sudo."
     echo "this script should be run normally by a user [with sudo privileges]."
@@ -39,8 +39,8 @@ fi
 mkdir -p $HOME/.local/share
 LOG="$HOME/.local/share/arch_install.log"
 ERR="$HOME/.local/share/arch_install_errors.log"
-printf "ARCH PACKAGE INSTALL\n\n\n" > $LOG
-printf "ARCH PACKAGE INSTALL\n\n\n" > $ERR
+printf "ARCH PACKAGE INSTALL\n\n\n" >> $LOG
+printf "ARCH PACKAGE INSTALL\n\n\n" >> $ERR
 
 
 ## User input
@@ -100,7 +100,9 @@ pacman_install(){ # will only install the first argument!
     printf "sudo pacman -S --noconfirm --noprogress $1\n" >> $LOG
     printf "sudo pacman -S --noconfirm --noprogress $1\n" >> $ERR
     echo $password | sudo -S pacman -S --noconfirm --noprogress $1 >> $LOG 2>> $ERR
-    echo_success $?
+    success=$?
+    echo_success $success
+    return $success
 }
 
 yay_install(){ # will only install the first argument!
@@ -120,7 +122,9 @@ yay_install(){ # will only install the first argument!
     printf "yay -S -q --noconfirm $1\n" >> $LOG
     printf "yay -S -q --noconfirm $1\n" >> $ERR
     yay -S -q --noconfirm $1 >> $LOG 2>> $ERR
-    echo_success $?
+    success=$?
+    echo_success $success
+    return $success
 }
 
 git_install(){ # will only install the first argument!
@@ -151,7 +155,8 @@ git_install(){ # will only install the first argument!
     printf "makepkg -si --noconfirm --noprogress\n" >> $LOG
     printf "makepkg -si --noconfirm --noprogress\n" >> $ERR
     makepkg -si --noconfirm --noprogress >> $LOG 2>> $ERR
-    echo_success $?
+    success=$?
+    echo_success $success
 
     printf "cd ~\n" >> $LOG
     printf "cd ~\n" >> $ERR
@@ -161,6 +166,7 @@ git_install(){ # will only install the first argument!
     printf "rm -rf /tmp/gitpkg\n" >> $ERR
     rm -rf /tmp/gitpkg >> $LOG 2>> $ERR
 
+    return $success
 }
 
 submodule_install(){ # will only install the first argument!
@@ -183,13 +189,16 @@ submodule_install(){ # will only install the first argument!
     echo $password | sudo -S make clean >> $LOG 2>> $ERR
     echo $password | sudo -S make all >> $LOG 2>> $ERR
     echo $password | sudo -S make install >> $LOG 2>> $ERR
-    echo_success $?
+    success=$?
+    echo_success $success
     echo $password | sudo -S make clean >> $LOG 2>> $ERR
     echo $password | rm -f config.h >> $LOG 2>> $ERR
 
     printf "cd $HOME\n" >> $LOG
     printf "cd $HOME\n" >> $ERR
     cd $HOME >> $LOG 2>> $ERR
+
+    return $success
 }
 
 pip3_install() {
@@ -199,7 +208,9 @@ pip3_install() {
     printf "sudo /usr/bin/python3 -m pip install $1\n" >> $LOG
     printf "sudo /usr/bin/python3 -m pip install $1\n" >> $ERR
     echo $password | sudo -S /usr/bin/python3 -m pip install $1 >> $LOG 2>> $ERR
-    echo_success $?
+    success=$?
+    echo_success $success
+    return $success
 }
 
 pip2_install() {
@@ -209,7 +220,9 @@ pip2_install() {
     printf "sudo /usr/bin/python2 -m pip install $1\n" >> $LOG
     printf "sudo /usr/bin/python2 -m pip install $1\n" >> $ERR
     echo $password | sudo -S /usr/bin/python2 -m pip install $1 >> $LOG 2>> $ERR
-    echo_success $?
+    success=$?
+    echo_success $success
+    return $success
 }
 
 systemctl_create() {
@@ -237,7 +250,9 @@ systemctl_enable() {
     printf "sudo systemctl enable $1\n" >> $ERR
     echo $password | sudo -S systemctl enable $1 >> $LOG 2>> $ERR
     [[ $1 != "lightdm" && $1 != "NetworkManager" ]] && echo $password | sudo -S systemctl restart $1 >> $LOG 2>> $ERR
-    echo_success $?
+    success=$?
+    echo_success $success
+    return $success
 }
 
 link() {
@@ -246,8 +261,13 @@ link() {
     printf "\n\n\nlink $1 to $2\n" >> $ERR
     printf "sudo ln -sf $1 $2\n" >> $LOG
     printf "sudo ln -sf $1 $2\n" >> $ERR
+    if [ -f "$2" ]; then
+        echo $password | sudo -S mv $2 $2.bak  >> $LOG 2>> $ERR
+    fi
     echo $password | sudo -S ln -sf $1 $2  >> $LOG 2>> $ERR
-    echo_success $?
+    success=$?
+    echo_success $success
+    return $success
 }
 
 
@@ -259,13 +279,20 @@ pacman_install git
 pacman_install make
 pacman_install cmake
 
-
 ## AUR package manager
 git_install https://aur.archlinux.org/yay.git
 
 ## Terminal
+# eyecandy: patch pacman config to enable Color and ILoveCandy
+echo $password | sudo -S sed -i 's|^#Color|Color\nILoveCandy|g' /etc/pacman.conf >> $LOG 2>> $ERR
+# install scripts for bootstrapping new arch installations
+pacman_install arch-install-scripts
+# calcurse: a terminal calendar client
+pacman_install calcurse
 # search tool
 pacman_install grep
+# alternative search tool
+pacman_install ripgrep
 # alternative search tool
 # pacman_install ack
 # fuzzy finder tool
@@ -283,44 +310,57 @@ pacman_install unrar
 # universal unarchiver (executable: unar)
 pacman_install unarchiver
 # rpm extraction shell script
-# yay_install rpmextract
+yay_install rpmextract
 # pv: progress bars on stdout
-# pacman_install pv
+pacman_install pv
 # battery information
 pacman_install acpi
 # battery daemon (sleep on low power):
-pacman_install acpid
-systemctl_enable acpid
+# pacman_install acpid
+# systemctl_enable acpid
 # vifm: terminal file browser
 pacman_install vifm
 # dos2unix: tool to change carriage return (^M | \r) into nomal return (\n)
 # pacman_install dos2unix
 # terminal multiplexer:
 pacman_install tmux
-# show manual for executable
+# program manuals
 pacman_install man
-# show most common commands for executable (I use this one more often than man)
+pacman_install man-db
+pacman_install man-pages
+pacman_install texinfo
+# very useful alternative to man: show most common commands for executable
 pacman_install tldr
+# terminal music player: mplayer
+pacman_install mplayer
 # copying and pasting from the terminal
 pacman_install xclip
 # pdf conversion
 pacman_install poppler
 # check if bash script is posix complient (needs haskell -> 250mb -> disables by default)
 # pacman_install shellcheck
-# highlight: to highlight code in the terminal (nice `cat` alternative)
+# highlight: to highlight code in the terminal (nice `cat` alternative, used in my custom scripts)
 pacman_install highlight
 # mediainfo: show audio and video information in terminal
 pacman_install mediainfo
 # process information
 pacman_install htop
+# termdown: terminal timer/stopwatch
+pacman_install termdown
+# espeak: text to speach engine (used in my custom termdown script)
+pacman_install espeak
+# aplay: simple sound player based on alsa
+# yay_install alsaplayer-git
 # system information
-# pacman_install neofetch
+pacman_install neofetch
 # lightweight system information
-# yay_install pfetch
+yay_install pfetch
 # some more eye-candy (useless music visualizer):
-# yay_install cli-visualizer
+yay_install cli-visualizer
 # large ascii letters
-# pacman_install figlet
+pacman_install figlet
+# task spooler: queue tasks
+# pacman_install task-spooler
 # netcat: for socket communication
 # pacman_install gnu-netcat
 # sockets (needed for custom mpvcontrol script)
@@ -330,14 +370,15 @@ pacman_install transmission-cli
 yay_install transmission-remote-cli-git
 # a more beautiful ls command (I have ls remapped to lsd when no arguments given)
 pacman_install lsd
-# yay_install conky-lua-nv
 # vim / neovim: terminal text editor
 pacman_install neovim
-link /usr/bin/nvim /usr/bin/vim
-pacman_install npm
-echo $password | sudo -S npm -g install instant-markdown-d >> $LOG 2>> $ERR
 # ctags: recommended vim dependency for jump-to-tag functionality
 pacman_install ctags
+# instant-markdown-d (installed with npm) is a nice tool to live visualize markdown from within neovim.
+pacman_install npm
+echo $password | sudo -S npm -g install instant-markdown-d >> $LOG 2>> $ERR
+# link neovim to standard vim binary:
+# link /usr/bin/nvim /usr/bin/vim
 # scim: terminal spreadsheet viewer/editor
 # yay_install sc-im
 # wordgrinder: terminal word processor
@@ -347,15 +388,20 @@ pacman_install ctags
 # terminal internet search: duckduckgo
 # yay_install ddgr
 # trans: command line translation engine
-# pacman_install translate-shell
+pacman_install translate-shell
+# whois information
+pacman_install whois
+# cronie: cron job daemon
+# pacman_install cronie
+# systemctl_enable cronie
 # ncmpcpp: terminal music client
-# pacman_install ncmpcpp
+pacman_install ncmpcpp
 # spotify daemon (dependency for spotify-tui)
-# yay_install spotifyd-full
+yay_install spotifyd-full
 # spotify-tui: terminal client for spotify
-# yay_install spotify-tui
-# patch pacman to enable Color and ILoveCandy
-echo $password | sudo -S sed -i 's|^#Color|Color\nILoveCandy|g' /etc/pacman.conf > $LOG 2>> $ERR
+yay_install spotify-tui
+# playerctl: terminal client to control spotify, spotifyd, vlc, ...
+pacman_install playerctl
 
 
 ## Drive and file system drivers
@@ -375,14 +421,13 @@ pacman_install fuse
 pacman_install android-file-transfer # android access
 # access ssh file system
 pacman_install sshfs
-# install scripts for bootstrapping new arch installation
-# pacman_install arch-install-scripts
 
 
 ## Graphical server: xorg
 # the graphical server
 # pacman_install xorg
 pacman_install xorg-server
+pacman_install xorg-server-devel
 # querying window information
 # pacman_install xorg-xwininfo
 # initializing (for starting the window manager without display manager)
@@ -390,21 +435,20 @@ pacman_install xorg-xinit
 # tool for detecting window properties
 pacman_install xorg-xprop
 # tool for showing x event names
-# pacman_install xorg-xev
+pacman_install xorg-xev
 # for transparent windows etc.
 # pacman_install xcompmgr
 pacman_install picom
 # get info on current active windows
 # pacman_install xorg-xdpyinfo
 # virtual x server
-# pacman_install xorg-server-xvfb
+pacman_install xorg-server-xvfb
 # hide an inactive mouse
 pacman_install unclutter
 # dependency for my st fork to find urls in terminal:
 yay_install xurls
 # remap escape key:
 # yay_install xcape-git
-# yay_install unclutter-xfixes-git
 # viewer with synctex support, and some custom plugins
 pacman_install xdotool
 # for changing brightness etc:
@@ -427,14 +471,14 @@ echo $password | sudo -S pacman -Q libxft-bgra >> $LOG 2>> $ERR
 pacman_install i3lock
 # xsetroot: for status bar in dwm
 pacman_install xorg-xsetroot
-# sxhkd: keyboard shortcuts
+# sxhkd: keyboard shortcuts daemon
 pacman_install sxhkd
 # xautolock to automatically lock the screen
 pacman_install xautolock
 # wallpapers
 pacman_install feh
 # rofi (dmenu alternative)
-pacman_install rofi
+# pacman_install rofi
 # conky: a system monitor
 pacman_install conky
 # display manager
@@ -443,11 +487,14 @@ pacman_install lightdm
 #yay_install lightdm-slick-greeter
 yay_install lightdm-mini-greeter
 echo $password | sudo -S mkdir -p /usr/share/xsessions
-echo $password | sudo -S sed -i "s/\(#\)\?.*greeter-session.*=.*/greeter-session=lightdm-mini-greeter/g" /etc/lightdm/lightdm.conf > $LOG 2>> $ERR
-echo $password | sudo -S sed -i "s/\(#\)\?.*user-session.*=.*/user-session=dwm/g" /etc/lightdm/lightdm.conf > $LOG 2>> $ERR
-echo $password | sudo -S sed -i "s/^user = CHANGE_ME$/user = $USER/g" /etc/lightdm/lightdm-mini-greeter.conf > $LOG 2>> $ERR
-echo $password | sudo -S sed -i "s/F92672/2AA198/g" /etc/lightdm/lightdm-mini-greeter.conf > $LOG 2>> $ERR
 echo $password | sudo -S cp -f $HOME/.local/share/applications/dwm.desktop /usr/share/xsessions/
+echo $password | sudo -S sed -i "s/\(#\)\?.*greeter-session.*=.*/greeter-session=lightdm-mini-greeter/g" /etc/lightdm/lightdm.conf >> $LOG 2>> $ERR
+echo $password | sudo -S sed -i "s/\(#\)\?.*user-session.*=.*/user-session=dwm/g" /etc/lightdm/lightdm.conf >> $LOG 2>> $ERR
+echo $password | sudo -S sed -i "s/^user.*=.*/user = $USER/g" /etc/lightdm/lightdm-mini-greeter.conf >> $LOG 2>> $ERR
+echo $password | sudo -S sed -i "s/^show-password-label.*=.*/show-password-label = false/g" /etc/lightdm/lightdm-mini-greeter.conf >> $LOG 2>> $ERR
+echo $password | sudo -S sed -i "s/^password-label-text.*=.*/password-label-text = $USER:/g" /etc/lightdm/lightdm-mini-greeter.conf >> $LOG 2>> $ERR
+echo $password | sudo -S sed -i "s|^background-image.*=.*|background-image=\"$HOME/.cache/current-wallpaper\"|g" /etc/lightdm/lightdm-mini-greeter.conf >> $LOG 2>> $ERR
+echo $password | sudo -S sed -i "s/F92672/2AA198/g" /etc/lightdm/lightdm-mini-greeter.conf >> $LOG 2>> $ERR
 systemctl_enable lightdm
 # maybe you just want autologin instead of a display manager:
 # systemctl_create getty-auto-login
@@ -459,9 +506,10 @@ pacman_install libnotify
 # dunst creates desktop notifications
 pacman_install dunst
 
+
 ## Windows compatibility & Gaming
 # patch pacman settings to include multilib
-# sudo sed -i 's|^#\[multilib\]|[multilib]\nInclude\ =\ /etc/pacman.d/mirrorlist|g' /etc/pacman.conf > $LOG 2>> $ERR
+# sudo sed -i 's|^#\[multilib\]|[multilib]\nInclude\ =\ /etc/pacman.d/mirrorlist|g' /etc/pacman.conf >> $LOG 2>> $ERR
 # wine:
 # pacman_install wine
 # pacman_install wine-gecko
@@ -496,28 +544,31 @@ printf "polkit.addRule(function(action, subject) {\n  if (action.id.indexOf(\"or
 echo $password | sudo -S usermod -a -G network $USER
 # applet in the corner of the screen
 pacman_install network-manager-applet
-# openvpn
+# vpn: openconnect (cisco anyconnect)
+pacman_install openconnect
+# vpn: openvpn
 pacman_install openvpn
 # openvpn service that can be run in the background
 systemctl_create openvpn
 # systemctl_enable openvpn
 # ssh (client and server)
 pacman_install openssh
+# allow X-forwarding for sshd:
+echo $password | sudo -S sed -i 's|^.*X11Forwarding.*|X11Forwarding yes|g' /etc/ssh/sshd_config >> $LOG 2>> $ERR
 systemctl_enable sshd
 # autossh (for ssh daemons)
 pacman_install autossh
-# whois information
-# pacman_install whois
 # access to google servers
 # yay_install google-cloud-sdk
 # bluetooth
 pacman_install bluez
 pacman_install bluez-utils
 pacman_install pulseaudio-bluetooth
-# pacman_install blueman
+# enable bluetooth service
 systemctl_enable bluetooth
 # remote desktop
 pacman_install remmina
+# add windows remote desktop protocol to remmina
 pacman_install freerdp
 # barrier: seemless mouse and keyboard sharing between computers
 yay_install barrier
@@ -566,6 +617,10 @@ systemctl_create syncthing
 # yay_install jellyfin
 # systemctl_enable jellyfin
 # nextcloud: your own dropbox at home :-)
+pacman_install nextcloud-client
+# override the default general nextcloud settings
+[ -f $HOME/.config/Nextcloud/nextcloud.cfg ] || cp $HOME/.config/Nextcloud/nextcloud.general.cfg $HOME/.config/Nextcloud/nextcloud.cfg
+# nextcloud server:
 # pacman_install nextcloud
 # nginx: reverse proxy
 pacman_install nginx
@@ -602,6 +657,9 @@ systemctl_enable org.cups.cupsd
 ## Fonts
 # fontconfig should already be installed, but just to be sure:
 pacman_install fontconfig
+# link personal fontconfig to system wide config for better coverage:
+link $HOME/.config/fontconfig/conf.d/45-generic.conf /etc/fonts/conf.d/45-generic.conf
+link $HOME/.config/fontconfig/conf.d/60-generic.conf /etc/fonts/conf.d/60-generic.conf
 # my preferred serif font.
 pacman_install ttf-linux-libertine
 # my preferred sans-serif (+ chromium dependency)
@@ -617,7 +675,7 @@ yay_install nerd-fonts-hack
 # specific symbols for powerlines (recommended dependency for my st build)
 pacman_install powerline-fonts
 # unicode symbols / emojis (these are standard unicode symbols, hence different than awesome terminal fonts!)
-# yay_install ttf-symbola
+yay_install ttf-symbola-free
 # yay_install ttf-twemoji-color
 # pacman_install noto-fonts-emoji
 pacman_install ttf-joypixels
@@ -662,7 +720,13 @@ pacman_install zathura-pdf-mupdf
 # djvu reader extension
 pacman_install zathura-djvu
 # etcher: GUI dd alternative
-# yay_install etcher-bin
+yay_install etcher-bin
+# anki: a flashcard program
+pacman_install anki
+# pulseaudio control panel
+pacman_install pavucontrol
+# bluetooth manager (run blueman-manager)
+pacman_install blueman
 
 
 ## Images, video and media
@@ -683,16 +747,16 @@ pacman_install imagemagick
 # flameshot: arguably the best screenshot program
 pacman_install flameshot
 # youtube-dl: download YouTube videos
-# pacman_install youtube-dl
+pacman_install youtube-dl
 # YouTube-viewer
-# pacman_install youtube-viewer
+pacman_install youtube-viewer
 # vlc media player
 # pacman_install vlc
 # mpv media player
 pacman_install mpv
 # ffmpeg command line tool
-# pacman_install ffmpeg
-# spotify
+pacman_install ffmpeg
+# spotify (I prefer spotifyd + spotify-tui)
 # yay_install spotify
 # GDS viewer and editor
 pacman_install klayout
@@ -716,15 +780,13 @@ pacman_install biber
 # convert document types into each other
 pacman_install pandoc
 # open-source note taking app
-# yay_install joplin
-# make joplin-desktop and joplin [terminal] share the same database:
-# cd ~ && ln -srf .config/joplin-desktop/database.sqlite .config/joplin/database.sqlite
+yay_install joplin
 
 
 ## Programming
 # code OSS (open source build of vscode)
 pacman_install code
-if [ ?$ == 0 ]; then
+if [ $? -eq 0 ]; then
     code --install-extension vscodevim.vim >> $LOG 2>> $ERR
     code --install-extension ban.spellright >> $LOG 2>> $ERR
     code --install-extension wholroyd.jinja >> $LOG 2>> $ERR
@@ -736,6 +798,8 @@ if [ ?$ == 0 ]; then
     code --install-extension richie5um2.vscode-sort-json >> $LOG 2>> $ERR
     code --install-extension pkief.material-icon-theme >> $LOG 2>> $ERR
 fi
+# Python programming language:
+pacman_install python
 # Scientific computing octave (Matlab alternative)
 pacman_install octave
 
@@ -746,9 +810,14 @@ pacman_install firefox
 # patch firefox to work with some legacy extensions (like vimfx)
 submodule_install legacyfox
 # chromium
-# pacman_install chromium
+pacman_install chromium
+# chromium with vaapi hardware acceleration (custom chromium needs to be compiled, takes AGES!)
+# yay_install chromium-vaapi
+# the name says it all (custom chromium needs to be compiled, takes AGES!):
 # yay_install ungoogled-chromium
-# qutebrowser
+# vimb: vim-like browser
+# pacman_install vimb
+# qutebrowser: another vim-like browser
 # pacman_install qutebrowser
 # surf
 # pacman_install webkit2gtk # surf build dependency
@@ -762,7 +831,7 @@ submodule_install legacyfox
 ## Email
 # send email
 pacman_install msmtp
-# sync email
+# mbsync: sync email (isync is the distribution, mbsync is the executable)
 pacman_install isync
 # mutt email client
 pacman_install neomutt
@@ -776,9 +845,32 @@ pacman_install lynx
 # yay_install mutt-wizard
 
 
-## Nvidia drivers:
-# this is disabled by default, as it gives troubles on devices without nvidia GPU
+## Hardware acceleration
+# (DANGER ZONE, this may break video output!)
+pacman_install libva-utils
+pacman_install vdpauinfo
+
+# configuration for intel graphics:
+pacman_install intel-media-driver
+pacman_install libva-intel-driver
+# yay_install libva-intel-driver-g45-h264
+
+# configuration for nvidia open-source nouveau driver (i cannot get this to work):
+# pacman_install libva-mesa-driver
+# pacman_install mesa-vdpau
+# yay_install nouveau-fw
+# pacman_install libva-utils
+# yay_install intel-opencl
+
+# configuration for proprietary nvidia driver (i cannot get this to work):
 # pacman_install nvidia
+# pacman_install nvidia-utils
+# pacman_install nvidia-settings
+# pacman_install opencl-nvidia
+# pacman_install libva-vdpau-driver
+# pacman_install libva-va-gl
+
+# deep learning (needs nvidia):
 # pacman_install cuda-toolkit
 
 
@@ -834,11 +926,22 @@ pacman_install python-black
 pacman_install python-pywal
 # connectivity (requirement for calcurse-caldav synchronization)
 pacman_install python-httplib2
+# python-neovim integration
+pacman_install python-neovim
 # image processing in python
 # pacman_install python-pillow
 # sockets
 # pacman_install python-websockets
-# neovim integration
+# castero: podcast client (dependencies installed first)
+pacman_install flake8
+pacman_install python-requests
+pacman_install python-pytest
+pacman_install python-cjkwrap
+pacman_install python-coverage
+pacman_install python-beautifulsoup4
+yay_install python-mpv
+yay_insall castero
+# neovim-remote needed for synctex
 pip3_install neovim-remote
 # image previews in terminal
 pip3_install ueberzug
@@ -855,17 +958,7 @@ pip3_install pyautogui
 # pip3_install smdv
 # run jupyterlab as a systemd service:
 systemctl_create jupyterhub
-systemctl_enable jupyterhub
-# castero: podcast client (dependencies installed first)
-# pacman_install flake8
-# pacman_install python-requests
-# pacman_install python-pytest
-# pacman_install python-cjkwrap
-# pacman_install python-coverage
-# pacman_install python-beautifulsoup4
-# yay_install python-mpv
-# yay_install python-vlc
-# yay_insall castero
+# systemctl_enable jupyterhub
 
 
 ## System settings
@@ -883,6 +976,9 @@ if [ ! -f $HOME/.Xresources ]; then
     # run it to apply colorscheme to currently open windows:
     xcs current >> $LOG 2>> $ERR
 fi
+# make sure everyone can create folders in /opt
+echo $password | sudo -S chmod a+rwx /opt >> $LOG 2>> $ERR
+
 
 ## Password manager
 #-------------------------------------------------------------------------------
@@ -890,8 +986,8 @@ pacman_install gnupg # gpg --full-gen-key (generate gpg key)
 pacman_install pass # pass init floris.laporte@gmail.com (use gpg key to store passwords securely)
 # yay_install passff-host  # host for the pass "passFF" firefox extension
 pacman_install browserpass # host for the pass "browserpass" chromium/firefox extension
-pacman_install browserpass-chromium # host for the pass "browserpass" chromium extension
-pacman_install browserpass-firefox # host for the pass "browserpass" firefox extension
+# pacman_install browserpass-chromium # host for the pass "browserpass" chromium extension
+# pacman_install browserpass-firefox # host for the pass "browserpass" firefox extension
 
 
 ## Alternative shell
@@ -915,7 +1011,7 @@ yay_install autojump-git
 # stderred: show stderr messages in red:
 yay_install stderred
 # patch autojump to only work with system python (acts weirdly when in a virtual env / conda env)
-echo $password | sudo -S sed -i 's|#!/usr/bin/env python|#!/usr/bin/python|' $(which autojump) > $LOG 2>> $ERR
+echo $password | sudo -S sed -i 's|#!/usr/bin/env python|#!/usr/bin/python|' $(which autojump) >> $LOG 2>> $ERR
 # same fo the autosuggestions, simply ctrl+p [at least for my .zshrc] to accept suggestion. Priceless.
 pacman_install zsh-autosuggestions
 # syntax highlighting is also useful for zsh:

@@ -10,6 +10,55 @@ import os
 import sys
 from time import sleep
 from subprocess import call, check_output, Popen, PIPE, CalledProcessError
+try:
+    import pyautogui
+except:
+    notify("pyautogui is not available", "some selected keyboard combinations might not work")
+    pyautogui = None
+
+
+DELIM="\u2000" # unicode space
+
+SXHKD_DMENU = { # lowercase values for how to show these characters in the dmenu [sxhkd -> view]
+    "Return": "enter",
+    "Print": "prtscn",
+    "Up": "",
+    "Down": "",
+    "Left": "",
+    "Right": "",
+    "super": "",
+    "shift": "",
+    "control": "ctrl",
+    "equal": "=",
+    "minus": "-",
+    "period": ".",
+    "comma": ",",
+    "semicolon": ";",
+    "apostrophe": "'",
+    "slash": "/",
+    "grave": "`",
+}
+
+SXHKD_PYAUTOGUI = { # pyautogui codes for these characters [sxhkd -> pyautogui]
+    "Return": "enter",
+    "Print": "prtscr",
+    "Up": "up",
+    "Down": "down",
+    "Left": "left",
+    "Right": "right",
+    "super": "apps",
+    "shift": "shift",
+    "control": "ctrl",
+    "equal": "=",
+    "minus": "-",
+    "period": ".",
+    "comma": ",",
+    "semicolon": ";",
+    "apostrophe": "'",
+    "slash": "/",
+    "grave": "`",
+}
+
 
 def notify(title, message=""):
     if message:
@@ -19,18 +68,9 @@ def notify(title, message=""):
     print(title+"\n"+message+"\n")
 
 
-try:
-    import pyautogui
-except:
-    notify("pyautogui is not installed", "some selected keyboard combinations might not work")
-    pyautogui = None
-
-max_key_length = 0
-
-
-def dmenu(list_in, prompt="⌨"):
+def dmenu(list_in, prompt=" "):
     dmenu_in = Popen(["echo", "\n".join(str(x) for x in list_in)], stdout=PIPE).stdout
-    prompt = [] if not prompt else ["-p", prompt.replace(" ", "-")]
+    prompt = [] if not prompt else ["-p", prompt]
     try:
         choice = check_output(
             ["dmenu"] + prompt + sys.argv[2:], stdin=dmenu_in
@@ -40,21 +80,39 @@ def dmenu(list_in, prompt="⌨"):
         pass
 
 
-
 class Shortcut:
     def __init__(self, keys, description, command):
         global max_key_length, shortcuts
-        self.keys = keys.strip().replace(" ", " ").replace("super", "◻️")
+        self.keys = self.parse_keys(keys)
         if len(self.keys) > max_key_length:
             max_key_length = len(self.keys)
         self.description = description.replace("#", "").strip()
         self.command = command.strip().replace("~", os.environ.get("HOME"))
 
     def __call__(self):
-        if pyautogui:
+        if pyautogui and not self.keys.startswith("*"):
             self.call_with_pyautogui()
         else:
             self.call_without_pyautogui()
+
+    @staticmethod
+    def parse_keys(keys):
+        abc = "abcdefghikjlmnopqrstuvwxyz"
+        for k, v in SXHKD_DMENU.items():
+            if k != k.lower():
+                keys = keys.replace(k, v.lower())
+        keys = keys.strip()
+        if "XF86" in keys:
+            keys = keys.replace("XF86", "*").lower()
+        for i in range(12):
+            if f"F{i}" in keys:
+                keys = keys.lower()
+        for x, X in zip(abc, abc.upper()):
+            keys = keys.replace(X, f"shift + {x}")
+        for (k, v) in SXHKD_DMENU.items():
+            if k == k.lower():
+                keys = keys.replace(k, v.lower())
+        return keys
 
     def call_without_pyautogui(self):
         commands = self.command.split(";")
@@ -70,19 +128,20 @@ class Shortcut:
         return outputs
 
     def call_with_pyautogui(self):
-        keys = (self.keys
-                .replace("◻️", "apps")
-                .replace("Return", "enter"))
+        keys = self.keys
+        for k, v in SXHKD_PYAUTOGUI.items():
+            keys = keys.replace(SXHKD_DMENU[k].lower(), v)
         keys = [key.strip() for key in keys.split("+")]
         pyautogui.press("apps") # needed to 'wake' pytautogui somehow
         pyautogui.hotkey(*keys)
 
     def __str__(self):
-        padding = " " * (max_key_length + 5 - len(self.keys))
-        return self.keys + ":" + padding + self.description
+        padding = " " * (max_key_length + 1 - len(self.keys))
+        return f"{self.keys}{DELIM}{padding}{self.description}"
 
 
 if __name__ == "__main__":
+    max_key_length = 0
     with open(os.path.expanduser(f"~/.config/sxhkd/sxhkdrc")) as file:
         lines = file.read().splitlines()
 
@@ -106,11 +165,11 @@ if __name__ == "__main__":
 
             shortcuts[shortcut.keys] = shortcut
 
-    chosen = dmenu(shortcuts.values(), prompt="shortcuts")
+    chosen = dmenu(shortcuts.values())
 
     if chosen is None:
         exit(0)
 
-    shortcut = shortcuts[chosen.split(":")[0]]
+    shortcut = shortcuts[chosen.split(DELIM)[0]]
 
     output = shortcut()

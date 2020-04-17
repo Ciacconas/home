@@ -1,0 +1,33 @@
+#!/usr/bin/python3
+#    _____ _     ____  ____  ____  ____  _____
+#   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
+#   |  __\| |   | / \||  \/|| / \||  \/|  / \
+#   | |   | |_/\| |-|||  __/| \_/||    /  | |
+#   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
+#
+
+from python_dmenu_lib import *
+
+def get_emails(filename="~/.local/share/contacts/contacts.vcf"):
+    filename = os.path.abspath(os.path.expanduser(filename))
+    emails = {}
+    with open(filename, "r") as file:
+        content = file.read()
+    cards = content.split("BEGIN:VCARD")
+    for card in cards:
+        if "EMAIL" in card:
+            name, email = "", ""
+            for line in card.split("\n"):
+                if line.startswith("N:"):
+                    name = line.split(":")[1].split(";")[:2]
+                    name = f"{name[1].strip()} {name[0].strip()}"
+                if line.startswith("EMAIL"):
+                    email = line.split(":")[-1].strip().lower()
+                    if name and email:
+                        key = f"{name} <{email}>"
+                        emails[key] = email
+    return emails
+
+if __name__ == "__main__":
+    exit(main(get_emails, " "))
+

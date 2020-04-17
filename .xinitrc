@@ -7,6 +7,8 @@
 #   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 #
 
+xrdb ~/.Xresources
+
 # execute window manager
 exec dwm > ~/.local/share/dwm.log
 
