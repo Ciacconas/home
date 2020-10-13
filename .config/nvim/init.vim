@@ -24,10 +24,9 @@ autocmd BufNewFile,BufEnter,BufRead *.md,/tmp/calcurse*,~/.calcurse/notes/* set 
 " autocmd BufEnter * silent! lcd %:p:h
 
 " set leader key
-nnoremap <Leader>del! :call delete(expand('%'))<CR>:bd!<CR>
-let mapleader = ";"
+let mapleader = " "
 
-" load plugins
+" loader plugins
 source ~/.config/nvim/plugins.vim
 
 " load snippets
@@ -206,8 +205,8 @@ function! LatexVariableSettings()
     " show where you are in the document in status bar (e.g. 143,61, 20%)
     setlocal noruler
 
-" when scrolling, keep cursor 3 lines away from screen border
-set scrolloff=10
+    " show status bar (0=disabled, 1=show half status bar, 2=show full status bar)
+    setlocal laststatus=0
 
     " don't show last command executed
     setlocal noshowcmd
@@ -227,8 +226,8 @@ autocmd FileType html,css EmmetInstall
 " allow opening a new buffer without saving the current one
 set hidden
 
-" disable line wrapping
-setlocal wrap linebreak
+    " disable line wrapping
+    setlocal wrap linebreak
 endfunction
 
 function! PythonVariableSettings()

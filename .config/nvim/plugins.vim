@@ -59,6 +59,7 @@ Plug 'voldikss/vim-floaterm' " floating terminal
 Plug 'wikitopian/hardmode' " vim hard mode (useful for training)
 call plug#end() " stop loading plugins
 
+
 "" Install Plugins
 "-------------------------------------------------------------------------------
 
