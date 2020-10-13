@@ -24,9 +24,10 @@ autocmd BufNewFile,BufEnter,BufRead *.md,/tmp/calcurse*,~/.calcurse/notes/* set 
 " autocmd BufEnter * silent! lcd %:p:h
 
 " set leader key
-let mapleader = " "
+nnoremap <Leader>del! :call delete(expand('%'))<CR>:bd!<CR>
+let mapleader = ";"
 
-" loader plugins
+" load plugins
 source ~/.config/nvim/plugins.vim
 
 " load snippets
@@ -205,8 +206,8 @@ function! LatexVariableSettings()
     " show where you are in the document in status bar (e.g. 143,61, 20%)
     setlocal noruler
 
-    " show status bar (0=disabled, 1=show half status bar, 2=show full status bar)
-    setlocal laststatus=0
+" when scrolling, keep cursor 3 lines away from screen border
+set scrolloff=10
 
     " don't show last command executed
     setlocal noshowcmd
@@ -215,9 +216,19 @@ endfunction
 function! MarkdownVariableSettings()
     " use the LatexSettings as a starting point:
     call LatexVariableSettings()
+" emmet html support
+" set emmet triger key to ';'
+let g:user_emmet_leader_key=';'
+" Enable just for html/css
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
 
-    " disable line wrapping
-    setlocal wrap linebreak
+
+" allow opening a new buffer without saving the current one
+set hidden
+
+" disable line wrapping
+setlocal wrap linebreak
 endfunction
 
 function! PythonVariableSettings()

@@ -83,6 +83,12 @@ def show_inkscape(path, xywh=None):
     return draw("/tmp/ubz.png", xywh=xywh)
 
 
+def show_svg(path):
+    with open(os.devnull, "w") as devnull:
+        subprocess.call(["inkscape", path, "-e", "/tmp/ubz.png"], stdout=devnull, stderr=devnull)
+    subprocess.call(["ubz", "/tmp/ubz.png"])
+
+
 if __name__ == "__main__":
     imgs, xywh = parse_args()
     key, idx = "", 0

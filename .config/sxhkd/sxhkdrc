@@ -104,8 +104,9 @@ super + l
     # handled by dwm
 
 # lock computer
-super + L
-    lock_screen
+super + shift + L
+    ~/.local/bin/lock_screen
+    # lock_screen
 
 # mount a drive
 super + m

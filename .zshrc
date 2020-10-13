@@ -132,6 +132,14 @@ man() { # colored man pages:
     command man "$@"
 }
 
+alias note="cd ~/Documents/Notes/"
+alias kee="cd ~/Documents/self_file/"
+alias work="cd ~/Documents/Work/photonsim/"
+alias dev="cd ~/Documents/dev/Python/photondev/photondev/"
+alias lowres="cd ~/Documents/Work/LowRes_Phresco/"
+alias net="cd ~/Documents/net/"
+alias paper="cd ~/Documents/Papers/mypapers/"
+
 
 ## Extensions
 #-------------------------------------------------------------------------------

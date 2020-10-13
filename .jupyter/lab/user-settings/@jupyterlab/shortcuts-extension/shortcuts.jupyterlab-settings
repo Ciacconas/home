@@ -201,7 +201,7 @@
     // completer:select-notebook
     // tooltip:launch-notebook
     // @jupyter-widgets/jupyterlab-manager:saveWidgetState
-    // 
+    //
     // Note: To disable a system default shortcut,
     // copy it to User Preferences and add the
     // "disabled" key, for example:
@@ -213,7 +213,7 @@
     //     "selector": "body",
     //     "disabled": true
     // }
-    // 
+    //
     // List of Keyboard Shortcuts
     "shortcuts": [
         {
@@ -233,10 +233,10 @@
             "selector": "[data-jp-kernel-user]:focus"
         },
         {
-            "command": "notebook:run-all-above",
+            "command": "kernelmenu:restart-and-clear",
             "keys": [
-                "\\",
-                "\\"
+                "`",
+                "`"
             ],
             "selector": "[data-jp-kernel-user]:focus"
         },

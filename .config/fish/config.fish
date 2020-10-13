@@ -50,6 +50,11 @@ if test -e "$HOME/.anaconda/etc/fish/conf.d/conda.fish"
     source "$HOME/.anaconda/etc/fish/conf.d/conda.fish"
 end
 
+## Alias
+#-------------------------------------------------------------------------------
+# alias
+alias note="cd ~/Documents/Notes"
+alias work="cd ~/Documents/Work/photonsim"
 
 ## Keyboard shortcuts
 #-------------------------------------------------------------------------------
