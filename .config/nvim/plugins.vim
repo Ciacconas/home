@@ -4,12 +4,18 @@
 "   | |   | |_/\| |-|||  __/| \_/||    /  | |
 "   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 "
+" jump to plugins file from anywhere: <leader>cp
 
 "" Plugin installer
 "-------------------------------------------------------------------------------
 
-" From https://github.com/fisadev/fisa-nvim-config/blob/master/init.vim
+" enable different behavior for different filetypes:
+set nocompatible
+filetype on
+filetype plugin on
+filetype indent on
 
+" From https://github.com/fisadev/fisa-nvim-config/blob/master/init.vim
 let vim_plug_just_installed = 0
 let vim_plug_path = expand('~/.config/nvim/autoload/plug.vim')
 if !filereadable(vim_plug_path)
@@ -114,8 +120,12 @@ let g:signify_disable_by_default = 1
 
 
 " neoclide/coc.nvim ------------------------------
+" jump to CoC settings file from anywhere: <leader>coc
+" jump to CoC settings json file from anywhere: <leader>coj
 
-source ~/.config/nvim/coc-settings.vim
+if filereadable(expand("~/.config/nvim/coc-settings.vim"))
+    source ~/.config/nvim/coc-settings.vim
+endif
 
 
 " shougo/context_filetype.vim --------------------
@@ -125,6 +135,12 @@ let g:context_filetype#same_filetypes = {}
 
 " set underscore
 let g:context_filetype#same_filetypes._ = '_'
+
+
+" spolu/dwm.vim ----------------------------------
+
+" don't automatically map the keys (we do this ourselves in init.vim)
+let g:dwm_map_keys = 0
 
 
 " tpope/vim-markdown -----------------------------
@@ -157,14 +173,3 @@ let g:vimwiki_list = [
     \    'template_ext': '.tpl'
     \ }
 \ ]
-function! FormatPandocMarkdown()
-    delmarks m
-    normal mm
-    execute 'silent %!format_pandoc_markdown'
-    normal `m
-    delmarks m
-endfunction
-function! SetVimWikiPandocFormatter()
-    autocmd BufWritePre *.md :call FormatPandocMarkdown()
-endfunction
-autocmd FileType vimwiki silent call SetVimWikiPandocFormatter()

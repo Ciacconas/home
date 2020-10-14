@@ -1057,10 +1057,10 @@ pacman_install klayout
 #-------------------------------------------------------------------------------
 
 ## open-source office
-pacman_install libreoffice-fresh
+#pacman_install libreoffice-fresh
 #pacman_install libreoffice-still
 ## open-source office with MS Office look-and-feel:
-#yay_install onlyoffice-bin
+yay_install onlyoffice-bin
 ## sqlite database browser
 #pacman_install sqlitebrowser
 ## tex-live (disabled by default bc heavy package)
@@ -1091,9 +1091,9 @@ if [ $? -eq 0 ]; then
     code --install-extension pkief.material-icon-theme >> $LOG 2>> $ERR
 fi
 ## Python programming language:
+pacman_install python2
 pacman_install python
-pip2_install ipython
-sudo move /usr/bin/ipython /usr/bin/ipython2
+pacman_install ipython2
 pacman_install ipython
 
 ## Scientific computing with octave (Matlab alternative)
