@@ -354,8 +354,8 @@ function! NewHorizontalTerminal(shell)
     execute "normal G\<C-w>k"
 endfunction
 function! NewVerticalTerminal(shell)
-    execute "vsplit | terminal ".a:shell
-    execute "normal G\<C-w>k"
+    execute "vsplit | vertical resize 80 | terminal ".a:shell
+    execute "normal G\<C-w>h"
 endfunction
 
 
@@ -924,7 +924,7 @@ function! RunPython(type)
             IPythonCellRunTime
         endif
     else
-        call NewHorizontalTerminal("ipython --matplotlib")
+        call NewVerticalTerminal("ipython --matplotlib")
         if exists("g:last_terminal_job_id")
             sleep 1
             call RunPython(a:type)
