@@ -215,16 +215,6 @@ endfunction
 function! MarkdownVariableSettings()
     " use the LatexSettings as a starting point:
     call LatexVariableSettings()
-" emmet html support
-" set emmet triger key to ';'
-let g:user_emmet_leader_key=';'
-" Enable just for html/css
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
-
-
-" allow opening a new buffer without saving the current one
-set hidden
 
     " disable line wrapping
     setlocal wrap linebreak
@@ -978,3 +968,10 @@ function! StartSmdv()
 endfunction
 command! Smdv call StartSmdv()
 command! SmdvStop call StopSmdv()
+
+" " emmet html support
+" " set emmet triger key to ';'
+" let g:user_emmet_leader_key=';'
+" " Enable just for html/css
+" let g:user_emmet_install_global = 0
+" autocmd FileType html,css EmmetInstall
