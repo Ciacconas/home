@@ -354,7 +354,7 @@ function! NewHorizontalTerminal(shell)
     execute "normal G\<C-w>k"
 endfunction
 function! NewVerticalTerminal(shell)
-    execute "vsplit | vertical resize 80 | terminal ".a:shell
+    execute "vsplit | terminal ".a:shell
     execute "normal G\<C-w>h"
 endfunction
 
@@ -460,7 +460,6 @@ function! CloseBuffer()
             exec "bd!"
         else
             let numbuffers = len(getbufinfo({'buflisted':1}))
-            echo numbuffers
             if numbuffers > 1
                 exec "bd!"
             else
@@ -525,7 +524,7 @@ nmap <C-n> <Plug>DWMNew
 " <C-o> " standard vim keybinding
 
 " fuzzy open file with fzf (requires fzf plugin)
-nnoremap <C-P> :Files<CR>
+nnoremap <C-p> :Files<CR>
 
 " save and exit
 inoremap <C-q> <Esc>:wqa<CR>
@@ -647,8 +646,16 @@ nnoremap <leader>ft :Tags<CR>
 xmap <leader>F <Plug>(coc-format-selected)
 nmap <leader>F :Format<CR>
 
-" Toggle (git) diff bar (requires mhinz/vim-signify)
-nnoremap <leader>g :SignifyToggle<CR>
+" Toggle (git) diff bar (requires tpope/vim-fugitive and mhinz/vim-signify)
+" in 's' to stage, 'u' to unstage
+nnoremap <leader>gg :Git<CR>
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gp :Gpush<CR>
+nnoremap <leader>gv :Gvdiffsplit!<CR><C-w>L<C-w>h<C-w>L<C-w>h
+nnoremap <leader>gu :diffget //2<CR>
+nnoremap <leader>gh :diffget //3<CR>
+nnoremap <leader>gt :SignifyToggle<CR>
 
 " go to definition and similar (requires neoclide/coc.nvim)
 nmap <silent> gd <Plug>(coc-definition)
@@ -970,15 +977,14 @@ function! SmdvPutBufferContent()
     call chanclose(pid, 'stdin')
 endfunction
 function! StopSmdv()
-    call system("curl -X DELETE localhost:9876")
+    call jobstart("curl -X DELETE localhost:9876")
 endfunction
 function! StartSmdv()
-    call StopSmdv()
-    call jobstart("smdv --nvim-address ".v:servername." ".expand('%:p'))
+    call jobstart("smdv ".expand('%:p')." --nvim-address ".v:servername." &> /home/flaport/smdv.log")
     augroup startsmdv
         autocmd!
         autocmd BufEnter * call SmdvPutBufferName()
-        autocmd FileType markdown,vimwiki autocmd CursorMoved,CursorMovedI <buffer> call SmdvPutBufferContent()
+        autocmd FileType markdown,vimwiki autocmd TextChanged,TextChangedI <buffer> call SmdvPutBufferContent()
     augroup end
 endfunction
 command! Smdv call StartSmdv()

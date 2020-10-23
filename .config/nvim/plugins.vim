@@ -51,8 +51,10 @@ Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the fi
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'shougo/context_filetype.vim' " completion from other opened files
 Plug 'spolu/dwm.vim' " dynamic window manager for vim
+Plug 'suan/vim-instant-markdown'
 Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks
 Plug 'tpope/vim-commentary' " easy comment
+Plug 'tpope/vim-fugitive' " better git integration
 Plug 'tpope/vim-markdown' " markdown syntax highlighting
 Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
 Plug 'tpope/vim-speeddating' " increase date with <C-A>
@@ -61,7 +63,6 @@ Plug 'valloric/MatchTagAlways' " highlight matching html tags
 Plug 'vim-airline/vim-airline' " better status bar
 Plug 'vim-utils/vim-man' " man pages in vim
 Plug 'vimwiki/vimwiki' " note taking in vim
-Plug 'voldikss/vim-floaterm' " floating terminal
 Plug 'wikitopian/hardmode' " vim hard mode (useful for training)
 call plug#end() " stop loading plugins
 
@@ -107,6 +108,17 @@ if executable('rg')
 endif
 
 
+" junegunn/fzf.vim -------------------------------
+
+let g:fzf_layout = {
+    \ 'window' : {
+        \ 'width': 0.8,
+        \ 'height': 0.6,
+        \ 'highlight': 'Comment'
+    \}
+\}
+
+
 " lilydjwg/colorizer -----------------------------
 
 " do not color more than 100 lines at once
@@ -141,6 +153,20 @@ let g:context_filetype#same_filetypes._ = '_'
 
 " don't automatically map the keys (we do this ourselves in init.vim)
 let g:dwm_map_keys = 0
+
+
+" suan/vim-instant-markdown-----------------------
+
+" always run on port 9876
+let g:instant_markdown_port = 9876
+" do not start when opening markdown file
+let g:instant_markdown_autostart = 0
+" obviously, enable markdown autoscroll
+let g:instant_markdown_autoscroll = 1
+" don't use the python server (requires npm package: `npm -g install instant-markdown-d`)
+let g:instant_markdown_python = 1
+" use custom webapp script to open browser:
+let g:instant_markdown_browser = "firefox"
 
 
 " tpope/vim-markdown -----------------------------

@@ -1006,6 +1006,16 @@ yay_install dragon-drag-and-drop
 #pacman_install virtualbox-host-modules-arch
 ## qemu: alternative virtual machine client
 #pacman_install qemu
+## ccid: usb smartcard reader drivers (dependency of eid-mw)
+#pacman_install ccid
+## acsccid: smartcard reader drivers (dependency of eid-mw)
+#pacman_install acsccid
+## pcsc-tools: pc smartcard tools (dependency of eid-mw)
+#pacman_install pcsc-tools
+## enable pcsd daemon
+#systemctl_enable pcscd
+## eid-mw: belgian e-id middleware
+#yay_install eid-mw
 
 
 # Images, video and media (viewers and editors)
@@ -1057,10 +1067,10 @@ pacman_install klayout
 #-------------------------------------------------------------------------------
 
 ## open-source office
-#pacman_install libreoffice-fresh
+pacman_install libreoffice-fresh
 #pacman_install libreoffice-still
 ## open-source office with MS Office look-and-feel:
-yay_install onlyoffice-bin
+#yay_install onlyoffice-bin
 ## sqlite database browser
 #pacman_install sqlitebrowser
 ## tex-live (disabled by default bc heavy package)
