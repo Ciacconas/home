@@ -924,7 +924,7 @@ function! RunPython(type)
             IPythonCellRunTime
         endif
     else
-        call NewVerticalTerminal("ipython --matplotlib")
+        call NewHorizontalTerminal("ipython --matplotlib")
         if exists("g:last_terminal_job_id")
             sleep 1
             call RunPython(a:type)
