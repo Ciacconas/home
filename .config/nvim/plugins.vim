@@ -46,6 +46,7 @@ Plug 'junegunn/fzf.vim' " fuzzy file finder (needs system wide fzf install)
 Plug 'junegunn/goyo.vim', " distraction free writing.
 Plug 'kshenoy/vim-signature' " show marks in margin
 Plug 'lilydjwg/colorizer' " paint css colors with the real color
+Plug 'mattn/calendar-vim' " vim calendar (use in conjuction with vimwiki diary)
 Plug 'mbbill/undotree' " undo tree for vim
 Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the file lines
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -55,7 +56,6 @@ Plug 'suan/vim-instant-markdown'
 Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks
 Plug 'tpope/vim-commentary' " easy comment
 Plug 'tpope/vim-fugitive' " better git integration
-Plug 'tpope/vim-markdown' " markdown syntax highlighting
 Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
 Plug 'tpope/vim-speeddating' " increase date with <C-A>
 Plug 'tpope/vim-surround' " easily surround word with quotes or tags
@@ -199,3 +199,18 @@ let g:vimwiki_list = [
     \    'template_ext': '.tpl'
     \ }
 \ ]
+
+
+function! EnterEmptyVimWikiDiaryFile()
+    if fnamemodify(expand('%'), ':p:h') == expand('~/VimWiki/diary')
+        let date = '# '.expand('%:t:r')
+        normal gg
+        put =date
+        normal ggdd
+    endif
+endfunction
+
+augroup vimwikisettings
+    autocmd!
+    autocmd BufNewFile *.md call EnterEmptyVimWikiDiaryFile()
+augroup end
