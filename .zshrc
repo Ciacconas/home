@@ -55,7 +55,7 @@ prompt(){
     [[ $PWD == "/" ]] && echo -ne "%F{cyan}/%f " || echo -ne "%F{cyan}%(4~|%-1~/…/%2~|%3~)/%f " # 
     # git info
     if git rev-parse --is-inside-work-tree 2> /dev/null | grep true &> /dev/null; then
-        branch_name=$(git branch --show-current | sed s/master//)
+        branch_name=$(git branch --show-current | sed "s/ciacconas/ \%\{\%G🐘\%\}/ ")
         dirty=" "
         if git status --porcelain 2> /dev/null | grep "^A\|^M\|^ M\|^??" > /dev/null 2> /dev/null; then
             dirty="*"
