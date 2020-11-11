@@ -53,7 +53,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'shougo/context_filetype.vim' " completion from other opened files
 Plug 'spolu/dwm.vim' " dynamic window manager for vim
 Plug 'suan/vim-instant-markdown'
-Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks
 Plug 'tpope/vim-commentary' " easy comment
 Plug 'tpope/vim-fugitive' " better git integration
 Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
@@ -64,6 +63,10 @@ Plug 'vim-airline/vim-airline' " better status bar
 Plug 'vim-utils/vim-man' " man pages in vim
 Plug 'vimwiki/vimwiki' " note taking in vim
 Plug 'wikitopian/hardmode' " vim hard mode (useful for training)
+call system('which notedown')
+if !v:shell_error
+    Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks
+endif
 call plug#end() " stop loading plugins
 
 
@@ -189,28 +192,41 @@ let g:airline_theme="xresources_airline"
 
 let g:vimwiki_list = [
     \ {
-    \    'path': '~/VimWiki/',
-    \    'template_path': '~/VimWiki/templates',
+    \    'path': expand('~/VimWiki/'),
+    \    'template_path': expand('~/VimWiki/templates'),
     \    'template_default': 'default',
     \    'syntax': 'markdown',
     \    'ext': '.md',
-    \    'path_html': '~/VimWiki/html',
+    \    'path_html': expand('~/VimWiki/html'),
     \    'custom_wiki2html': 'vimwiki_markdown',
     \    'template_ext': '.tpl'
     \ }
 \ ]
 
-
 function! EnterEmptyVimWikiDiaryFile()
-    if fnamemodify(expand('%'), ':p:h') == expand('~/VimWiki/diary')
-        let date = '# '.expand('%:t:r')
-        normal gg
-        put =date
-        normal ggdd
-    endif
+    for config in g:vimwiki_list
+        if fnamemodify(expand('%'), ':p:h') == fnamemodify(expand(config.path), ':p:h').'/diary'
+            let date = '# '.expand('%:t:r')
+            normal gg
+            put =date
+            normal ggdd
+        endif
+    endfor
+endfunction
+
+function! SetVimWikiPath()
+    let curdir=fnamemodify(expand('%'), ':p:h')
+    for config in g:vimwiki_list
+        let vimwiki=fnamemodify(expand(config.path), ':p:h')
+        let diary=vimwiki.'/diary'
+        if curdir == vimwiki || curdir == diary
+            let &path=''.vimwiki.','.diary
+        endif
+    endfor
 endfunction
 
 augroup vimwikisettings
     autocmd!
     autocmd BufNewFile *.md call EnterEmptyVimWikiDiaryFile()
+    autocmd BufEnter *.md call SetVimWikiPath()
 augroup end

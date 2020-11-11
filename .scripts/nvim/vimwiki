@@ -6,30 +6,26 @@
 #   \_/   \____/\_/ \|\_/   \____/\_/\_\  \_/
 
 if [ ! -d "$HOME/VimWiki" ]; then
-    mkdir $HOME/VimWiki
+    mkdir "$HOME/VimWiki"
 fi
 
 
-cd $HOME/VimWiki
+cd "$HOME/VimWiki" || exit 1
 
 if [ ! -z "$1" ]; then
-    if [ "$1" = "push" ]; then
-        echo vimwiki push
-        git add -A
-        git commit -m "updated $(git status -s | grep ".md$" | sed 's/^...//g' | sed 's/.md$/, /g' | tr -d '\n' | sed 's/, $//g')"
-        git push
-        exit
-    fi
-    if [ "$1" = "pull" ]; then
-        echo vimwiki pull
-        git pull
-        exit
+    if [ "$1" = "git" ]; then
+        if [ "$2" = "push" ]; then
+            git add -A
+            git commit -m "updated $(git status -s | grep ".md$" | sed 's/^...//g' | sed 's/.md$/, /g' | tr -d '\n' | sed 's/, $//g')"
+        fi
+        eval "$@"
+        exit $?
     fi
     if [ "$1" = "today" ] || [ "$1" = "w" ]; then
         filename="diary/$(date +'%Y-%m-%d').md"
     elif [ "$1" = "tomorrow" ] || [ "$1" = "m" ]; then
         filename="diary/$(date +'%Y-%m-%d' --date=tomorrow).md"
-        echo $filename
+        echo "$filename"
     elif [ "$1" = "yesterday" ] || [ "$1" = "y" ]; then
         filename="diary/$(date +'%Y-%m-%d' --date=yesterday).md"
     elif [ "$1" = "diary" ] || [ "$1" = "i" ]; then
@@ -45,8 +41,8 @@ if [ ! -z "$1" ]; then
     else
         filename=$(find . -type f -name "*$1*" | head -1)
     fi
-    /usr/bin/nvim -c VimwikiIndex -c "execute 'set path=.'" -c Gpull -c "execute \"e $filename\""
+    /usr/bin/nvim -c VimwikiIndex -c Gpull -c "execute \"e $filename\""
     exit
 fi
 
-/usr/bin/nvim -c VimwikiIndex -c "execute 'set path=.'" -c Gpull
+/usr/bin/nvim -c VimwikiIndex -c Gpull

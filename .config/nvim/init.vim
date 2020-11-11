@@ -34,7 +34,7 @@ augroup filetypes
     autocmd BufNewFile,BufEnter,BufRead * filetype on
     autocmd BufNewFile,BufEnter,BufRead * filetype plugin on
     autocmd BufNewFile,BufEnter,BufRead * filetype indent on
-    autocmd BufNewFile,BufEnter,BufRead *.vim setlocal filetype=vim
+    autocmd BufNewFile,BufEnter,BufRead *.vim,*.vimrc,*vifmrc setlocal filetype=vim
     autocmd BufNewFile,BufEnter,BufRead *.ipynb setlocal filetype=ipynb
     autocmd BufNewFile,BufEnter,BufRead *.tex,*.sty setlocal filetype=tex
     autocmd BufNewFile,BufEnter,BufRead *.txt,/tmp/neomutt* setlocal filetype=text
@@ -930,13 +930,6 @@ augroup latexfunctionkeyshortcuts
     " build latex document
     autocmd FileType tex nnoremap <buffer> <F5> :call LatexBuild("")<CR>
     autocmd FileType tex nnoremap <buffer> <F5><F5> :call LatexBuild("-f")<CR>
-augroup end
-
-augroup markdownfunctionkeyshortcuts
-    autocmd!
-    if fnamemodify(expand('%'), ':p:h') != expand('~/VimWiki')
-        " autocmd FileType markdown nnoremap <buffer> <CR> :call RunPython("cellstay")<cr>
-    endif
 augroup end
 
 function! RunPython(type)
