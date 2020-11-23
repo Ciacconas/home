@@ -9,7 +9,7 @@
 # !!! NOTE THAT THIS SCRIPT SHOULD NOT BE SOURCED. !!! #
 # ---------------------------------------------------- #
 
-# last complete install: 2020.11.07
+# last complete install: 2020.11.21
 
 # Note: this script can be run as often as you like. It will not attempt to re-install
 #       any already installed program, making it a very fast way update some preferences
@@ -386,7 +386,7 @@ git submodule update --init --recursive
 ## yay (AUR helper)
 git_install https://aur.archlinux.org/yay.git
 ## npm (node package manager)
-#pacman_install npm
+pacman_install npm
 #pip (python package manager)
 #pacman_install python-pip
 #pacman_install python2-pip
@@ -663,6 +663,13 @@ yay_install picom-git
 ## requiring you to answer yes on a [y/N] question...
 pacman -Q libxft-bgra-git &> /dev/null || yes | LC_ALL=en_US.UTF-8 yay -S -q libxft-bgra-git >> "$LOG" 2>> "$ERR"
 
+## Dell displaylink drivers:
+#pacman_install linux-headers
+#yay_install evdi-git
+#yay_install displaylink
+#systemctl_enable displaylink
+#printf "\"OutputClass\"\n  Identifier \"DisplayLink\"\n  MatchDriver \"evdi\"\n  Driver \"modesetting\"\n  Option \"AccelMethod\" \"none\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/20-evdidevice.conf > /dev/null 2>> "$ERR"
+
 
 # Desktop Environment / Window Manager
 #-------------------------------------------------------------------------------
@@ -926,7 +933,7 @@ systemctl_enable avahi-daemon
 ## print to pdf
 pacman_install cups-pdf
 ## enable cups service
-systemctl_enable org.cups.cupsd
+systemctl_enable cups
 
 
 # Fonts
@@ -1063,6 +1070,13 @@ pacman_install blueman
 #systemctl_enable pcscd
 ## eid-mw: belgian e-id middleware
 #yay_install eid-mw
+## PyCharm Community Edition: python IDE
+# pacman_install pycharm-community-edition
+## PyCharm Professional: python IDE
+# yay_install pycharm-professional
+## Fix to make PyCharm work in most window managers (like my dwm fork)
+#grep _JAVA_AWT_WM_NONREPARENTING /etc/environment &> /dev/null || echo "_JAVA_AWT_WM_NONREPARENTING=1" | sudo tee -a /etc/environment > /dev/null 2>> "$ERR"
+
 
 
 # Images, video and media (viewers and editors)
@@ -1203,6 +1217,8 @@ pacman_install notmuch
 pacman_install lynx
 ## mutt wizard (disabled; manual configuration preferred)
 #yay_install mutt-wizard
+## Thunderbird: arguably the best email client for Linux (if a GUI is more your thing)
+#pacman_install thunderbird
 
 
 # Hardware acceleration
