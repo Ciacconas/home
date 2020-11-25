@@ -200,14 +200,14 @@ augroup latexmarkdownvariablesettings
     autocmd!
 
     " enable hard wrapping (insert enter) at 88 characters [tex, md, vimwiki]
-    autocmd Filetype tex,markdown,vimwiki HardWrap
+    autocmd Filetype markdown,vimwiki HardWrap
 
     " enable soft wrapping (no enter inserted) at end of window [text files]
-    autocmd Filetype text SoftWrap
+    autocmd Filetype tex,text SoftWrap
 
     " when using soft wrapping, you'll likely want to remap j and k:
-    autocmd FileType text nnoremap <buffer> j gj
-    autocmd FileType text nnoremap <buffer> k gk
+    autocmd FileType tex,text nnoremap <buffer> j gj
+    autocmd FileType tex,text nnoremap <buffer> k gk
 
     " don't show line numbers
     autocmd FileType tex,text,markdown,vimwiki setlocal nonumber
