@@ -1,14 +1,5 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "javascript",
-    "typescript",
-    "typescriptreact",
-    "json",
-    "javascriptreact",
-    "typescript.tsx",
-    "css",
-    "markdown"
-  ],
+  "coc.preferences.formatOnSaveFiletypes": [],
   "diagnostic.errorSign": "•",
   "diagnostic.infoSign": "•",
   "diagnostic.warningSign": "•",
@@ -56,5 +47,6 @@
         }
       }
     }
-  }
+  },
+  "coc.preferences.extensionUpdateCheck": "daily"
 }
