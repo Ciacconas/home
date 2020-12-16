@@ -896,10 +896,10 @@ pacman_install xcursor-simpleandsoft
 #-------------------------------------------------------------------------------
 
 ## syncthing: synchronization between devices
-#pacman_install syncthing
+pacman_install syncthing
 ## run syncthing as a systemd service
 systemctl_create syncthing
-#systemctl_enable syncthing
+systemctl_enable syncthing
 ## jellyfin: media center
 #yay_install jellyfin
 #systemctl_enable jellyfin

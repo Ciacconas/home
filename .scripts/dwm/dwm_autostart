@@ -54,6 +54,8 @@ log xrdb "$HOME/.Xresources"
 # export possible screenlayouts and set default one with `arandr`
 log default_screenlayout
 
+start barrier
+
 # conky dashboards (same one on three monitors)
 if ! pidof conky >/dev/null 2> /dev/null; then
     log conky -d -x 60
@@ -66,6 +68,12 @@ fi
 while true; do
     log xset r rate 200 45
     sleep 60
+done &
+
+# diable mouse acceleration
+while true; do
+    log xinput --set-prop 277 'libinput Accel Profile Enabled' 0, 1
+    sleep 600s
 done &
 
 # update email inbox every 10 minutes (but only ask once for the password.)
