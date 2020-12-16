@@ -70,12 +70,6 @@ while true; do
     sleep 60
 done &
 
-# diable mouse acceleration
-while true; do
-    log xinput --set-prop 277 'libinput Accel Profile Enabled' 0, 1
-    sleep 600s
-done &
-
 # update email inbox every 10 minutes (but only ask once for the password.)
 while true; do
     start syncmail
@@ -111,6 +105,12 @@ while true; do
     sleep 3590s
 done &
 
+# diable mouse acceleration
+while true; do
+    xinput --set-prop pointer:"Logitech G304" "libinput Accel Profile Enabled" 0, 1
+    sleep 600s
+done &
+
 # enable transparent windows (should be last)
 sleep 1
 if [ -f "$HOME/.cache/xcs/picom.conf" ]; then
@@ -118,3 +118,4 @@ if [ -f "$HOME/.cache/xcs/picom.conf" ]; then
 else
     log picom --daemon --experimental-backends
 fi
+
