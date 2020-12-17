@@ -569,6 +569,8 @@ yay_install viu
 #yay_install spotify-tui
 ## spotify daemon (dependency for spotify-tui)
 #pacman_install spotifyd
+systemctl_create spotifyd
+systemctl_enable spotifyd
 ## playerctl: terminal client to control spotify, spotifyd, vlc, ...
 pacman_install playerctl
 ## media daemon

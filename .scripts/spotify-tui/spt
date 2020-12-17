@@ -17,6 +17,8 @@ if [ ! -f /usr/bin/spt ]; then
     exit 1
 fi
 
+rbw unlock
+
 pidof spotifyd &> /dev/null
 if [ $? -ne 0 ]; then
     spotifyd &
