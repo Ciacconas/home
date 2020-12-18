@@ -43,13 +43,13 @@ export FM="vifm"
 export FZF_DEFAULT_OPTS="--layout=reverse --height=60% --multi --bind=ctrl-n:down,ctrl-p:up,ctrl-l:preview-down,ctrl-h:preview-up,ctrl-a:select-all --preview-window=right --preview='fzf_preview {} $LINES'"
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export HISTFILE="$HOME/.bash_history"
-export HISTSIZE=100000
+export HISTSIZE=1000000
 export ICAROOT="$HOME/.ica"
 export PATH="$HOME/.local/bin:$PATH"
 export PYTHONSTARTUP="$HOME/.pythonstartup"
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export READER="zathura"
-export SAVEHIST=100000
+export SAVEHIST=30000
 export SUDO_ASKPASS="$HOME/.local/bin/askpass"
 export SUDO_ASKUSERPASS="$HOME/.local/bin/askuserpass"
 export TERMINAL="alacritty"
