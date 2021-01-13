@@ -8,9 +8,9 @@ map k scroll up
 map <A-k> scroll up
 map j scroll down
 map <A-j> scroll up
-map u scroll half-up
+# map u scroll half-up
 map <A-u> scroll up
-map d scroll half-down
+# map d scroll half-down
 map <A-d> scroll up
 
 # zoom in/out

@@ -62,3 +62,4 @@ export TERMINAL="alacritty"
 # (start line with space to prevent fish config from parsing this line.)
  export PYTHONPATH="$(tr '\n' ':' < ~/.pythonpath | head -c -1 | sed 's|~|'$HOME'|g')"
 
+source "$HOME/.cargo/env"
