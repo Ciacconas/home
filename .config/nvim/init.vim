@@ -173,7 +173,7 @@ set noautoindent
 set number
 
 " relative line numbering
-set relativenumber
+" set relativenumber
 
 " spell check, set default to en_us...
 set spell spelllang=en_us
@@ -225,7 +225,7 @@ augroup latexmarkdownvariablesettings
     autocmd FileType tex,text,markdown,vimwiki setlocal noruler
 
     " show status bar (0=disabled, 1=show half status bar, 2=show full status bar)
-    autocmd FileType tex,text,markdown,vimwiki setlocal laststatus=0
+    autocmd FileType tex,text,markdown,vimwiki setlocal laststatus=2
 
     " don't show last command executed
     autocmd FileType tex,text,markdown,vimwiki setlocal noshowcmd
