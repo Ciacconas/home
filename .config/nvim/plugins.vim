@@ -38,34 +38,36 @@ endif
 " Run :UpdateRemotePlugins to update dependencies
 
 call plug#begin('~/.config/nvim/plugged') " start loading plugins
-Plug 'anntzer/vim-cython' " cython syntax highlighting
+" Plug 'anntzer/vim-cython' " cython syntax highlighting
 Plug 'hanschen/vim-ipython-cell' " better integration with ipython (requires slime)
 Plug 'jpalardy/vim-slime' " better integration between text and terminal buffers
-Plug 'jremmen/vim-ripgrep' " better grep command for vim
+" Plug 'jremmen/vim-ripgrep' " better grep command for vim
 Plug 'junegunn/fzf.vim' " fuzzy file finder (needs system wide fzf install)
-Plug 'junegunn/goyo.vim', " distraction free writing.
-Plug 'kshenoy/vim-signature' " show marks in margin
-Plug 'lilydjwg/colorizer' " paint css colors with the real color
+" Plug 'junegunn/goyo.vim', " distraction free writing.
+" Plug 'kshenoy/vim-signature' " show marks in margin
+" Plug 'lilydjwg/colorizer' " paint css colors with the real color
 Plug 'mattn/calendar-vim' " vim calendar (use in conjuction with vimwiki diary)
 Plug 'mbbill/undotree' " undo tree for vim
-Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the file lines
+" Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the file lines
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'shougo/context_filetype.vim' " completion from other opened files
-Plug 'spolu/dwm.vim' " dynamic window manager for vim
-Plug 'suan/vim-instant-markdown'
+" Plug 'spolu/dwm.vim' " dynamic window manager for vim
+" Plug 'suan/vim-instant-markdown'
 Plug 'tpope/vim-commentary' " easy comment
-Plug 'tpope/vim-fugitive' " better git integration
+" Plug 'tpope/vim-fugitive' " better git integration
 Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
-Plug 'tpope/vim-speeddating' " increase date with <C-A>
+" Plug 'tpope/vim-speeddating' " increase date with <C-A>
 Plug 'tpope/vim-surround' " easily surround word with quotes or tags
-Plug 'valloric/MatchTagAlways' " highlight matching html tags
+" Plug 'valloric/MatchTagAlways' " highlight matching html tags
 Plug 'vim-airline/vim-airline' " better status bar
-Plug 'vim-utils/vim-man' " man pages in vim
-Plug 'vimwiki/vimwiki' " note taking in vim
-Plug 'wikitopian/hardmode' " vim hard mode (useful for training)
+" Plug 'vim-utils/vim-man' " man pages in vim
+" Plug 'vimwiki/vimwiki' " note taking in vim
+Plug 'takac/vim-hardtime' " vim hard mode (useful for training)
 Plug 'bfrg/vim-cpp-modern' " cpp highlighting enhanced
 Plug 'honza/vim-snippets' " snippets libraray
 Plug 'unblevable/quick-scope' " quick navigation in line
+Plug 'justinmk/vim-sneak' " move around more easily
+Plug 'metakirby5/codi.vim' " interactive coding
 
 call system('which notedown')
 if !v:shell_error

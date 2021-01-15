@@ -20,7 +20,7 @@ endif
 "-------------------------------------------------------------------------------
 " jump to snippets file from anywhere: <leader>cs
 
-if filereadable(expand("~/.config/nvim/snippets.vim"))
+if filereadable(expand("~/.config/nvim/snippets/snippets.vim"))
     source ~/.config/nvim/snippets/snippets.vim
 endif
 
@@ -500,6 +500,7 @@ tnoremap <C-e> <C-\><C-N>
 
 " increase master area (requires dwm.vim)
 nmap <C-h> <Plug>DWMShrinkMaster
+nmap <C-h> :vertical resize +5<CR>
 " DISABLED: move to split left of current split (also when in terminal mode)
 " nnoremap <C-h> <C-w>h
 " tnoremap <C-h> <C-\><C-N><C-w>h
@@ -521,6 +522,7 @@ nmap <C-k> <C-w>W
 
 " decrease master area (requires dwm.vim)
 nmap <C-l> <Plug>DWMGrowMaster
+nmap <C-l> :vertical resize -5<CR>
 " DISABLED: move to split right of current split (also when in terminal mode)
 " nnoremap <C-l> <C-w>l
 " tnoremap <C-l> <C-\><C-N><C-w>l
@@ -679,7 +681,7 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <leader>G :Goyo<CR>
 
 " enable hard mode for training purposes (requires wikitopian/hardmode)
-nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+nnoremap <leader>h <Esc>:call HardTimeToggle()<CR>
 
 " noop
 nnoremap <leader>H :echo "\<leader\>H"<cr>
