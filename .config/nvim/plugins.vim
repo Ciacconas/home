@@ -64,6 +64,9 @@ Plug 'vim-utils/vim-man' " man pages in vim
 Plug 'vimwiki/vimwiki' " note taking in vim
 Plug 'wikitopian/hardmode' " vim hard mode (useful for training)
 Plug 'bfrg/vim-cpp-modern' " cpp highlighting enhanced
+Plug 'honza/vim-snippets' " snippets libraray
+Plug 'unblevable/quick-scope' " quick navigation in line
+
 call system('which notedown')
 if !v:shell_error
     Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks
@@ -188,6 +191,8 @@ let g:markdown_minlines = 100
 " enable powerline fonts for vim airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme="xresources_airline"
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 " vimwiki/vimwiki --------------------------------
 
