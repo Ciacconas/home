@@ -60,6 +60,7 @@ Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
 Plug 'tpope/vim-surround' " easily surround word with quotes or tags
 " Plug 'valloric/MatchTagAlways' " highlight matching html tags
 Plug 'vim-airline/vim-airline' " better status bar
+Plug 'bling/vim-bufferline' " bufferline integration for airline
 " Plug 'vim-utils/vim-man' " man pages in vim
 " Plug 'vimwiki/vimwiki' " note taking in vim
 Plug 'takac/vim-hardtime' " vim hard mode (useful for training)
@@ -195,6 +196,8 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme="xresources_airline"
 let g:airline_left_sep=''
 let g:airline_right_sep=''
+let g:airline#extensions#bufferline#enabled = 1
+let g:bufferline_echo = 0
 
 " vimwiki/vimwiki --------------------------------
 
