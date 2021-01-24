@@ -40,7 +40,7 @@ hi StatusLineNC        ctermfg=8     ctermbg=0     cterm=bold
 hi VertSplit           ctermfg=0     ctermbg=0     cterm=NONE
 hi TabLine             ctermfg=8     ctermbg=0     cterm=NONE
 hi TabLineSel          ctermfg=7     ctermbg=0
-hi Folded              ctermfg=8     ctermbg=0     cterm=bold
+hi Folded              ctermfg=6     ctermbg=0     cterm=bold
 hi Conceal             ctermfg=6     ctermbg=NONE
 hi Directory           ctermfg=12
 hi Title               ctermfg=3     cterm=bold
@@ -72,12 +72,12 @@ hi! link SpecialKey    NonText
 "}}}
 " Generic syntax {{{
 hi Delimiter       ctermfg=7
-hi Comment         ctermfg=6
+hi Comment         ctermfg=8
 hi Underlined      ctermfg=4   cterm=underline
 hi Type            ctermfg=4
 hi String          ctermfg=11
 hi Keyword         ctermfg=2
-hi Todo            ctermfg=15  ctermbg=2     cterm=bold,underline
+hi Todo            ctermfg=15  ctermbg=NONE     cterm=bold,underline
 hi Function        ctermfg=4
 hi Identifier      ctermfg=7   cterm=NONE
 hi Statement       ctermfg=2   cterm=bold
@@ -86,7 +86,7 @@ hi Number          ctermfg=12
 hi Boolean         ctermfg=4
 hi Special         ctermfg=13
 hi Ignore          ctermfg=0
-hi PreProc         ctermfg=13   cterm=bold
+hi PreProc         ctermfg=8   cterm=bold
 hi! link Operator  Delimiter
 hi! link Error     ErrorMsg
 

@@ -54,7 +54,7 @@ Plug 'shougo/context_filetype.vim' " completion from other opened files
 " Plug 'spolu/dwm.vim' " dynamic window manager for vim
 " Plug 'suan/vim-instant-markdown'
 Plug 'tpope/vim-commentary' " easy comment
-" Plug 'tpope/vim-fugitive' " better git integration
+Plug 'tpope/vim-fugitive' " better git integration
 Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
 " Plug 'tpope/vim-speeddating' " increase date with <C-A>
 Plug 'tpope/vim-surround' " easily surround word with quotes or tags

@@ -20,7 +20,8 @@ hi Directory	ctermfg=6
 hi Error    cterm=bold ctermfg=1 ctermbg=none
 hi ErrorMsg	cterm=bold ctermfg=15 ctermbg=9
 hi FoldColumn	ctermfg=8 ctermbg=NONE
-hi Folded	ctermfg=15 ctermbg=8
+" hi Folded	ctermfg=15 ctermbg=8
+hi Folded   ctermfg=7 ctermbg=0 cterm=bold
 hi Identifier	ctermfg=4
 hi Ignore	cterm=bold ctermfg=7
 hi Ignore	ctermfg=8

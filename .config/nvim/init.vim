@@ -125,8 +125,8 @@ set undodir=$HOME/.local/share/nvim/undo
 set notermguicolors
 
 " custom colorscheme using only colors from ~/.Xresources.
-" colorscheme xresources
-colorscheme noctu
+colorscheme xresources
+" colorscheme noctu
 
 " override some colors of colorscheme
 hi FoldColumn ctermbg=NONE
