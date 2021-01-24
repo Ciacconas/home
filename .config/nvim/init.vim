@@ -125,7 +125,8 @@ set undodir=$HOME/.local/share/nvim/undo
 set notermguicolors
 
 " custom colorscheme using only colors from ~/.Xresources.
-colorscheme xresources
+" colorscheme xresources
+colorscheme noctu
 
 " override some colors of colorscheme
 hi FoldColumn ctermbg=NONE
@@ -242,6 +243,9 @@ augroup pythonvariablesettings
 
     " enable autoindent on new line
     autocmd FileType python setlocal autoindent
+
+    " ignore .pyc files in the path for searching
+    autocmd FileType python setlocal wildignore=*.pyc
 augroup end
 
 augroup vimvariablesettings

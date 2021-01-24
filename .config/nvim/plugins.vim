@@ -45,7 +45,7 @@ Plug 'jpalardy/vim-slime' " better integration between text and terminal buffers
 Plug 'junegunn/fzf.vim' " fuzzy file finder (needs system wide fzf install)
 " Plug 'junegunn/goyo.vim', " distraction free writing.
 " Plug 'kshenoy/vim-signature' " show marks in margin
-" Plug 'lilydjwg/colorizer' " paint css colors with the real color
+Plug 'lilydjwg/colorizer' " paint css colors with the real color
 Plug 'mattn/calendar-vim' " vim calendar (use in conjuction with vimwiki diary)
 Plug 'mbbill/undotree' " undo tree for vim
 " Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the file lines
@@ -69,6 +69,7 @@ Plug 'honza/vim-snippets' " snippets libraray
 Plug 'unblevable/quick-scope' " quick navigation in line
 Plug 'justinmk/vim-sneak' " move around more easily
 Plug 'metakirby5/codi.vim' " interactive coding
+Plug 'jiangmiao/auto-pairs' " auto pair [] ()
 
 call system('which notedown')
 if !v:shell_error
@@ -198,6 +199,8 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline#extensions#bufferline#enabled = 1
 let g:bufferline_echo = 0
+let g:airline#extensions#coc#enabled = 1
+
 
 " vimwiki/vimwiki --------------------------------
 
