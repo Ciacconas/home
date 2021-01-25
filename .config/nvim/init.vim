@@ -126,7 +126,7 @@ set notermguicolors
 
 " custom colorscheme using only colors from ~/.Xresources.
 colorscheme xresources
-" colorscheme noctu
+" colorscheme noctu " somewhat broken
 
 " override some colors of colorscheme
 hi FoldColumn ctermbg=NONE
