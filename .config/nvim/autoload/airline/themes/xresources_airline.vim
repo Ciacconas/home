@@ -40,11 +40,12 @@ let s:cterm0F = 15
 " See "help attr-list" for valid values for the "opt" value.
 " Here the cterm is used and the ctrem is defined by Xresources. that's why
 " this colorscheme is xresources determined
-
+let s:N1   = [ s:gui00, s:gui0F, s:cterm00, s:cterm0F ]
+let s:N2   = [ s:gui00, s:gui06, s:cterm0F, s:cterm08 ]
+let s:N3   = [ s:gui0F, s:gui09, s:cterm0F, s:cterm07 ]
 " let s:N1   = [ s:gui00, s:gui0B, s:cterm09, s:cterm0B ]
-let s:N1   = [ s:gui00, s:gui0B, s:cterm00, s:cterm0F ]
-let s:N2   = [ s:gui00, s:gui06, s:cterm0F, s:cterm07 ]
-let s:N3   = [ s:gui09, s:gui00, s:cterm0F, s:cterm08 ]
+" let s:N2   = [ s:gui00, s:gui06, s:cterm00, s:cterm06 ]
+" let s:N3   = [ s:gui09, s:gui00, s:cterm00, s:cterm04 ]
 let g:airline#themes#xresources_airline#palette.normal = airline#themes#generate_color_map(s:N1, s:N2, s:N3)
 
 let s:I1   = [ s:gui00, s:gui04, s:cterm03, s:cterm05 ]
