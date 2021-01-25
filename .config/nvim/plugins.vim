@@ -198,6 +198,7 @@ let g:airline_theme="xresources_airline"
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline#extensions#bufferline#enabled = 1
+let g:airline#extensions#bufferline#overwrite_variables = 1
 let g:bufferline_echo = 0
 let g:airline#extensions#coc#enabled = 1
 
