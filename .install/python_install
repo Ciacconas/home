@@ -251,3 +251,6 @@ mamba_install pytest
 mamba_install twine
 pip_install jax
 pip_install jaxlib
+pip_install neovim-remote
+pip_install torch_sparse_solve
+pip_install torch_lfilter
