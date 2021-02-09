@@ -9,7 +9,7 @@
 # !!! NOTE THAT THIS SCRIPT SHOULD NOT BE SOURCED. !!! #
 # ---------------------------------------------------- #
 
-# last complete install: 2020.11.21
+# last complete install: 2020.02.01
 
 # Note: this script can be run as often as you like. It will not attempt to re-install
 #       any already installed program, making it a very fast way update some preferences
@@ -374,6 +374,7 @@ pacman_install cmake
 #-------------------------------------------------------------------------------
 
 pacman_install git
+pacman_install git-lfs
 git config pull.rebase false
 git config push.default simple
 git config advice.addIgnoredFile false
@@ -404,13 +405,17 @@ echo Defaults:$USER '!tty_tickets', timestamp_timeout=15 | sudo tee /etc/sudoers
 ## alacritty: arguably the best terminal
 pacman_install alacritty
 ## calcurse: a terminal calendar client
-pacman_install calcurse
+#pacman_install calcurse
 ## vdirsyncer: synchronize caldav and carddav
-pacman_install vdirsyncer
+#pacman_install vdirsyncer
 ## khal: calendar command line utility for caldav sync
-pacman_install khal
+#pacman_install khal
 ## search tool
 pacman_install grep
+## download tool
+pacman_install curl
+## alternative download tool (youtube-dl dependency)
+pacman_install wget
 ## alternative search tool
 #pacman_install ripgrep
 ## alternative search tool
@@ -650,19 +655,21 @@ pacman_install xsettingsd
 ## server access control for x
 pacman_install xorg-xhost
 ## sharing and viewing x-sessions on other computers
-pacman_install x11vnc
+#pacman_install x11vnc
 ## create x11vnc systemd service:
-systemctl_create x11vnc
+#systemctl_create x11vnc
 ## view x11vnc session (executable: gvncviewer)
 #pacman_install gtk-vnc
 ## view x11vnc session (executable: vncviewer) <-- better framerate
-pacman_install tigervnc
+#pacman_install tigervnc
+## view x11vnc and realvnc sessions (executable: vncviewer)
+#yay_install realvnc-vnc-viewer
 ## compositor (for transparent windows, blur, ...)
 #pacman_install xcompmgr
 ## better compositor:
 #pacman_install picom
 ## bleeding edge version of picom:
-yay_install picom-git
+#yay_install picom-git
 
 ## libxft-bgra; alternative to libxft, helper library for color emojis in my st build:
 ## the reason it is installed this way is because this library replaces libxft
@@ -670,16 +677,14 @@ yay_install picom-git
 pacman -Q libxft-bgra-git &> /dev/null || yes | LC_ALL=en_US.UTF-8 yay -S -q libxft-bgra-git >> "$LOG" 2>> "$ERR"
 
 ## Dell displaylink drivers:
-#pacman_install linux-headers
-#yay_install evdi-git
-#yay_install displaylink
-#systemctl_enable displaylink
-#printf "Section \"OutputClass\"\n  Identifier \"DisplayLink\"\n  MatchDriver \"evdi\"\n  Driver \"modesetting\"\n  Option \"AccelMethod\" \"none\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/20-evdidevice.conf > /dev/null 2>> "$ERR"
-#printf "Section \"Device\"\n  Identifier \"DisplayLink\"\n  Driver \"modesetting\"\n  Option \"PageFlip\" \"false\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/21-displaylink.conf > /dev/null 2>> "$ERR"
-#yay_install rsyslog
+pacman_install linux-headers
+yay_install displaylink
+systemctl_enable displaylink
+printf "Section \"OutputClass\"\n  Identifier \"DisplayLink\"\n  MatchDriver \"evdi\"\n  Driver \"modesetting\"\n  Option \"AccelMethod\" \"none\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/20-evdidevice.conf > /dev/null 2>> "$ERR"
+printf "Section \"Device\"\n  Identifier \"DisplayLink\"\n  Driver \"modesetting\"\n  Option \"PageFlip\" \"false\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/21-displaylink.conf > /dev/null 2>> "$ERR"
+yay_install rsyslog
 printf ":msg,contains,"drm_wait_vblank" /var/log/displaylink.err\n&stop" | sudo tee /etc/rsyslog.d/30-displaylink.conf > /dev/null 2>> "$ERR"
 systemctl_enable rsyslog
-
 
 
 # Desktop Environment / Window Manager
@@ -713,7 +718,7 @@ pacman_install feh
 ## xmenu (application launcher)
 #yay_install xmenu
 ## conky: a system monitor
-pacman_install conky
+#pacman_install conky
 ## display manager
 pacman_install lightdm
 ##pacman_install lightdm-gtk-greeter
@@ -1151,8 +1156,10 @@ pacman_install libreoffice-fresh
 #pacman_install texlive-most
 ## bibliographies
 pacman_install biber
-## convert document types into each other
-pacman_install pandoc
+## pandoc: convert document types into each other
+#pacman_install pandoc
+## pandoc as a single binary, without the haskell dependencies:
+yay_install pandoc-bin
 ## open-source note taking app (takes a while to build)
 #yay_install joplin
 
@@ -1181,8 +1188,14 @@ pacman_install ipython
 #yay_install swift-bin
 #yay_install swift-language-git
 
+## Haskell programming language (glasgow haskell compiler):
+pacman_install ghc
+pacman_install ghc-static
+pacman_install stack
+pacman_install haskell-base-prelude
+
 ## Scientific computing with octave (Matlab alternative)
-pacman_install octave
+#pacman_install octave
 
 
 # Browsers
@@ -1220,6 +1233,8 @@ submodule_install legacyfox
 # Email
 #-------------------------------------------------------------------------------
 
+## awesome email client
+pacman_install thunderbird
 ## send email
 pacman_install msmtp
 ## mbsync: sync email (isync is the distribution, mbsync is the executable)
