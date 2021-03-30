@@ -59,7 +59,5 @@
     "python.linting.pydocstyleEnabled": true,
     "git.autofetch": true,
     "diffEditor.renderSideBySide": false,
-    "[json]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
+    "terminal.integrated.inheritEnv": false,
 }

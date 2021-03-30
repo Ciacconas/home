@@ -89,15 +89,6 @@ set clipboard^=unnamed
 " replace tabs by spaces
 set expandtab
 
-" set tabs to have a width of 4 spaces
-set tabstop=4
-
-" set tabs to have a maximum width of 4 spaces
-set softtabstop=4
-
-" set the shift operators (`<<` and `>>`) to insert 4 spaces
-set shiftwidth=4
-
 " code folding
 " zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
 set foldmethod=indent
@@ -197,7 +188,16 @@ set laststatus=2
 " don't show last command executed
 set noshowcmd
 
-augroup latexmarkdownvariablesettings
+" set tabs to have a width of 2 spaces
+set tabstop=2
+
+" set tabs to have a maximum width of 2 spaces
+set softtabstop=2
+
+" set the shift operators (`<<` and `>>`) to insert 2 spaces
+set shiftwidth=2
+
+augroup latexmarkdownsettings
     autocmd!
 
     " enable hard wrapping (insert enter) at 88 characters [tex, md, vimwiki]
@@ -232,7 +232,7 @@ augroup latexmarkdownvariablesettings
     autocmd FileType tex,text,markdown,vimwiki setlocal noshowcmd
 augroup end
 
-augroup pythonvariablesettings
+augroup pythonsettings
     autocmd!
 
     " disable both hard wrapping and soft wrapping
@@ -246,9 +246,18 @@ augroup pythonvariablesettings
 
     " ignore .pyc files in the path for searching
     autocmd FileType python setlocal wildignore=*.pyc
+    " set tabs to have a width of 4 spaces
+    autocmd FileType python setlocal tabstop=4
+
+    " set tabs to have a maximum width of 4 spaces
+    autocmd FileType python setlocal softtabstop=4
+
+    " set the shift operators (`<<` and `>>`) to insert 4 spaces
+    autocmd FileType python setlocal shiftwidth=4
+
 augroup end
 
-augroup vimvariablesettings
+augroup vimsettings
     autocmd!
 
     " disable both hard wrapping and soft wrapping and don't show a colorcolumn
@@ -257,6 +266,22 @@ augroup vimvariablesettings
     " more info in status bar:
     autocmd FileType vim setlocal showmode
 
+    " set tabs to have a width of 4 spaces
+    autocmd FileType vim setlocal tabstop=4
+
+    " set tabs to have a maximum width of 4 spaces
+    autocmd FileType vim setlocal softtabstop=4
+
+    " set the shift operators (`<<` and `>>`) to insert 4 spaces
+    autocmd FileType vim setlocal shiftwidth=4
+
+augroup end
+
+augroup yamlsettings
+    autocmd!
+
+    " enable indentLine plugin
+    let g:indentLine_enabled = 1
 augroup end
 
 
@@ -470,21 +495,19 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " exit current buffer without saving
 function! CloseBuffer()
-    try
-        exec DWMClose()
-    catch
-        if &filetype == "netrw"
+    if &filetype == "netrw"
+        exec "bd!"
+    else
+        let numbuffers = len(getbufinfo({'buflisted':1}))
+        if numbuffers > 1
             exec "bd!"
         else
-            let numbuffers = len(getbufinfo({'buflisted':1}))
-            if numbuffers > 1
-                exec "bd!"
-            else
-                exec "qa!"
-            endif
+            exec "qa!"
         endif
-    endtry
+    endif
 endfunction
+
+" close current buffer
 inoremap <C-c> <Esc>:call CloseBuffer()<CR>
 nnoremap <C-c> <Esc>:call CloseBuffer()<CR>
 
@@ -656,8 +679,11 @@ nmap <silent> <leader>d :w<CR><Plug>(coc-definition)
 " noop
 nnoremap <leader>D :echo "\<leader\>D"<cr>
 
-" noop
-nnoremap <leader>E :echo "\<leader\>E"<cr>
+" jump to next error / warning in file
+nnoremap <leader>e :call CocAction('diagnosticNext')<CR>
+
+" jump to previous error / warning in file
+nnoremap <leader>E :call CocAction('diagnosticPrevious')<CR>
 
 " fuzzy find content in all files in tree  (requires junegunn/fzf)
 nnoremap <leader>fb :Buffers<CR>
@@ -694,10 +720,16 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <leader>G :Goyo<CR>
 
 " enable hard mode for training purposes (requires wikitopian/hardmode)
-nnoremap <leader>h <Esc>:call HardTimeToggle()<CR>
+" nnoremap <leader>h <Esc>:call HardTimeToggle()<CR>
 
-" noop
-nnoremap <leader>H :echo "\<leader\>H"<cr>
+" shrink current horizontal split (decrease height)
+nnoremap <leader>h 3<C-w>-
+
+" make all splits horizontal
+nnoremap <leader>H <C-w>t<C-w>K
+
+" enable hard mode for training purposes (requires wikitopian/hardmode)
+"nnoremap <leader>H <Esc>:call ToggleHardMode()<CR>
 
 "<leader>i: more information (toggle status bar)
 nnoremap <leader>i :call ToggleStatusBar()<CR>
@@ -790,9 +822,11 @@ nnoremap <leader>u :UndotreeShow<CR><C-w>h
 " noop
 nnoremap <leader>U :echo "\<leader\>U"<cr>
 
-" noop
-nnoremap <leader>v :echo "\<leader\>v"<cr>
-nnoremap <leader>V :echo "\<leader\>V"<cr>
+" shrink current vertical split (decrease width)
+nnoremap <leader>v 3<C-w><
+
+" make all splits vertical
+nnoremap <leader>V <C-w>t<C-w>H
 
 " enable no wrapping
 nnoremap <leader>wn :NoWrap<cr>
@@ -926,9 +960,9 @@ nnoremap <F12> :echo "\<F12\>"<cr>
 augroup pythonfunctionkeyshortcuts
     autocmd!
     " run cell and jump to next cell (use '##' to mark a cell)
-    autocmd FileType python nnoremap <buffer> <CR> :call RunPython("celljump")<cr>
+    autocmd FileType python nnoremap <buffer> <S-CR> :call RunPython("celljump")<cr>
     " run cell and stay (use '##' to mark a cell)
-    autocmd FileType python nnoremap <buffer> <leader><CR> :call RunPython("cellstay")<cr>
+    autocmd FileType python nnoremap <buffer> <C-CR> :call RunPython("cellstay")<cr>
     " run full script and show execution time
     autocmd FileType python nnoremap <buffer> <F5> :call RunPython("all")<cr>
 augroup end
@@ -959,10 +993,15 @@ function! RunPython(type)
             IPythonCellRunTime
         endif
     else
-        call NewHorizontalTerminal("ipython --matplotlib")
-        if exists("g:last_terminal_job_id")
-            sleep 100m
-            call RunPython(a:type)
+        call system('ipython -c "import sys"')
+        if !v:shell_error
+            call NewHorizontalTerminal("ipython --matplotlib")
+            if exists("g:last_terminal_job_id")
+                sleep 100m
+                call RunPython(a:type)
+            endif
+        else
+            echo "ipython not found"
         endif
     endif
 endfunction

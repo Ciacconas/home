@@ -39,8 +39,8 @@ endif
 
 call plug#begin('~/.config/nvim/plugged') " start loading plugins
 " Plug 'anntzer/vim-cython' " cython syntax highlighting
+Plug 'bling/vim-bufferline' " bufferline integration for airline
 Plug 'davidhalter/jedi-vim' " Python go-to-definition [autocompletion disabled]
-Plug 'hanschen/vim-ipython-cell' " better integration with ipython (requires slime)
 Plug 'jpalardy/vim-slime' " better integration between text and terminal buffers
 " Plug 'jremmen/vim-ripgrep' " better grep command for vim
 Plug 'junegunn/fzf.vim' " fuzzy file finder (needs system wide fzf install)
@@ -50,6 +50,7 @@ Plug 'lilydjwg/colorizer' " paint css colors with the real color
 Plug 'mbbill/undotree' " undo tree for vim
 " Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the file lines
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'pedrohdz/vim-yaml-folds' " better folding for yaml files
 Plug 'shougo/context_filetype.vim' " completion from other opened files
 Plug 'suan/vim-instant-markdown'
 Plug 'tpope/vim-commentary' " easy comment
@@ -70,7 +71,12 @@ Plug 'justinmk/vim-sneak' " move around more easily
 Plug 'metakirby5/codi.vim' " interactive coding
 Plug 'jiangmiao/auto-pairs' " auto pair [] ()
 
+call system('ipython -c "import sys"')
+if !v:shell_error
 call system('which notedown')
+    Plug 'hanschen/vim-ipython-cell' " better integration with ipython (requires slime)
+endif
+
 if !v:shell_error
     Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks
 endif
