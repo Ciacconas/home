@@ -60,4 +60,10 @@
     "git.autofetch": true,
     "diffEditor.renderSideBySide": false,
     "terminal.integrated.inheritEnv": false,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[nginx]": {
+        "editor.defaultFormatter": "ahmadalli.vscode-nginx-conf"
+    },
 }
