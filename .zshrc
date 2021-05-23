@@ -179,8 +179,8 @@ bindkey '^n' autosuggest-accept #-execute
 bindkey '^o' autosuggest-toggle # enable/disable autosuggest
 
 # auto commplete based on the current input before cursor
-bindkey '^N' history-beginning-search-backward
-bindkey '^P' history-beginning-search-forward
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
 
 # stderr in red; should be last.
 [ -f $HOME/.config/stderred/build/libstderred.so ] && export LD_PRELOAD="$HOME/.config/stderred/build/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
