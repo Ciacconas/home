@@ -56,6 +56,7 @@ x-scheme-handler/vnc=org.remmina.Remmina.desktop
 x-scheme-handler/tg=userapp-Telegram Desktop-TQECX0.desktop
 video/quicktime=mpv.desktop
 video/mp2t=mpv.desktop
+video/x-ms-wmv=mpv.desktop
 
 [Added Associations]
 application/octet-stream=fdtd-solutions.desktop;klayout.desktop;interconnect.desktop;open-octet-stream.desktop
@@ -115,3 +116,4 @@ text/xml=thunderbird.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-TQECX0.desktop;
 video/quicktime=mpv.desktop;
 video/mp2t=mpv.desktop;
+video/x-ms-wmv=mpv.desktop;
