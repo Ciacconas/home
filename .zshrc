@@ -40,9 +40,9 @@ bindkey -v '^?' backward-delete-char
 bindkey -v
 export KEYTIMEOUT=1
 
-# auto commplete based on the current input before cursor
-bindkey "^[h" history-beginning-search-backward # up-line-or-history # alt + h
-bindkey "^[l" history-beginning-search-forward # down-line-or-history # alt + l
+# go backward and forward in history (equivalent to up/down arrow)
+bindkey "^[h" up-line-or-history # alt + h
+bindkey "^[l" down-line-or-history # alt + l
 bindkey "^y" "" # noop
 
 # complecation related settings
@@ -197,6 +197,16 @@ bindkey '^p' autosuggest-accept #-execute
 bindkey '^n' autosuggest-accept #-execute
 bindkey '^o' autosuggest-toggle # enable/disable autosuggest
 
+# auto commplete based on the current input before cursor
+autoload history-search-end
+autoload history-beginning-search-backward-end
+autoload history-beginning-search-forward-end
+zle -N history-beginning-search-backward-end \
+       history-search-end
+zle -N history-beginning-search-forward-end \
+       history-search-end
+bindkey "\e[A" history-beginning-search-backward-end # up-line-or-history # alt + h
+bindkey "\e[B" history-beginning-search-forward-end # down-line-or-history # alt + l
 
 # stderr in red; should be last.
 [ -f $HOME/.config/stderred/build/libstderred.so ] && export LD_PRELOAD="$HOME/.config/stderred/build/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
