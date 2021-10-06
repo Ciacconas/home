@@ -291,7 +291,7 @@ augroup end
 
 augroup saving
     autocmd!
-    autocmd BufWritePre * :silent call DoOnSave()
+    autocmd BufWritePre * :call DoOnSave()
     autocmd FocusLost * :silent call MaybeSave()
 augroup end
 
@@ -502,7 +502,7 @@ function! CloseBuffer()
         if numbuffers > 1
             exec "bd!"
         else
-            exec "qa!"
+            exec "q!"
         endif
     endif
 endfunction
@@ -995,6 +995,7 @@ function! RunPython(type)
             IPythonCellRunTime
         endif
     else
+        echom "new terminal"
         call system('ipython -c "import sys"')
         if !v:shell_error
             call NewHorizontalTerminal("ipython --matplotlib")

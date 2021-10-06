@@ -66,4 +66,5 @@
     "[nginx]": {
         "editor.defaultFormatter": "ahmadalli.vscode-nginx-conf"
     },
+    "security.workspace.trust.untrustedFiles": "open",
 }
