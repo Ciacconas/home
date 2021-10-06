@@ -138,7 +138,7 @@ super + p
 
 # default screen layout
 super + P
-    default_screenlayout
+  pavucontrol
 
 # same screen layout
 super + control + p
