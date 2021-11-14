@@ -150,6 +150,9 @@ alias spip="sudo /usr/bin/python -m pip --no-cache-dir"
 alias spip3="sudo /usr/bin/python3 -m pip --no-cache-dir"
 alias spip2="sudo /usr/bin/python2 -m pip --no-cache-dir"
 
+# prevent having to escape square brackets
+alias rake="noglob rake"
+
 man() { # colored man pages:
     LESS_TERMCAP_md=$'\e[01;31m' \
     LESS_TERMCAP_me=$'\e[0m' \
@@ -174,6 +177,10 @@ alias paper="cd ~/Documents/Papers/mypapers/"
 
 # conda (scientific python distribution and environments)
 sourcefile "$HOME/.anaconda/etc/profile.d/conda.sh"
+if [ -f "$HOME/.anaconda/etc/profile.d/mamba.sh" ]; then
+  source "$HOME/.anaconda/etc/profile.d/mamba.sh"
+  alias conda=mamba
+fi
 
 # travis (continuous integration)
 sourcefile "$HOME/.travis/travis.sh"
