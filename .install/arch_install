@@ -718,7 +718,7 @@ pacman_install feh
 ## xmenu (application launcher)
 #yay_install xmenu
 ## conky: a system monitor
-#pacman_install conky
+pacman_install conky
 ## display manager
 pacman_install lightdm
 ##pacman_install lightdm-gtk-greeter
