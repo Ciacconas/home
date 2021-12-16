@@ -406,6 +406,9 @@ endfunction
 " back to normal mode (just use escape, man...)
 " inoremap jj <Esc>
 
+" Y to yank the whole line
+nmap Y yy
+
 " go to edit mode in terminal emulator:
 " the backtick is there to not interfere with the <Esc> of the shell itself.
 tnoremap <Esc> <C-\><C-n>
