@@ -152,6 +152,23 @@ def build_xrandr_commands():
             filename = f"{localbin}/{'-'.join(f'[{o}]' for o in option)}"
             start_x += resolution[0]
 
+        ## add nvidia-setting
+        def tuple_to_res_nvidia(lst):
+            """ convert a tuple to a resolution string like '1920x1080' """
+            assert len(lst) == 2
+            assert isinstance(lst, (list, tuple))
+            return "+" + "+".join(map(str, lst))
+        start_x = 0
+        nvidia_setting_head = ' && nvidia-settings --assign CurrentMetaMode="'
+        for output in option:
+            resolution = connected_screens[output]
+            nvidia_setting_head += f'{output}: nvidia-auto-select '
+            pos = tuple_to_res_nvidia([start_x, 0])
+            nvidia_setting_head += f'{pos} '
+            nvidia_setting_head += '{ForceFullCompositionPipeline=On}, '
+            start_x += resolution[0]
+        nvidia_setting_head += '"'
+        command += [nvidia_setting_head]
         write_screenlayout_option(filename, command)
         filenames.append(filename)
 
