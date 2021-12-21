@@ -54,3 +54,16 @@ hi Visual	cterm=reverse
 hi Warning	ctermfg=7 ctermbg=3
 hi WarningMsg	ctermfg=15 ctermbg=3
 hi WildMenu	ctermfg=0 ctermbg=3
+" Ciacconas change
+" CocUnused fg to lighter color background stay 242 as a middle gray
+hi Conceal ctermfg=3
+" CocHighlightText bg word highlight to a lighter gray
+hi CursorColumn ctermbg=8
+" CocFloat bg color
+hi Pmenu ctermbg=8
+" Coc Float InfoSign and HintSign
+hi CocWarningSign ctermfg=3
+hi CocInfoSign ctermfg=2
+hi CocHintSign ctermfg=4
+
+
