@@ -241,6 +241,14 @@
             "selector": "[data-jp-kernel-user]:focus"
         },
         {
+            "command": "notebook:run-all-above",
+            "keys": [
+                "\\",
+                "\\"
+            ],
+            "selector": "[data-jp-kernel-user]:focus"
+        },
+        {
             "command": "application:activate-next-tab",
             "keys": [
                 "Ctrl K"
