@@ -56,14 +56,15 @@ hi WarningMsg	ctermfg=15 ctermbg=3
 hi WildMenu	ctermfg=0 ctermbg=3
 " Ciacconas change
 " CocUnused fg to lighter color background stay 242 as a middle gray
-hi Conceal ctermfg=3
+hi Conceal ctermfg=11 ctermbg=8
 " CocHighlightText bg word highlight to a lighter gray
 hi CursorColumn ctermbg=8
 " CocFloat bg color
-hi Pmenu ctermbg=8
+hi Pmenu ctermfg=15 ctermbg=8
+hi PmenuSel ctermfg=7 ctermbg=0
 " Coc Float InfoSign and HintSign
-hi CocWarningSign ctermfg=3
-hi CocInfoSign ctermfg=2
-hi CocHintSign ctermfg=4
+hi CocWarningSign ctermfg=11
+hi CocInfoSign ctermfg=10
+hi CocHintSign ctermfg=12
 
 
