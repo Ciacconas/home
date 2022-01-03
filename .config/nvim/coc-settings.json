@@ -59,6 +59,10 @@
       "filetypes": ["sh"],
       "ignoredRootPaths": ["~"]
     },
+    "lua": {
+      "command": "lua-lsp",
+      "filetypes": ["lua"]
+    },
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "objc", "objcpp"],
