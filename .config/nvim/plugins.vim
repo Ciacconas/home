@@ -39,7 +39,6 @@ endif
 
 call plug#begin('~/.config/nvim/plugged') " start loading plugins
 " Plug 'anntzer/vim-cython' " cython syntax highlighting
-Plug 'bling/vim-bufferline' " bufferline integration for airline
 Plug 'cespare/vim-toml' " toml syntax highlighting
 Plug 'davidhalter/jedi-vim' " Python go-to-definition [autocompletion disabled]
 Plug 'glench/vim-jinja2-syntax' " jinja2 support in vim
@@ -53,11 +52,11 @@ Plug 'mbbill/undotree' " undo tree for vim
 " Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the file lines
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pedrohdz/vim-yaml-folds' " better folding for yaml files
-Plug 'posva/vim-vue' " vuejs syntax highlighting
+" Plug 'posva/vim-vue' " vuejs syntax highlighting
 Plug 'shougo/context_filetype.vim' " completion from other opened files
 Plug 'suan/vim-instant-markdown'
 Plug 'tpope/vim-commentary' " easy comment
-Plug 'tpope/vim-fugitive' " better git integration
+" Plug 'tpope/vim-fugitive' " better git integration
 Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
 " Plug 'tpope/vim-speeddating' " increase date with <C-A>
 Plug 'tpope/vim-surround' " easily surround word with quotes or tags
@@ -66,13 +65,10 @@ Plug 'vim-airline/vim-airline' " better status bar
 Plug 'bling/vim-bufferline' " bufferline integration for airline
 " Plug 'vim-utils/vim-man' " man pages in vim
 " Plug 'vimwiki/vimwiki' " note taking in vim
-Plug 'takac/vim-hardtime' " vim hard mode (useful for training)
 Plug 'bfrg/vim-cpp-modern' " cpp highlighting enhanced
 Plug 'honza/vim-snippets' " snippets libraray
-Plug 'unblevable/quick-scope' " quick navigation in line
 Plug 'justinmk/vim-sneak' " move around more easily
 Plug 'metakirby5/codi.vim' " interactive coding
-Plug 'jiangmiao/auto-pairs' " auto pair [] ()
 
 call system('ipython -c "import sys"')
 if !v:shell_error
