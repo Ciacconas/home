@@ -6,6 +6,12 @@
 "
 " jump to this file from anywhere: <leader>cc
 
+"" Packer.nvim
+"-------------------------------------------------------------------------------
+" jump to snippets file from anywhere: <leader>lp
+
+lua require('plugins')
+
 
 "" Plugins
 "-------------------------------------------------------------------------------
@@ -23,7 +29,6 @@ endif
 if filereadable(expand("~/.config/nvim/snippets/snippets.vim"))
     source ~/.config/nvim/snippets/snippets.vim
 endif
-
 
 "" Filetypes
 "-------------------------------------------------------------------------------
@@ -254,7 +259,6 @@ augroup pythonsettings
 
     " set the shift operators (`<<` and `>>`) to insert 4 spaces
     autocmd FileType python setlocal shiftwidth=4
-
 augroup end
 
 augroup vimsettings
@@ -274,7 +278,6 @@ augroup vimsettings
 
     " set the shift operators (`<<` and `>>`) to insert 4 spaces
     autocmd FileType vim setlocal shiftwidth=4
-
 augroup end
 
 augroup yamlsettings
@@ -283,7 +286,6 @@ augroup yamlsettings
     " enable indentLine plugin
     let g:indentLine_enabled = 1
 augroup end
-
 
 "" Saving
 "-------------------------------------------------------------------------------
@@ -674,6 +676,7 @@ nnoremap <silent> <leader>ci  :<C-u>CocList -I symbols<cr>
 " edit one of the vim config files (requires set hidden)
 nnoremap <leader>ci :e ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cp :e ~/.config/nvim/plugins.vim<CR>
+nnoremap <leader>lp :e ~/.config/nvim/lua/plugins.lua<CR>
 nnoremap <leader>cs :e ~/.config/nvim/snippets/snippets.vim<CR>
 nnoremap <leader>coc :e ~/.config/nvim/coc-settings.vim<CR>
 nnoremap <leader>coj :e ~/.config/nvim/coc-settings.json<CR>
