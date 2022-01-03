@@ -1077,6 +1077,3 @@ c.Completer.use_jedi = False
 #          when IPython starts.
 #  Default: False
 # c.StoreMagics.autorestore = False
-
-# Pyflyby
-c.InteractiveShellApp.extensions.append("pyflyby")
