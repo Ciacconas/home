@@ -293,6 +293,7 @@ augroup saving
     autocmd!
     autocmd BufWritePre * :call DoOnSave()
     autocmd FocusLost * :silent call MaybeSave()
+    autocmd BufWritePost *.py call PyflybyImport()
 augroup end
 
 function! DoOnSave()
@@ -313,6 +314,13 @@ function! DoOnSave()
     if vimwiki==1
         sleep 100m " TODO: wait for asynchronous (?) CocCommand to finish
         setlocal filetype=vimwiki
+    endif
+endfunction
+
+function! PyflybyImport()
+    if executable('tidy-imports')
+        execute "silent !tidy-imports --black --quiet --replace-star-imports --action REPLACE " . bufname("%")
+        execute "e"
     endif
 endfunction
 
