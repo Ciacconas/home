@@ -10,7 +10,10 @@
 "-------------------------------------------------------------------------------
 " jump to snippets file from anywhere: <leader>lp
 
-lua require('plugins')
+if filereadable(expand("~/.config/nvim/lua/plugins.lua"))
+    lua require('plugins')
+    lua require('lsp')
+endif
 
 
 "" Plugins
@@ -96,7 +99,7 @@ set expandtab
 
 " code folding
 " zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
-set foldmethod=indent
+set foldmethod=manual
 
 " show the matching part of the pair for [] {} and ()
 set showmatch
@@ -246,6 +249,9 @@ augroup pythonsettings
     " also show colorcolumn at 88 characters
     autocmd Filetype python setlocal colorcolumn=88
 
+    " enable colde folding
+    autocmd Filetype python setlocal foldmethod=manual
+
     " enable autoindent on new line
     autocmd FileType python setlocal autoindent
 
@@ -286,6 +292,13 @@ augroup yamlsettings
     " enable indentLine plugin
     let g:indentLine_enabled = 1
 augroup end
+
+" Other filetype specific settings
+if filereadable(expand("~/.config/nvim/vimscript/filetype.vim"))
+    source ~/.config/nvim/vimscript/filetype.vim
+endif
+
+
 
 "" Saving
 "-------------------------------------------------------------------------------

@@ -59,20 +59,10 @@
       "filetypes": ["sh"],
       "ignoredRootPaths": ["~"]
     },
-    "lua": {
-      "command": "lua-lsp",
-      "filetypes": ["lua"]
-    },
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "objc", "objcpp"],
-      "rootPatterns": [
-        ".ccls",
-        "compile_commands.json",
-        ".vim",
-        ".git",
-        ".hg"
-      ],
+      "rootPatterns": [".ccls", "compile_commands.json", ".vim", ".git", ".hg"],
       "initializationOptions": {
         "cache": {
           "directory": "/tmp/ccls"
@@ -86,7 +76,10 @@
   "yaml.format.printWidth": 88,
   "yaml.completion": true,
   "yaml.schemas": {
-    "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json": [".gitlab-ci.yml", ".gitlab-ci.yaml"],
+    "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json": [
+      ".gitlab-ci.yml",
+      ".gitlab-ci.yaml"
+    ],
     "schema/pic-schema.json": ["*.pic.yaml", "*.pic.yml"]
   },
   "yaml.schemaStore.enable": true
