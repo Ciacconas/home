@@ -7,9 +7,13 @@
 "
 set background=dark
 let g:colors_name="xresources"
+" All the commented hi commands are the default ones from neovim and Treesitter.
+" They are there just for better understanding of different highlight options and
+"  for easier further customizations
+
 
 " Treesitting related (code highlighting related) ----------------------------
-" Strong Purple Magenta
+" Strong Purple Magenta 13
 hi Constant	ctermfg=13 " TSConstant
 " hi link Character Constant " TSCharacter
 " hi link String Constant " TSString TSLiteral
@@ -17,24 +21,25 @@ hi Constant	ctermfg=13 " TSConstant
 " hi link Number Constant " TSNumber
 " hi link Float Constant " TSFloat
 
-" Strong Cyan Aqua
+" Strong Cyan Aqua 14
 hi TSKeywordFunction cterm=bold	ctermfg=14 " TSKeywordFunction
 hi link TSKeywordReturn TSKeywordFunction
-" Weak Cyan Aqua
+" Weak Cyan Aqua 6
 hi PreProc ctermfg=6 " TSAnnotation TSAttribute
 " hi link Define PreProc " Macro TSConstMacro TSFuncMacro
 " hi link Include PreProc " TSInclude TSNamespace
 
-" Strong Green
+" Strong Green 10
 hi Function cterm=bold ctermfg=10 " TSFunction TSMethod
-" Weak Green
+" Weak Green 2
+hi Special ctermfg=2 " SpecialChar TSStringSpecial TSVariableBuiltin TSFuncBuiltin
 
-" Strong Blue
+" Strong Blue 12
 hi Identifier cterm=none ctermfg=12 " TSParameter
-" Weak Blue
+" Weak Blue 4
 hi Type cterm=italic ctermfg=4 " TSType
 
-" Strong Yellow
+" Strong Yellow 11
 hi Statement cterm=bold	ctermfg=11
 " hi link Keyword Statement " TSKeyword
 " hi link Conditional Statement " TSConditional
@@ -42,10 +47,11 @@ hi Statement cterm=bold	ctermfg=11
 " hi link Repeat Statement " TSRepeat
 " hi link Label Statement " TSLabel
 " hi link Exception Statement " TSException
-" Weak Yellow
+" Weak Yellow 3
 
-" Weak Foregound fg
-hi Special ctermfg=7 " SpecialChar TSStringSpecial TSVariableBuiltin TSFuncBuiltin
+" Strong Foregound fg 15
+" Weak Foregound fg 7
+" hi Special ctermfg=7 " SpecialChar TSStringSpecial TSVariableBuiltin TSFuncBuiltin
 hi Delimiter cterm=bold ctermfg=7 " TSDelimiter TSPunctBracket TSPunctSpecial
 hi Comment	ctermfg=7 " TSComment
 
@@ -58,10 +64,10 @@ hi QuickScopePrimary cterm=bold ctermfg=4
 hi Folded   ctermfg=7 ctermbg=None cterm=bold
 " CocHighlightText weaker bg
 hi CursorColumn ctermbg=8
-" CocFloat manu window
+" CocFloat suggestion menu window
 hi Pmenu ctermfg=15 ctermbg=5
 hi PmenuSel ctermfg=7 ctermbg=0
-" Coc Float InfoSign and HintSign
+" Coc InfoSign and HintSign
 hi CocWarningSign ctermfg=11
 hi CocInfoSign ctermfg=10
 hi CocHintSign ctermfg=12
