@@ -195,6 +195,7 @@ sourcefile $HOME/.config/autojump/share/autojump/autojump.zsh
 sourcefile $HOME/.scripts/autojump/autojump-improved.zsh
 
 # zsh autosuggestions (like in the fish shell)
+# Change the ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE to 'fg=7'
 sourcefile $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^p' autosuggest-accept #-execute
 bindkey '^n' autosuggest-accept #-execute
