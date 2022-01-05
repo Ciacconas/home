@@ -12,6 +12,7 @@
 
 if filereadable(expand("~/.config/nvim/lua/plugins.lua"))
     lua require('plugins')
+    lua require('pluginrc')
     lua require('lsp')
 endif
 
@@ -134,7 +135,7 @@ hi FoldColumn ctermbg=NONE
 " set wildmode=longest,longest,full
 
 " enable syntax highlighting
-syntax enable
+" syntax enable
 
 " disable netrw banner
 let g:netrw_banner=0
@@ -671,6 +672,10 @@ nnoremap <leader>A :echo "\<leader\>A"<cr>
 nnoremap <leader>b :echo "\<leader\>b"<cr>
 nnoremap <leader>B :echo "\<leader\>B"<cr>
 
+" Treesitter show highlight group
+nnoremap <silent> Y :TSHighlightCapturesUnderCursor<CR>
+
+
 " Show all diagnostics (requires neoclide/coc.nvim)
 nnoremap <silent> <leader>ca  :<C-u>CocList diagnostics<cr>
 
@@ -725,6 +730,7 @@ nnoremap <leader>fi :CocCommand python.sortImports<CR>
 
 " autoformat code (requires neoclide/coc.nvim)
 xmap <leader>F <Plug>(coc-format-selected)
+" nmap <leader>F :LSPFormat<CR>
 nmap <leader>F :Format<CR>
 
 " Toggle (git) diff bar (requires tpope/vim-fugitive and mhinz/vim-signify)

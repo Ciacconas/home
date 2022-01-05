@@ -1,4 +1,6 @@
 local fn = vim.fn
+local keymap = vim.api.nvim_set_keymap
+local keymap_opt = { noremap = true, silent = true }
 
 -- Automatically install packer
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -37,7 +39,6 @@ return require("packer").startup({
 		-- vim hard mode (useful for training)
 		use({
 			"takac/vim-hardtime",
-			opt = false,
 			config = function()
 				vim.g.hardtime_default_on = 0
 			end,
@@ -47,7 +48,17 @@ return require("packer").startup({
 		use({ "unblevable/quick-scope" })
 
 		-- autopair with fly-mode support
-		use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 1" })
+		use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 0" })
+
+		-- treesitter for parsing syntax highlighting
+		use({
+			"nvim-treesitter/nvim-treesitter",
+			run = ":TSUpdate",
+			-- config = function()
+			-- 	keymap("n", "<leader>c", ":TSHighlightCapturesHunderCursor", keymap_opt)
+			-- end,
+		})
+		use({ "nvim-treesitter/playground" })
 
 		-- lsp related
 		use({ "jose-elias-alvarez/null-ls.nvim", active = true })
