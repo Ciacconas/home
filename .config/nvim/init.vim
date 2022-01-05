@@ -673,7 +673,7 @@ nnoremap <leader>b :echo "\<leader\>b"<cr>
 nnoremap <leader>B :echo "\<leader\>B"<cr>
 
 " Treesitter show highlight group
-nnoremap <silent> Y :TSHighlightCapturesUnderCursor<CR>
+nnoremap <silent> T :TSHighlightCapturesUnderCursor<CR>
 
 
 " Show all diagnostics (requires neoclide/coc.nvim)
