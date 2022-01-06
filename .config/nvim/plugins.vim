@@ -220,6 +220,8 @@ let g:airline#extensions#bufferline#enabled = 1
 let g:airline#extensions#bufferline#overwrite_variables = 1
 let g:bufferline_echo = 0
 let g:airline#extensions#coc#enabled = 1
+let g:airline_section_error = ''
+let g:airline_section_warning = ''
 
 
 " vimwiki/vimwiki --------------------------------
