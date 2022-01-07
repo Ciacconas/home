@@ -53,7 +53,7 @@ hi Statement cterm=bold	ctermfg=11
 " Strong Foregound fg 15
 " Weak Foregound fg 7
 hi Delimiter cterm=bold ctermfg=7 " TSDelimiter TSPunctBracket TSPunctSpecial
-" hi Comment	ctermfg=7 " TSComment
+hi Comment	ctermfg=7 " TSComment
 
 
 " Quickscope related -------------------------------
