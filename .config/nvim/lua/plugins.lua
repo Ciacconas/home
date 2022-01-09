@@ -17,8 +17,7 @@ end
 
 -- Autocommand that compile packer whenever you save the plugins.lua file
 vim.cmd([[
-  augroup packer_user_config
-    autocmd!
+  augroup packer_user_config autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
   augroup end
 ]])
@@ -35,6 +34,9 @@ return require("packer").startup({
 		-- Infrastructure
 		use({ "wbthomason/packer.nvim", opt = false })
 		use({ "nvim-lua/plenary.nvim" })
+
+		-- vim toggle term
+		use({ "akinsho/toggleterm.nvim" })
 
 		-- vim hard mode (useful for training)
 		use({
@@ -54,14 +56,17 @@ return require("packer").startup({
 		use({
 			"nvim-treesitter/nvim-treesitter",
 			run = ":TSUpdate",
-			-- config = function()
-			-- 	keymap("n", "<leader>c", ":TSHighlightCapturesHunderCursor", keymap_opt)
-			-- end,
 		})
 		use({ "nvim-treesitter/playground" })
 
 		-- lsp related
 		use({ "jose-elias-alvarez/null-ls.nvim", active = true })
+
+		-- python
+		use({ "jpalardy/vim-slime", ft = { "python" } })
+		use({ "hanschen/vim-ipython-cell", ft = { "python" } })
+
+		use({ "tweekmonster/startuptime.vim" })
 
 		-- Automatically set up your configuration after cloning packer.nvim
 		-- Put this at the end after all plugins

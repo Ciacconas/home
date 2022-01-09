@@ -40,14 +40,14 @@ endif
 call plug#begin('~/.config/nvim/plugged') " start loading plugins
 " Plug 'anntzer/vim-cython' " cython syntax highlighting
 Plug 'cespare/vim-toml' " toml syntax highlighting
-Plug 'davidhalter/jedi-vim' " Python go-to-definition [autocompletion disabled]
+" Plug 'davidhalter/jedi-vim' " Python go-to-definition [autocompletion disabled]
 Plug 'glench/vim-jinja2-syntax' " jinja2 support in vim
-Plug 'jpalardy/vim-slime' " better integration between text and terminal buffers
+" Plug 'jpalardy/vim-slime' " better integration between text and terminal buffers
 Plug 'junegunn/fzf.vim' " fuzzy file finder (needs system wide fzf install)
 " Plug 'junegunn/goyo.vim', " distraction free writing.
 " Plug 'kshenoy/vim-signature' " show marks in margin
 Plug 'lilydjwg/colorizer' " paint css colors with the real color
-Plug 'mattn/emmet-vim' " emmet for vim
+" Plug 'mattn/emmet-vim' " emmet for vim
 Plug 'mbbill/undotree' " undo tree for vim
 " Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the file lines
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -70,11 +70,11 @@ Plug 'honza/vim-snippets' " snippets libraray
 Plug 'justinmk/vim-sneak' " move around more easily
 Plug 'metakirby5/codi.vim' " interactive coding
 
-call system('ipython -c "import sys"')
-if !v:shell_error
-call system('which notedown')
-    Plug 'hanschen/vim-ipython-cell' " better integration with ipython (requires slime)
-endif
+" call system('ipython -c "import sys"')
+" if !v:shell_error
+" call system('which notedown')
+"     Plug 'hanschen/vim-ipython-cell' " better integration with ipython (requires slime)
+" endif
 
 if !v:shell_error
     Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks

@@ -964,8 +964,11 @@ nnoremap <F3><F3> <Esc>:setlocal spell spelllang=
 inoremap <F3><F3> <Esc>:setlocal spell spelllang=
 
 " source init.vim again.
-nnoremap <F4> <Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>
-inoremap <F4> <Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>
+" function! Source_vim_lua()
+"     exec "silent !test -z $TEXBASE && TEXBASE=%:p:r; zathura --synctex-editor-command 'nvr --servername ".v:servername." +\\%{line} \\%{input}' --synctex-forward ".line(".").":".col(".").":%:p $TEXBASE.pdf &"
+" endfunction
+nnoremap <F4> <Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>:luafile ~/.config/nvim/lua/pluginrc/init.lua<CR>
+inoremap <F4> <Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>:luafile ~/.config/nvim/lua/pluginrc/init.lua<CR>
 
 " noop
 nnoremap <F5> :echo "\<F5\>"<cr>
@@ -1028,10 +1031,10 @@ function! RunPython(type)
             IPythonCellRunTime
         endif
     else
-        echom "new terminal"
+        " new terminal
         call system('ipython -c "import sys"')
         if !v:shell_error
-            call NewHorizontalTerminal("ipython --matplotlib")
+            lua _IPYTHON_TERM()
             if exists("g:last_terminal_job_id")
                 sleep 100m
                 call RunPython(a:type)
@@ -1041,6 +1044,7 @@ function! RunPython(type)
         endif
     endif
 endfunction
+
 
 function! LatexBuild(force)
     delmarks m
