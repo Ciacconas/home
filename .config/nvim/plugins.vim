@@ -61,8 +61,8 @@ Plug 'tpope/vim-repeat' " easily repeat plugin commands with .
 " Plug 'tpope/vim-speeddating' " increase date with <C-A>
 Plug 'tpope/vim-surround' " easily surround word with quotes or tags
 " Plug 'valloric/MatchTagAlways' " highlight matching html tags
-Plug 'vim-airline/vim-airline' " better status bar
-Plug 'bling/vim-bufferline' " bufferline integration for airline
+" Plug 'vim-airline/vim-airline' " better status bar
+" Plug 'bling/vim-bufferline' " bufferline integration for airline
 " Plug 'vim-utils/vim-man' " man pages in vim
 " Plug 'vimwiki/vimwiki' " note taking in vim
 Plug 'bfrg/vim-cpp-modern' " cpp highlighting enhanced
@@ -207,21 +207,6 @@ let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 let g:markdown_syntax_conceal = 1
 " highlight 100 lines
 let g:markdown_minlines = 100
-
-
-" vim-airline/vim-airline ------------------------
-
-" enable powerline fonts for vim airline
-let g:airline_powerline_fonts = 1
-let g:airline_theme="xresources_airline"
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline#extensions#bufferline#enabled = 1
-let g:airline#extensions#bufferline#overwrite_variables = 1
-let g:bufferline_echo = 0
-let g:airline#extensions#coc#enabled = 1
-let g:airline_section_error = ''
-let g:airline_section_warning = ''
 
 
 " vimwiki/vimwiki --------------------------------

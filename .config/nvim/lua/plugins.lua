@@ -34,6 +34,7 @@ return require("packer").startup({
 		-- Infrastructure
 		use({ "wbthomason/packer.nvim", opt = false })
 		use({ "nvim-lua/plenary.nvim" })
+		use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
 
 		-- vim toggle term
 		use({ "akinsho/toggleterm.nvim" })

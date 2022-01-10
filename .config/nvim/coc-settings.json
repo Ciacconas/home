@@ -1,10 +1,10 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [],
-  "coc.preferences.rootPatterns": [".git", ".hg", ".vim", "schema"],
+  "coc.preferences.rootPatterns": [".git", ".hg", ".vim", "schema", "Cargo"],
   "workspace.bottomUpFiletypes": ["yaml"],
-  "diagnostic.errorSign": "•",
+  "diagnostic.errorSign": "",
   "diagnostic.infoSign": "•",
-  "diagnostic.warningSign": "•",
+  "diagnostic.warningSign":"•",
   "diagnostic.checkCurrentLine": false,
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
@@ -82,5 +82,7 @@
     ],
     "schema/pic-schema.json": ["*.pic.yaml", "*.pic.yml"]
   },
-  "yaml.schemaStore.enable": true
+  "yaml.schemaStore.enable": true,
+  "Lua.window.statusBar": false,
+  "Lua.window.progressBar": false
 }
