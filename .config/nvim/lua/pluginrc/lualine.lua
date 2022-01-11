@@ -8,16 +8,34 @@ lualine.setup({
 		icons_enabled = true,
 		theme = "gruvbox",
 		-- component_separators = { left = "", right = "" },
-		section_separators = { left = "", right = "" },
+		-- section_separators = { left = "", right = "" },
 		component_separators = { left = "", right = "" },
-		-- section_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
 		disabled_filetypes = {},
 		always_divide_middle = true,
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "branch", "diff", "diagnostics" },
-		lualine_c = { "filename" },
+		lualine_b = {
+			"branch",
+			-- { "diff", colored = false },
+			{
+				"diagnostics",
+				colored = false,
+			},
+		},
+		lualine_c = {
+			{
+				"buffers",
+				show_modified_status = false,
+				max_length = vim.o.columns * 2 / 3,
+				buffers_color = {
+					-- Same values as the general color option can be used here.
+					active = "lualine_a_normal", -- Color for active buffer.
+					inactive = "lualine_c_normal", -- Color for inactive buffer.
+				},
+			},
+		},
 		lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_y = { "progress" },
 		lualine_z = { "location" },
@@ -83,4 +101,4 @@ custom_gruvbox.inactive.a.bg = 2
 custom_gruvbox.inactive.b.fg = 0
 custom_gruvbox.inactive.b.bg = 7
 custom_gruvbox.inactive.c.fg = 15
-custom_gruvbox.inactive.c.bg = 0
+custom_gruvbox.inactive.c.bg = 8

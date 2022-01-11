@@ -74,14 +74,6 @@ hi CocHintSign ctermfg=4 cterm=italic
 " CocUnused highlight
 hi Conceal ctermfg=11 ctermbg=8
 
-" lualine related ---------------------------------
-hi lualine_b_diff_added_normal ctermfg=6
-hi lualine_b_diff_added_insert ctermfg=6
-hi lualine_b_diff_added_visual ctermfg=6
-hi lualine_b_diff_added_replace ctermfg=6
-hi lualine_b_diff_added_command ctermfg=6
-hi lualine_b_diff_added_inactive ctermfg=6
-
 
 " TUI related ----------------------------
 " Search
