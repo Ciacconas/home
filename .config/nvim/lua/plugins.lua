@@ -35,6 +35,7 @@ return packer.startup({
 		use({ "wbthomason/packer.nvim", opt = false })
 		use({ "nvim-lua/plenary.nvim" })
 		use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
+		use({ "kyazdani42/nvim-tree.lua", requires = { "kyazdani42/nvim-web-devicons" } })
 
 		-- vim toggle term
 		use({ "akinsho/toggleterm.nvim" })

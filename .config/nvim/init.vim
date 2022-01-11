@@ -711,8 +711,11 @@ nmap <silent> <leader>d :w<CR><Plug>(coc-definition)
 " noop
 nnoremap <leader>D :echo "\<leader\>D"<cr>
 
-" jump to next error / warning in file
-nnoremap <leader>e :call CocAction('diagnosticNext')<CR>
+" " jump to next error / warning in file
+" nnoremap <leader>e :call CocAction('diagnosticNext')<CR>
+
+" nvim tree toggle
+nnoremap <leader>e :NvimTreeToggle<CR>
 
 " jump to previous error / warning in file
 nnoremap <leader>E :call CocAction('diagnosticPrevious')<CR>
