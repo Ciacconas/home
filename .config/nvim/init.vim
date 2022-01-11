@@ -715,7 +715,7 @@ nnoremap <leader>D :echo "\<leader\>D"<cr>
 " nnoremap <leader>e :call CocAction('diagnosticNext')<CR>
 
 " nvim tree toggle
-nnoremap <leader>e :NvimTreeToggle<CR>
+nnoremap <C-b> :NvimTreeToggle<CR>
 
 " jump to previous error / warning in file
 nnoremap <leader>E :call CocAction('diagnosticPrevious')<CR>
