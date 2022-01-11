@@ -411,7 +411,8 @@ pacman_install curl
 ## alternative download tool (youtube-dl dependency)
 pacman_install wget
 ## alternative search tool
-#pacman_install ripgrep
+pacman_install ripgrep
+pacman_install fd
 ## alternative search tool
 #pacman_install ack
 ## fuzzy finder tool
