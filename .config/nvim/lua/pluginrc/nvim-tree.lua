@@ -20,6 +20,7 @@ vim.g.nvim_tree_icons = {
 		symlink = "",
 	},
 }
+vim.g.nvim_tree_quit_on_open = 1
 
 local status_ok, nvim_tree = pcall(require, "nvim-tree")
 if not status_ok then
@@ -86,7 +87,7 @@ nvim_tree.setup({
 		mappings = {
 			custom_only = false,
 			list = {
-				{ key = { "<CR>", "o" }, cb = tree_cb("edit") },
+				{ key = { "<CR>", "o", "l", "<TAB>" }, cb = tree_cb("edit") },
 				{ key = "h", cb = tree_cb("close_node") },
 				{ key = "v", cb = tree_cb("vsplit") },
 				{ key = "R", cb = tree_cb("refresh") },
