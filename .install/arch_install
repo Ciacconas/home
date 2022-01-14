@@ -1211,7 +1211,7 @@ pacman_install ipython
 ## firefox (like waterfox, but the original ;-) )
 pacman_install firefox
 ## patch firefox and waterfox to work with some legacy extensions (like vimfx)
-submodule_install legacyfox
+# submodule_install legacyfox
 ## enhanced security settings for firefox (you might have to copy this manually if your profile is called differently)
 #cp "$HOME/.mozilla/firefox/secure-prefs.js" "$(echo $HOME/.mozilla/firefox/*.default-release)/prefs.js"
 #cp "$HOME/.mozilla/firefox/secure-prefs.js" "$(echo $HOME/.mozilla/firefox/*.default)/prefs.js"
