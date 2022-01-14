@@ -47,3 +47,10 @@ function _IPYTHON_TERM()
 	ipython:toggle()
 	vim.cmd([[execute "normal G\<C-w>k"]])
 end
+
+local cargo5 = Terminal:new({ count = 5, direction = "float" })
+function _CARGORUN()
+	cargo5:toggle()
+	vim.cmd([[execute "normal G\<C-w>k"]])
+	toggleterm.exec("cargo run", 5)
+end
