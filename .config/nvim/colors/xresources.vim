@@ -57,7 +57,7 @@ hi Delimiter cterm=bold ctermfg=7 " TSDelimiter TSPunctBracket TSPunctSpecial
 
 
 " Quickscope related -------------------------------
-hi QuickScopePrimary cterm=bold ctermfg=4
+hi QuickScopePrimary cterm=bold,underline ctermfg=4
 
 " Coc related -------------------------------
 " Code Folding
