@@ -24,7 +24,8 @@ lualine.setup({
 				colored = false,
 			},
 		},
-		lualine_c = {
+		lualine_c = { "filename" },
+		lualine_x = {
 			{
 				"buffers",
 				show_modified_status = false,
@@ -35,8 +36,10 @@ lualine.setup({
 					inactive = "lualine_c_normal", -- Color for inactive buffer.
 				},
 			},
+			"encoding",
+			"fileformat",
+			{ "filetype", icon_only = true },
 		},
-		lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_y = { "progress" },
 		lualine_z = { "location" },
 	},
