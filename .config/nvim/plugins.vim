@@ -67,7 +67,6 @@ Plug 'tpope/vim-surround' " easily surround word with quotes or tags
 " Plug 'vimwiki/vimwiki' " note taking in vim
 Plug 'bfrg/vim-cpp-modern' " cpp highlighting enhanced
 Plug 'honza/vim-snippets' " snippets libraray
-Plug 'justinmk/vim-sneak' " move around more easily
 Plug 'metakirby5/codi.vim' " interactive coding
 
 " call system('ipython -c "import sys"')
@@ -238,6 +237,7 @@ let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 let g:markdown_syntax_conceal = 1
 " highlight 100 lines
 let g:markdown_minlines = 100
+
 
 
 " vimwiki/vimwiki --------------------------------

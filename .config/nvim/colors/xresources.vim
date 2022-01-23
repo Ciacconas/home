@@ -78,7 +78,7 @@ hi Conceal ctermfg=11 ctermbg=8
 " TUI related ----------------------------
 " Search
 hi Search	cterm=NONE ctermfg=15 ctermbg=6
-hi IncSearch	cterm=bold ctermfg=15 ctermbg=6
+hi IncSearch	cterm=bold ctermfg=15 ctermbg=9
 hi ColorColumn ctermbg=4
 hi DiffAdd	ctermbg=4
 hi DiffChange	ctermbg=5

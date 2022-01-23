@@ -36,39 +36,46 @@ return packer.startup({
 		use({ "nvim-lua/plenary.nvim" })
 		use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
 		use({ "kyazdani42/nvim-tree.lua", requires = { "kyazdani42/nvim-web-devicons" } })
-
-		-- vim toggle term
-		use({ "akinsho/toggleterm.nvim" })
-
-		-- vim hard mode (useful for training)
-		use({
-			"takac/vim-hardtime",
-			config = function()
-				vim.g.hardtime_default_on = 0
-			end,
-		})
-
-		-- quick inline navigation utilizing 'f'
-		use({ "unblevable/quick-scope" })
-
-		-- autopair with fly-mode support
-		use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 0" })
-
-		-- treesitter for parsing syntax highlighting
 		use({
 			"nvim-treesitter/nvim-treesitter",
 			run = ":TSUpdate",
 		})
 		use({ "nvim-treesitter/playground" })
+		use({ "akinsho/toggleterm.nvim" })
+
+		-- Utility
+		-- Easy motion in vim
+		use({
+			"phaazon/hop.nvim",
+			branch = "v1",
+			config = function()
+				require("hop").setup({})
+				vim.cmd([[nnoremap s :HopChar2<CR>]])
+			end,
+		})
+		-- vim hard mode (useful for training)
+		use({
+			"takac/vim-hardtime",
+			config = [[
+				vim.g.hardtime_default_on = 1
+				vim.g.hardtime_maxcount = 3
+				vim.g.hardtime_allow_different_key = 1
+        vim.g.list_of_normal_keys = {"j", "k", "h", "l"}
+        vim.g.list_of_visual_keys = {"h", "l"}
+        ]],
+		})
+		-- autopair with fly-mode support
+		use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 0" })
 
 		-- lsp related
-		use({ "jose-elias-alvarez/null-ls.nvim", active = true })
+		use({ "jose-elias-alvarez/null-ls.nvim", disable = false })
 
 		-- python
 		use({ "jpalardy/vim-slime", ft = { "python" } })
 		use({ "hanschen/vim-ipython-cell", ft = { "python" } })
 
 		use({ "tweekmonster/startuptime.vim" })
+		-- use({ "justinmk/vim-sneak", disable = true })
 
 		-- Automatically set up your configuration after cloning packer.nvim
 		-- Put this at the end after all plugins
