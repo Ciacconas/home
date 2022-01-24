@@ -208,7 +208,6 @@ let g:markdown_syntax_conceal = 1
 let g:markdown_minlines = 100
 
 
-
 " vimwiki/vimwiki --------------------------------
 
 let g:vimwiki_list = [
