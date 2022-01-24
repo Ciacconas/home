@@ -38,7 +38,7 @@ hi Constant	ctermfg=10 " TSConstant
 " Strong Blue 12
 hi Identifier cterm=none ctermfg=12 " TSParameter
 " Weak Blue 4
-hi Type cterm=italic ctermfg=4 " TSType
+hi Type cterm=italic ctermfg=12 " TSType
 
 " Strong Yellow 11
 hi Statement cterm=bold	ctermfg=11

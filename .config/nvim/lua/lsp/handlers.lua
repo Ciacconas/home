@@ -1,11 +1,6 @@
 local M = {}
 
 M.setup = function()
-	local status_ok, _ = pcall(require, "nvim-lspconfig")
-	if not status_ok then
-		return
-	end
-
 	-- setup diagnostic signs
 	local signs = {
 		{ name = "DiagnosticSignError", text = "" },

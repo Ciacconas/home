@@ -65,7 +65,7 @@ Plug 'tpope/vim-surround' " easily surround word with quotes or tags
 " Plug 'bling/vim-bufferline' " bufferline integration for airline
 " Plug 'vim-utils/vim-man' " man pages in vim
 " Plug 'vimwiki/vimwiki' " note taking in vim
-Plug 'bfrg/vim-cpp-modern' " cpp highlighting enhanced
+" Plug 'bfrg/vim-cpp-modern' " cpp highlighting enhanced
 Plug 'honza/vim-snippets' " snippets libraray
 Plug 'metakirby5/codi.vim' " interactive coding
 
@@ -75,9 +75,9 @@ Plug 'metakirby5/codi.vim' " interactive coding
 "     Plug 'hanschen/vim-ipython-cell' " better integration with ipython (requires slime)
 " endif
 
-if !v:shell_error
-    Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks
-endif
+" if !v:shell_error
+"     Plug 'szymonmaszke/vimpyter' " edit jupyter notebooks
+" endif
 call plug#end() " stop loading plugins
 
 
@@ -93,37 +93,6 @@ endif
 "" Plugin Settings
 "-------------------------------------------------------------------------------
 " Plugin settings are defined here. Keyboard shortcuts are defined in init.vim.
-
-
-" nvim-treesitter/nvim-treesitter ----------------------------------------------
-
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = "maintained",
-
-  -- Install languages synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- List of parsers to ignore installing
-  ignore_install = { "vim" },
-
-  highlight = {
-    -- `false` will disable the whole extension
-    enable = true,
-
-    -- list of language that will be disabled
-    disable = { "bash", "sh", "vim" },
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = { "bash", "sh", "vim" },
-  },
-  indent = { enable = true, disable = { "yaml" } },
-}
-EOF
 
 
 " davidhalter/jedi-vim ---------------------------------------------------------
@@ -195,9 +164,9 @@ let g:signify_disable_by_default = 1
 " jump to CoC settings file from anywhere: <leader>coc
 " jump to CoC settings json file from anywhere: <leader>coj
 
-" if filereadable(expand("~/.config/nvim/coc-settings.vim"))
-"     source ~/.config/nvim/coc-settings.vim
-" endif
+if filereadable(expand("~/.config/nvim/coc-settings.vim"))
+    source ~/.config/nvim/coc-settings.vim
+endif
 
 
 " shougo/context_filetype.vim --------------------

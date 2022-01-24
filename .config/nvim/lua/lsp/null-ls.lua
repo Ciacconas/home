@@ -9,8 +9,8 @@ null_ls.setup({
 	debug = false,
 	sources = {
 		-- stylua better than lua-format
-		formatting.builtins.formatting.stylua,
-		formatting.builtins.formatting.black,
+		formatting.stylua,
+		formatting.black,
 	},
 })
 

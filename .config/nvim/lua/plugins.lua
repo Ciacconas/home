@@ -43,8 +43,8 @@ return packer.startup({
 		use({ "nvim-treesitter/playground" })
 		use({ "akinsho/toggleterm.nvim" })
 
-    -- -- coc
-    -- use({"neoclide/coc.nvim", branch = 'master', run = 'yarn install --frozen-lockfile' } )
+		-- coc
+		use({ "neoclide/coc.nvim", branch = "release" })
 
 		-- cmp related
 		-- use({ "hrsh7th/nvim-cmp" })
