@@ -1,5 +1,5 @@
 local fn = vim.fn
-local keymap = vim.api.nvim_set_keymap
+local map = vim.api.nvim_set_keymap
 local keymap_opt = { noremap = true, silent = true }
 
 -- Automatically install packer
@@ -43,6 +43,29 @@ return packer.startup({
 		use({ "nvim-treesitter/playground" })
 		use({ "akinsho/toggleterm.nvim" })
 
+    -- -- coc
+    -- use({"neoclide/coc.nvim", branch = 'master', run = 'yarn install --frozen-lockfile' } )
+
+		-- cmp related
+		-- use({ "hrsh7th/nvim-cmp" })
+
+		-- use({ "hrsh7th/cmp-buffer" })
+		-- use({ "hrsh7th/cmp-path" })
+		-- use({ "hrsh7th/cmp-cmdline" })
+		-- use({ "hrsh7th/cmp-nvim-lua" })
+		-- use({ "hrsh7th/cmp-nvim-lsp" })
+		-- use({ "lukas-reineke/cmp-rg" }) -- regrip
+		-- use({ "Saecki/crates.nvim" }) -- rust crates
+		-- use({ "saadparwaiz1/cmp_luasnip" }) -- luasnip hook for cmp
+
+		-- use({ "L3MON4D3/LuaSnip" }) -- snippet engine
+		-- use({ "onsails/lspkind-nvim" }) -- icons
+
+		-- -- lsp related
+		-- use({ "neovim/nvim-lspconfig" }) -- enable LSP
+		-- use({ "williamboman/nvim-lsp-installer" }) -- simple to use language server installer
+		use({ "jose-elias-alvarez/null-ls.nvim", disable = false }) -- unversal formatter
+
 		-- Utility
 		-- Easy motion in vim
 		use({
@@ -56,6 +79,7 @@ return packer.startup({
 		-- vim hard mode (useful for training)
 		use({
 			"takac/vim-hardtime",
+			disable = true,
 			config = [[
 				vim.g.hardtime_default_on = 1
 				vim.g.hardtime_maxcount = 3
@@ -64,11 +88,10 @@ return packer.startup({
         vim.g.list_of_visual_keys = {"h", "l"}
         ]],
 		})
+		-- quick movement within line
+		use({ "unblevable/quick-scope" })
 		-- autopair with fly-mode support
 		use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 0" })
-
-		-- lsp related
-		use({ "jose-elias-alvarez/null-ls.nvim", disable = false })
 
 		-- python
 		use({ "jpalardy/vim-slime", ft = { "python" } })

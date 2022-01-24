@@ -50,7 +50,7 @@ Plug 'lilydjwg/colorizer' " paint css colors with the real color
 " Plug 'mattn/emmet-vim' " emmet for vim
 Plug 'mbbill/undotree' " undo tree for vim
 " Plug 'mhinz/vim-signify' " git/mercurial/others diff icons on the side of the file lines
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pedrohdz/vim-yaml-folds' " better folding for yaml files
 " Plug 'posva/vim-vue' " vuejs syntax highlighting
 Plug 'shougo/context_filetype.vim' " completion from other opened files
@@ -195,9 +195,9 @@ let g:signify_disable_by_default = 1
 " jump to CoC settings file from anywhere: <leader>coc
 " jump to CoC settings json file from anywhere: <leader>coj
 
-if filereadable(expand("~/.config/nvim/coc-settings.vim"))
-    source ~/.config/nvim/coc-settings.vim
-endif
+" if filereadable(expand("~/.config/nvim/coc-settings.vim"))
+"     source ~/.config/nvim/coc-settings.vim
+" endif
 
 
 " shougo/context_filetype.vim --------------------

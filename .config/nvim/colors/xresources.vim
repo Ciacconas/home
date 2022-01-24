@@ -64,6 +64,9 @@ hi QuickScopePrimary cterm=bold,underline ctermfg=4
 hi Folded   ctermfg=7 ctermbg=None cterm=bold
 " CocHighlightText weaker bg
 hi CursorColumn ctermbg=8
+hi link LspReferenceText CursorColumn
+hi link LspReferenceRead CursorColumn
+hi link LspReferenceWrite CursorColumn
 " CocFloat suggestion menu window
 hi Pmenu ctermfg=15 ctermbg=8
 hi PmenuSel ctermfg=15 ctermbg=5
@@ -71,8 +74,14 @@ hi PmenuSel ctermfg=15 ctermbg=5
 hi CocWarningSign ctermfg=3 cterm=italic
 hi CocInfoSign ctermfg=5 cterm=italic
 hi CocHintSign ctermfg=4 cterm=italic
+hi DiagnosticError ctermfg=1 cterm=italic
+hi DiagnosticWarn ctermfg=3 cterm=italic
+hi DiagnosticInfo ctermfg=5 cterm=italic
+hi DiagnosticHint ctermfg=4 cterm=italic
 " CocUnused highlight
 hi Conceal ctermfg=11 ctermbg=8
+
+
 
 
 " TUI related ----------------------------

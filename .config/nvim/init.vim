@@ -74,6 +74,24 @@ set smartcase
 " enable unicode
 set encoding=utf-8
 
+" Give more space for displaying messages.
+set cmdheight=2
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Some lsp servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
 " when searching, search down into all subfolders
 set path+=**
 
@@ -439,16 +457,11 @@ tnoremap <Esc> <C-\><C-n>
 " keep original Escape available uner `<Esc>
 tnoremap `<Esc> <Esc>
 
-" use K to show documentation in preview window (reqruires neoclide/coc.nvim)
-nnoremap <silent> K :call ShowDocumentation()<CR>
 
 " remap 'n' and 'N' to center screen after jumping to next match
 nnoremap n nzz
 nnoremap N Nzz
 
-" Use `[g` and `]g` to navigate diagnostics (requires neoclide/coc.nvim)
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " go to next misspelled word (enable spell checker with F3)
 " ]s " standard vim keybinding
@@ -676,20 +689,6 @@ nnoremap <leader>B :echo "\<leader\>B"<cr>
 nnoremap <silent> T :TSHighlightCapturesUnderCursor<CR>
 
 
-" Show all diagnostics (requires neoclide/coc.nvim)
-nnoremap <silent> <leader>ca  :<C-u>CocList diagnostics<cr>
-
-" Manage CoC extensions (requires neoclide/coc.nvim)
-nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
-
-" Show CoC commands (requires neoclide/coc.nvim)
-nnoremap <silent> <leader>cm  :<C-u>CocList commands<cr>
-
-" Find symbol of current document (requires neoclide/coc.nvim)
-nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
-
-" Search workspace symbols (requires neoclide/coc.nvim)
-nnoremap <silent> <leader>ci  :<C-u>CocList -I symbols<cr>
 
 " edit one of the vim config files (requires set hidden)
 nnoremap <leader>ci :e ~/.config/nvim/init.vim<CR>
@@ -705,20 +704,14 @@ nnoremap <leader>cd :lcd %:p:h<CR>
 " noop
 nnoremap <leader>C :echo "\<leader\>C"<cr>
 
-" go to definition (requires neoclide/coc.nvim)
-nmap <silent> <leader>d :w<CR><Plug>(coc-definition)
 
 " noop
 nnoremap <leader>D :echo "\<leader\>D"<cr>
 
-" " jump to next error / warning in file
-" nnoremap <leader>e :call CocAction('diagnosticNext')<CR>
 
 " nvim tree toggle
 nnoremap <C-b> :NvimTreeToggle<CR>
 
-" jump to previous error / warning in file
-nnoremap <leader>E :call CocAction('diagnosticPrevious')<CR>
 
 " fuzzy find content in all files in tree  (requires junegunn/fzf)
 nnoremap <leader>fb :Buffers<CR>
@@ -729,12 +722,7 @@ nnoremap <leader>fL :BLines<CR>
 nnoremap <leader>fm :Marks<CR>
 nnoremap <leader>fM :Maps<CR>
 nnoremap <leader>ft :Tags<CR>
-nnoremap <leader>fi :CocCommand python.sortImports<CR>
 
-" autoformat code (requires neoclide/coc.nvim)
-xmap <leader>F <Plug>(coc-format-selected)
-" nmap <leader>F :LSPFormat<CR>
-nmap <leader>F :Format<CR>
 
 " Toggle (git) diff bar (requires tpope/vim-fugitive and mhinz/vim-signify)
 " in 's' to stage, 'u' to unstage
@@ -747,11 +735,6 @@ nnoremap <leader>gu :diffget //2<CR>
 nnoremap <leader>gh :diffget //3<CR>
 nnoremap <leader>gt :SignifyToggle<CR>
 
-" go to definition and similar (requires neoclide/coc.nvim)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 " Toggle Goyo
 nnoremap <leader>G :Goyo<CR>
@@ -777,14 +760,10 @@ nnoremap <leader>I :echo "\<leader\>I"<cr>
 " noop
 nnoremap <leader>j :echo "\<leader\>j"<cr>
 
-" do default action for next item (requires neoclide/coc.nvim)
-nnoremap <silent> <leader>J  :<C-u>CocNext<CR>
 
 " noop
 nnoremap <leader>k :echo "\<leader\>k"<cr>
 
-" do default action for previous item (requires neoclide/coc.nvim)
-nnoremap <silent> <leader>K  :<C-u>CocPrev<CR>
 
 " toggle relative line numbers
 nnoremap <leader>l :call RelativeNumberToggle()<CR>
@@ -828,15 +807,11 @@ function! Paste()
 endfunction
 nnoremap <leader>p :call Paste()<CR>
 
-" resume latest CoC list (requires neoclide/coc.nvim)
-nnoremap <silent> <leader>P  :<C-u>CocListResume<CR>
 
 " noop
-nnoremap <leader>q :echo "\<leader\>q"<cr>
+" nnoremap <leader>q :echo "\<leader\>q"<cr>
 nnoremap <leader>Q :echo "\<leader\>Q"<cr>
 
-" rename symbol (requires neoclide/coc.nvim)
-nmap <leader>r <Plug>(coc-rename)
 
 " noop
 nnoremap <leader>R :echo "\<leader\>R"<cr>

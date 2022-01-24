@@ -4,11 +4,14 @@ if not null_ls_status_ok then
 	return
 end
 
+local formatting = null_ls.builtins.formatting
 null_ls.setup({
 	debug = false,
 	sources = {
 		-- stylua better than lua-format
-		require("null-ls").builtins.formatting.stylua,
-		require("null-ls").builtins.formatting.black,
+		formatting.builtins.formatting.stylua,
+		formatting.builtins.formatting.black,
 	},
 })
+
+vim.cmd([[ command! LSPFormat execute 'lua vim.lsp.buf.formatting()' ]])

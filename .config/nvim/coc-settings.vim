@@ -118,3 +118,68 @@ command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport
 " provide custom statusline: lightline.vim, vim-airline.
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+
+
+
+" Keymaps
+
+" use K to show documentation in preview window (reqruires neoclide/coc.nvim)
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+" Use `[g` and `]g` to navigate diagnostics (requires neoclide/coc.nvim)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Show all diagnostics (requires neoclide/coc.nvim)
+" nnoremap <silent> <leader>q  :<C-u>CocList diagnostics<cr>
+
+" Manage CoC extensions (requires neoclide/coc.nvim)
+nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
+
+" Show CoC commands (requires neoclide/coc.nvim)
+nnoremap <silent> <leader>cm  :<C-u>CocList commands<cr>
+
+" Find symbol of current document (requires neoclide/coc.nvim)
+nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+
+" Search workspace symbols (requires neoclide/coc.nvim)
+nnoremap <silent> <leader>ci  :<C-u>CocList -I symbols<cr>
+
+" " jump to next error / warning in file
+" nnoremap <leader>e :call CocAction('diagnosticNext')<CR>
+
+" jump to previous error / warning in file
+nnoremap <leader>E :call CocAction('diagnosticPrevious')<CR>
+
+" Python sort imports
+nnoremap <leader>fi :CocCommand python.sortImports<CR>
+
+" autoformat code (requires neoclide/coc.nvim)
+" xmap <leader>F <Plug>(coc-format-selected)
+" nmap <leader>F :LSPFormat<CR>
+" nmap <leader>F :Format<CR>
+
+" go to definition and similar (requires neoclide/coc.nvim)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" do default action for next item (requires neoclide/coc.nvim)
+nnoremap <silent> <leader>J  :<C-u>CocNext<CR>
+
+" do default action for previous item (requires neoclide/coc.nvim)
+nnoremap <silent> <leader>K  :<C-u>CocPrev<CR>
+
+" resume latest CoC list (requires neoclide/coc.nvim)
+nnoremap <silent> <leader>P  :<C-u>CocListResume<CR>
+
+" rename symbol (requires neoclide/coc.nvim)
+nmap <leader>r <Plug>(coc-rename)
+
+" go to definition (requires neoclide/coc.nvim)
+" nmap <silent> <leader>d :w<CR><Plug>(coc-definition)
+
+
+
+
