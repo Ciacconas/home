@@ -164,9 +164,9 @@ let g:signify_disable_by_default = 1
 " jump to CoC settings file from anywhere: <leader>coc
 " jump to CoC settings json file from anywhere: <leader>coj
 
-if filereadable(expand("~/.config/nvim/coc-settings.vim"))
-    source ~/.config/nvim/coc-settings.vim
-endif
+" if filereadable(expand("~/.config/nvim/coc-settings.vim"))
+"     source ~/.config/nvim/coc-settings.vim
+" endif
 
 
 " shougo/context_filetype.vim --------------------

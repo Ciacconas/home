@@ -44,26 +44,26 @@ return packer.startup({
 		use({ "akinsho/toggleterm.nvim" })
 
 		-- coc
-		use({ "neoclide/coc.nvim", branch = "release" })
+		-- use({ "neoclide/coc.nvim", branch = "release" })
 
 		-- cmp related
-		-- use({ "hrsh7th/nvim-cmp" })
+		use({ "hrsh7th/nvim-cmp" })
 
-		-- use({ "hrsh7th/cmp-buffer" })
-		-- use({ "hrsh7th/cmp-path" })
-		-- use({ "hrsh7th/cmp-cmdline" })
-		-- use({ "hrsh7th/cmp-nvim-lua" })
-		-- use({ "hrsh7th/cmp-nvim-lsp" })
+		use({ "hrsh7th/cmp-buffer" })
+		use({ "hrsh7th/cmp-path" })
+		use({ "hrsh7th/cmp-cmdline" })
+		use({ "hrsh7th/cmp-nvim-lua" })
+		use({ "hrsh7th/cmp-nvim-lsp" })
 		-- use({ "lukas-reineke/cmp-rg" }) -- regrip
-		-- use({ "Saecki/crates.nvim" }) -- rust crates
-		-- use({ "saadparwaiz1/cmp_luasnip" }) -- luasnip hook for cmp
+		use({ "Saecki/crates.nvim" }) -- rust crates
+		use({ "saadparwaiz1/cmp_luasnip" }) -- luasnip hook for cmp
 
-		-- use({ "L3MON4D3/LuaSnip" }) -- snippet engine
-		-- use({ "onsails/lspkind-nvim" }) -- icons
+		use({ "L3MON4D3/LuaSnip" }) -- snippet engine
+		use({ "onsails/lspkind-nvim" }) -- icons
 
 		-- -- lsp related
-		-- use({ "neovim/nvim-lspconfig" }) -- enable LSP
-		-- use({ "williamboman/nvim-lsp-installer" }) -- simple to use language server installer
+		use({ "neovim/nvim-lspconfig" }) -- enable LSP
+		use({ "williamboman/nvim-lsp-installer" }) -- simple to use language server installer
 		use({ "jose-elias-alvarez/null-ls.nvim", disable = false }) -- unversal formatter
 
 		-- Utility
