@@ -5,9 +5,9 @@ local osd_duration = math.max(decay_delay, mp.get_property_number("osd-duration"
 local fast_speed = 3.0
 local slow_speed = 0.4
 
-local rubberband_af = {
-	{ name = "rubberband", enabled = true, params = { channels = "together", transients = "smooth" } },
-}
+-- local rubberband_af = {
+-- 	{ name = "rubberband", enabled = true, params = { channels = "together", transients = "smooth" } },
+-- }
 
 local function fast_play(table)
 	if table == nil or table["event"] == "down" or table["event"] == "repeat" then
@@ -21,7 +21,7 @@ end
 
 local function slow_play(table)
 	if table == nil or table["event"] == "down" or table["event"] == "repeat" then
-		mp.set_property_native("af", rubberband_af)
+		-- mp.set_property_native("af", rubberband_af)
 		mp.set_property("speed", slow_speed)
 		mp.osd_message((">> x%.1f"):format(slow_speed), osd_duration)
 		-- mp.osd_message(mp.get_property("af"))
