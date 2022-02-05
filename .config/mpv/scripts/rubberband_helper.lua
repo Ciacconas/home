@@ -14,7 +14,7 @@ local mp = require("mp")
 local threshold = 2.5
 local scaletempo_af = { { name = "scaletempo", enabled = true, params = { speed = "tempo" } } }
 local rubberband_af = {
-	{ name = "rubberband", enabled = true, params = { channels = "together", transients = "smooth" } },
+	{ name = "rubberband", enabled = true, params = { transients = "crisp" } },
 }
 
 local last_set = nil
@@ -33,12 +33,12 @@ mp.observe_property("speed", "number", changed_speed)
 --re-implement the [ and ] keys.
 --this nonsense is needed because observe_property("speed"...) isn't working
 --properly for some reason in mpv 0.29.0
-mp.add_forced_key_binding("[", "slowdown", function()
-	mp.set_property("speed", mp.get_property("speed") - 0.1)
-	mp.osd_message(string.format("x%.1f", mp.get_property("speed")), 1)
-end, { repeatable = true })
+-- mp.add_forced_key_binding("[", "slowdown", function()
+-- 	mp.set_property("speed", mp.get_property("speed") - 0.1)
+-- 	mp.osd_message(string.format("x%.1f", mp.get_property("speed")), 1)
+-- end, { repeatable = true })
 
-mp.add_forced_key_binding("]", "speedup", function()
-	mp.set_property("speed", mp.get_property("speed") + 0.1)
-	mp.osd_message(string.format("x%.1f", mp.get_property("speed")), 1)
-end, { repeatable = true })
+-- mp.add_forced_key_binding("]", "speedup", function()
+-- 	mp.set_property("speed", mp.get_property("speed") + 0.1)
+-- 	mp.osd_message(string.format("x%.1f", mp.get_property("speed")), 1)
+-- end, { repeatable = true })
