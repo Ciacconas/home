@@ -3,7 +3,7 @@ local decay_delay = 0.05 -- rate of time by which playback speed is decreased
 local osd_duration = math.max(decay_delay, mp.get_property_number("osd-duration") / 1000)
 local auto_dec_timer = nil
 
-local fast_speed = 3.0
+local fast_speed = 2.8
 local slow_speed = 0.5
 
 -- local rubberband_af = {
@@ -76,8 +76,10 @@ local function slow_play(table)
 	end
 end
 
-mp.add_forced_key_binding("MBTN_RIGHT", "hold_slow", slow_play, { complex = true, repeatable = false })
-mp.add_forced_key_binding("MBTN_LEFT", "hold_fast", fast_play, { complex = true, repeatable = false })
+mp.add_forced_key_binding("MBTN_RIGHT", "hold_slow_mouse", slow_play, { complex = true, repeatable = false })
+mp.add_forced_key_binding("MBTN_LEFT", "hold_fast_mouse", fast_play, { complex = true, repeatable = false })
+mp.add_forced_key_binding("Ctrl+LEFT", "hold_slow", slow_play, { complex = true, repeatable = false })
+mp.add_forced_key_binding("Ctrl+RIGHT", "hold_fast", fast_play, { complex = true, repeatable = false })
 
 local function show_af(table)
 	-- mp.osd_message("1231424", osd_duration)
