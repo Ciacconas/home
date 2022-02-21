@@ -9,6 +9,7 @@
 ## General settings
 #-------------------------------------------------------------------------------
 
+export TEXBASE=main
 export LANG=en_US.UTF-8
 
 # source function (ignore file if file does not exist)

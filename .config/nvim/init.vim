@@ -1105,9 +1105,10 @@ function! LatexBuild(force)
         let latexcmd = latexcmd.' "'.expand('%:t:r').'"'
     endif
     echo latexcmd
-    call NewHorizontalTerminal(latexcmd)
-    sleep 100m
-    execute "normal G\<C-w>k"
+    " call NewHorizontalTerminal(latexcmd)
+    " sleep 100m
+    " execute "normal G\<C-w>k"
+    lua local lalacmd = vim.api.nvim_eval("latexcmd"); _MK_Latex(lalacmd)
     normal `m
     delmarks m
 endfunction
