@@ -54,3 +54,13 @@ function _CARGORUN()
 	vim.cmd([[execute "normal G\<C-w>k"]])
 	toggleterm.exec("cargo run", 5)
 end
+
+-- mklatex
+local mklatex = Terminal:new({ count = 6, hidden = false, direction = "horizontal" })
+function _MK_Latex(mklatex_arg)
+	mklatex:toggle()
+	print(mklatex_arg)
+	toggleterm.exec(mklatex_arg, 6)
+	vim.wait(100)
+	vim.cmd([[execute "normal G\<C-w>k"]])
+end
