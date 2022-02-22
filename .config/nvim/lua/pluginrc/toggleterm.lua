@@ -64,3 +64,18 @@ function _MK_Latex(mklatex_arg)
 	vim.wait(100)
 	vim.cmd([[execute "normal G\<C-w>k"]])
 end
+
+-- lazygit
+local lazygit = Terminal:new({
+	cmd = "lazygit",
+	count = 7,
+	direction = "float",
+	on_open = function(term)
+		vim.cmd("startinsert!")
+	end,
+})
+
+function _LAZZYGIT()
+	lazygit:toggle()
+end
+vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })

@@ -1,6 +1,7 @@
 local fn = vim.fn
 local map = vim.api.nvim_set_keymap
 local keymap_opt = { noremap = true, silent = true }
+vim.g.mapleader = " "
 
 -- Automatically install packer
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -73,7 +74,7 @@ return packer.startup({
 			branch = "v1",
 			config = function()
 				require("hop").setup({})
-				vim.cmd([[nnoremap s :HopChar2<CR>]])
+				vim.cmd([[nnoremap s <cmd>HopChar2<CR>]])
 			end,
 		})
 		-- vim hard mode (useful for training)
