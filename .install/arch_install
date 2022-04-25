@@ -523,7 +523,7 @@ link /usr/bin/nvim /usr/bin/vi
 pacman_install python-pynvim
 ## neovim-remote: some of my nvim scripts depend on it
 yay_install neovim-remote
-#pip2_install pynvim
+pacman_install python-pynvim
 ## ruby-neovim: better integration of ruby with neovim:
 #yay_install ruby-neovim
 ## node-neovim: better integration of nodejs with neovim:
@@ -680,17 +680,17 @@ pacman_install xorg-xhost
 pacman -Q libxft-bgra-git &> /dev/null || yes | LC_ALL=en_US.UTF-8 yay -S -q libxft-bgra-git >> "$LOG" 2>> "$ERR"
 
 ## Dell displaylink drivers:
-pacman_install linux-headers
-# yay_install evdi-git
+#pacman_install linux-headers
+#yay_install evdi-git
 #yay_install evdi
-# yay_install displaylink
+#yay_install displaylink
 #yay_install displaylink-beta
-# systemctl_enable displaylink
-# printf "Section \"OutputClass\"\n  Identifier \"DisplayLink\"\n  MatchDriver \"evdi\"\n  Driver \"modesetting\"\n  Option \"AccelMethod\" \"none\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/20-evdidevice.conf > /dev/null 2>> "$ERR"
-# printf "Section \"Device\"\n  Identifier \"DisplayLink\"\n  Driver \"modesetting\"\n  Option \"PageFlip\" \"false\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/21-displaylink.conf > /dev/null 2>> "$ERR"
-# yay_install rsyslog
-# printf ":msg,contains,"drm_wait_vblank" /var/log/displaylink.err\n&stop" | sudo tee /etc/rsyslog.d/30-displaylink.conf > /dev/null 2>> "$ERR"
-# systemctl_enable rsyslog
+#systemctl_enable displaylink
+#printf "Section \"OutputClass\"\n  Identifier \"DisplayLink\"\n  MatchDriver \"evdi\"\n  Driver \"modesetting\"\n  Option \"AccelMethod\" \"none\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/20-evdidevice.conf > /dev/null 2>> "$ERR"
+#printf "Section \"Device\"\n  Identifier \"DisplayLink\"\n  Driver \"modesetting\"\n  Option \"PageFlip\" \"false\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/21-displaylink.conf > /dev/null 2>> "$ERR"
+#yay_install rsyslog
+#printf ":msg,contains,"drm_wait_vblank" /var/log/displaylink.err\n&stop" | sudo tee /etc/rsyslog.d/30-displaylink.conf > /dev/null 2>> "$ERR"
+#systemctl_enable rsyslog
 
 
 # Desktop Environment / Window Manager
@@ -1211,6 +1211,8 @@ pacman_install ipython
 # Browsers
 #-------------------------------------------------------------------------------
 
+## epiphany (gnome webbrowser)
+pacman_install epiphany
 ## waterfox (like firefox, but better defaults)
 #yay_install waterfox-current-bin
 ## firefox (like waterfox, but the original ;-) )
@@ -1404,7 +1406,7 @@ pacman_install python-lxml
 ## castero: tui podcast client
 #yay_install castero
 ## jedi: linting and more (newer version than via pacman)
-#pip3_install jedi
+pacman_install python-jedi
 ## markdown <-> ipynb conversion
 #pip3_install notedown
 ## google cloud apis
@@ -1416,6 +1418,10 @@ pacman_install python-lxml
 ## run jupyterlab as a systemd service:
 systemctl_create jupyterhub
 #systemctl_enable jupyterhub
+## neovim compatibility
+pacman_install python-pynvim
+## dunk, a better git-diff (pipe git diff into dunk)
+#pip3_install dunk
 
 
 # Password manager

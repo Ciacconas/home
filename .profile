@@ -32,6 +32,7 @@
 #-------------------------------------------------------------------------------
 
 export BROWSER="firefox"
+export BROWSER2="chromium" # fallback browser
 export CC="gcc"
 export COLORTERM="truecolor"
 export CXX="g++"

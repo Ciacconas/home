@@ -15,7 +15,7 @@ super + A
 
 # reload picom config
 super + control + a
-    kill -SIGUSR1 $(pidof picom)
+    notify-send "picom reloaded" && kill -SIGUSR1 $(pidof picom)
 
 # set alpha to 100%
 super + control + A
@@ -98,6 +98,14 @@ super + k
 # copy password to clipboard with passmenu
 super + K
     /usr/bin/passmenu -l 20
+
+# type password with passmenu
+super + control + k
+    /usr/bin/passmenu --type -l 20
+
+# fill in default username
+super + control + K
+    type-login --type
 
 # increase master window size (dwm)
 super + l
@@ -186,7 +194,7 @@ super + S
 
 # reload sxhkd config
 super + control + s
-    kill -SIGUSR1 $(pidof sxhkd)
+    kill -SIGUSR1 $(pidof sxhkd) && notify-send "sxhkd reloaded"
 
 # toggle between last two dwm layouts
 super + t
@@ -212,21 +220,21 @@ super + v
 super + V
     # handled by dwm
 
-# start firefox
-super + w
-    firefox --new-window
-
-# start chromium
+# start $BROWSER2
 super + W
-    chromium --new-window
+    $BROWSER2 --new-window
+
+# start $BROWSER
+super + w
+    $BROWSER --new-window
 
 # search the web with duckduckgo:
 super + control + w
-    q=$(printf "" | dmenu -p "🦆 ") && firefox --new-window "https://duckduckgo.com/?q=$q"
+    q=$(printf "" | dmenu -p "🦆 ") && $BROWSER --new-window "https://duckduckgo.com/?q=$q"
 
 # search the web with google:
 super + control + W
-    q=$(printf "" | dmenu -p " ") && firefox --new-window "https://google.com/search?q=$q"
+    q=$(printf "" | dmenu -p " ") && $BROWSER --new-window "https://google.com/search?q=$q"
 
 # shift focus to monitor X (dwm)
 super + x
@@ -320,7 +328,13 @@ super + semicolon
 super + shift + semicolon
     # handled by dwm
 
+# swap forward/backward slashes in string on primary selection (clipboard)
 super + slash
+    slashes primary
+
+# swap forward/backward slashes in string on clipboard
+super + shift + slash
+    slashes clipboard
 
 super + apostrophe
 
@@ -466,11 +480,11 @@ super + F8
 
 # search the web with duckduckgo:
 super + F9
-    q=$(printf "" | dmenu -p "🦆 ") && firefox --new-window "https://duckduckgo.com/?q=$q"
+    q=$(printf "" | dmenu -p "🦆 ") && $BROWSER --new-window "https://duckduckgo.com/?q=$q"
 
 # search the web with google:
 super + shift + F9
-    q=$(printf "" | dmenu -p " ") && firefox --new-window "https://google.com/search?q=$q"
+    q=$(printf "" | dmenu -p " ") && $BROWSER --new-window "https://google.com/search?q=$q"
 
 super + F10
 
@@ -544,11 +558,11 @@ XF86AudioMedia
 
 # search the web with duckduckgo:
 XF86Search
-    q=$(printf "" | dmenu -p "🦆 ") && firefox --new-window "https://duckduckgo.com/?q=$q"
+    q=$(printf "" | dmenu -p "🦆 ") && $BROWSER --new-window "https://duckduckgo.com/?q=$q"
 
 # search the web with google:
 shift + XF86Search
-    q=$(printf "" | dmenu -p " ") && firefox --new-window "https://google.com/search?q=$q"
+    q=$(printf "" | dmenu -p " ") && $BROWSER --new-window "https://google.com/search?q=$q"
 
 # new floating ipython shell
 XF86Calculator

@@ -136,6 +136,7 @@ zle -N zle-line-init
 alias :q=exit
 alias :x=exit
 alias :e=$EDITOR
+alias ss="sudo systemctl"
 alias ll="ls -l"
 alias lg="lazygit"
 alias la="ls -la"
@@ -143,6 +144,7 @@ alias grep="grep --color=auto"
 alias base="conda activate base"
 alias system="conda deactivate && conda deactivate"
 alias history="history 1"
+alias D="dunk | less -R"
 
 alias pip="python -m pip --no-cache-dir"
 alias pip3="python3 -m pip --no-cache-dir"
