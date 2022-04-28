@@ -14,7 +14,7 @@ local mp = require("mp")
 local threshold = 3.1
 local scaletempo_af = { { name = "scaletempo", enabled = true, params = { speed = "tempo" } } }
 local rubberband_af = {
-	{ name = "rubberband", enabled = true, params = { transients = "mixed" } },
+	{ name = "rubberband", enabled = true, params = { transients = "smooth" } }, --smooth/crisp
 }
 
 local last_set = nil
