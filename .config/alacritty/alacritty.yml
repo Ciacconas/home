@@ -31,22 +31,22 @@ scrolling:
   multiplier: 3
 
 font:
-  size: 15.0
+  size: 13.0
   normal:
-    family: monospace
-    style: Regular
+    family: DejaVuSansMono Nerd Font Mono
+    style: Book #Regular
   bold:
-    family: monospace
+    family: DejaVuSansMono Nerd Font Mono
     style: Bold
   italic:
-    family: monospace
-    style: Italic
+    family: DejaVuSansMono Nerd Font Mono
+    style: Oblique # Italic
   bold_italic:
-    family: monospace
-    style: Bold Italic
+    family: DejaVuSansMono Nerd Font Mono
+    style: Bold Oblique #Bold Italic
   offset:
     x: 0
-    y: 0
+    y: -1
   glyph_offset:
     x: 0
     y: 0
