@@ -127,3 +127,30 @@ these two packages.
 #### 72-block-emoji.conf
 
 All common emoji fonts except the one I'm using are blocked.
+
+## Bindings
+
+### serif
+Serif -> Linux Libertine -> Liberation Serif
+gsfonts: Times -> Nimbus Roman(blocked) -> Liberation Serif
+
+### sans
+Sans-Serif -> Ubuntu
+gsfonts: Helvetica -> Nimbus Sans(blocked) -> Liberation Sans
+
+### monospace
+gsfonts:
+Courier -> Nimbus Mono PS(blocked) -> Liberation Mono
+Nimbus Mono(blocked) -> Nimbus Mono PS(blocked)
+Nimbus Mono(blocked) -> Liberation Mono
+
+adobe:
+Source Code Variable(blocked) -> Liberation Mono
+Source Code Pro(blocked) -> Liberation Mono
+
+
+## about the icons
+Included the Hack Regular Nerd Font (not mono, mono have small icon) for the rich and uniformed icons. If fontawesome goes first then lsd is not getting good support(check `fc-match -a monospace/serif/sans/` to check load priority).
+- In 68-icons.conf, Hack Regular Nerd Font was prepened as the first available font after the strong binding(serif->LinLibertine).
+  - This result a draw back of Hack font (mono) is the second match of any font match. This is will cause bad influence on some of the app display (the 0 will have dots in the middle)
+  - To solve this the Hack is _strong_ binded to Liberation Mono. So Liberation Mono will be the second match for all the font priority list. Although not ideal (monospace font as second match even for serif). It seems to not cause any real trouble to font display
