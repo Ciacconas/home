@@ -25,6 +25,7 @@ map <A-Button3> zoom out
 
 # open file
 map <C-o> feedkeys ":open <Tab>"
+map <C-t> jumplist backward
 map O feedkeys ":open <Tab>"
 
 # rotate
