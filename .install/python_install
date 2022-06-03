@@ -54,7 +54,17 @@ source "$CONDAROOT/etc/profile.d/conda.sh"
 ## base environment
 #-------------------------------------------------------------------------------
 
+# jupyter hub related
 mamba install -y -n base -c conda-forge black nodejs\>=10 jupyterlab\>=3 jupyterhub \
+  jupyterlab_code_formatter ipympl nbstripout pylint pydocstyle pep8 flake8 pyflakes isort yapf \
+  jupyterlab_vim pip wheel jupyterlab-lsp pyright
+
+
+# work python env
+## pytorch
+mamba create -y -n work -c pytorch pytorch
+
+mamba install -y -n work -c conda-forge black nodejs\>=10 jupyterlab\>=3 \
   jupyterlab_code_formatter ipympl nbstripout pre-commit nbdime pynvim cython numpy \
   scipy sympy pandas pytables scikit-learn matplotlib altair plotly      \
   pillow pandoc h5py tqdm line_profiler pylint pydocstyle mypy pep8 black flake8    \
