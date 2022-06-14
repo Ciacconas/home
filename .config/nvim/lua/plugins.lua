@@ -49,7 +49,6 @@ return packer.startup({
 
 		-- cmp related
 		use({ "hrsh7th/nvim-cmp" })
-
 		use({ "hrsh7th/cmp-buffer" })
 		use({ "hrsh7th/cmp-path" })
 		use({ "hrsh7th/cmp-cmdline" })
@@ -77,6 +76,8 @@ return packer.startup({
 				vim.cmd([[nnoremap s <cmd>HopChar2<CR>]])
 			end,
 		})
+		-- easy comment
+		use({"tpope/vim-commentary"})
 		-- vim hard mode (useful for training)
 		use({
 			"takac/vim-hardtime",

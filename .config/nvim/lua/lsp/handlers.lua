@@ -64,7 +64,7 @@ M.on_attach = function(client, bufnr)
 
 	-- Local Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	local opts = { noremap = true, silent = true }
+	local opts = { noremap = true, silent = false }
 
 	vim.api.nvim_set_keymap("n", "<Leader>d", ":lua vim.diagnostic.open_float()<CR>", opts)
 	vim.api.nvim_set_keymap("n", "[g", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)

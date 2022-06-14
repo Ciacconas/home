@@ -17,25 +17,28 @@ lsp_installer.on_server_ready(function(server)
 	-- end
 
 	-- lua
-	local lua_opt = {
-		settings = {
-			Lua = {
-				diagnostics = {
-					globals = { "vim" },
-				},
-				workspace = {
-					library = {
-						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-						[vim.fn.stdpath("config") .. "/lua"] = true,
+	if server.name == "sumneko_lua" then
+		local lua_opt = {
+			settings = {
+				Lua = {
+					diagnostics = {
+						globals = { "vim" },
+					},
+					workspace = {
+						library = {
+							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+							[vim.fn.stdpath("config") .. "/lua"] = true,
+						},
 					},
 				},
 			},
-		},
-	}
-
-	if server.name == "sumneko_lua" then
+		}
 		opts = vim.tbl_deep_extend("force", lua_opt, opts)
 	end
+
+	local python_opt = {
+		settings = {},
+	}
 
 	-- This setup() function will take the provided server configuration and decorate it with the necessary properties
 	-- before passing it onwards to lspconfig.
