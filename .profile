@@ -52,6 +52,10 @@ export SAVEHIST=30000
 export SUDO_ASKPASS="$HOME/.local/bin/askpass"
 export SUDO_ASKUSERPASS="$HOME/.local/bin/askuserpass"
 export TERMINAL="alacritty"
+export CHIP_DESIGN_REPOS="$HOME/Documents/xanadu/github"
+# export IPKISS_PORT=5050
+export SAVOYTRUFFLE_WORKDIR="$HOME/Documents/xanadu"
+export DOCKER_BUILDKIT=1
 
 
 # Python
