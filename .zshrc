@@ -66,10 +66,10 @@ setopt prompt_subst
 prompt(){
     retval=$1
     # is root user
-    [[ $UID == 0 ]] && echo -ne "%B%F{yellow}%{%G%} %f%b "
+    [[ $UID == 0 ]] && echo -ne "%B%F{yellow}%{%G%} %f%b " #
     # conda info
     if [[ ! -z $CONDA_DEFAULT_ENV ]]; then
-        echo -ne "%F{blue}%{%G%} %f" # 
+        echo -ne "%F{blue}%{%G%} %f" #  
         [[ $CONDA_DEFAULT_ENV != base ]] && echo -ne "%F{blue}$CONDA_DEFAULT_ENV%f "
     fi
     # path
@@ -81,7 +81,7 @@ prompt(){
         if git status --porcelain 2> /dev/null | grep "^A\|^M\|^ M\|^??" > /dev/null 2> /dev/null; then
             dirty="*"
         fi
-        echo -ne "%F{magenta}%{%G%}$branch_name$dirty%f" #  
+        echo -ne "%F{magenta}%{%G%}$branch_name$dirty%f" # 
     fi
     # prompt symbol
     [[ $retval == 0 ]] && echo -ne "%B%F{green}%{%G❭%}%f%b " || echo -ne "%B%F{red}%{%G❭%}%f%b " # ➜ ❭
