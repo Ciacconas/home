@@ -33,17 +33,17 @@ scrolling:
 font:
   size: 13.0
   normal:
-    family: DejaVuSansMono Nerd Font Mono
-    style: Book #Regular
+    family: Bitstream Vera Sans Mono
+    style: Regular
   bold:
-    family: DejaVuSansMono Nerd Font Mono
+    family: Bitstream Vera Sans Mono
     style: Bold
   italic:
-    family: DejaVuSansMono Nerd Font Mono
-    style: Oblique # Italic
+    family: Bitstream Vera Sans Mono
+    style: Italic
   bold_italic:
-    family: DejaVuSansMono Nerd Font Mono
-    style: Bold Oblique #Bold Italic
+    family: Bitstream Vera Sans Mono
+    style: Bold Italic
   offset:
     x: 0
     y: -1
