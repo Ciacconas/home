@@ -99,13 +99,9 @@ super + k
 super + K
     /usr/bin/passmenu -l 20
 
-# type password with passmenu
-super + control + k
-    /usr/bin/passmenu --type -l 20
-
-# fill in default username
+# copy otp code to clipboard with passmenu-otp
 super + control + K
-    type-login --type
+    /usr/bin/passmenu-otp
 
 # increase master window size (dwm)
 super + l
@@ -142,11 +138,9 @@ super + O
 
 # dmenu choose monitor layout
 super + p
-    pavucontrol
-
-# default screen layout
-super + P
     dmenu_screenlayout
+
+super + P
 
 # same screen layout
 # super + control + P
@@ -170,7 +164,7 @@ super + control + Q
 
 # open neomutt
 super + r
-    cd $HOME; $TERMINAL -e neomutt
+    pavucontrol
 
 # run mbsync
 super + R
