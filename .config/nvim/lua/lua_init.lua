@@ -1,5 +1,0 @@
-require('globalsettings')
-require('plugins')
-require('pluginrc')
-require('lsp')
-require('playground')

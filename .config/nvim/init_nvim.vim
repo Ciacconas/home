@@ -59,24 +59,24 @@ endif
 "-------------------------------------------------------------------------------
 " these settings won't change, no matter the filetype or active extension
 
-" set leader key
+" " set leader key
 " let mapleader = " "
 
-" when scrolling, keep cursor in the middle of the page (disabled, use zz to center)
-" set scrolloff=1000
+" " when scrolling, keep cursor in the middle of the page (disabled, use zz to center)
+" " set scrolloff=1000
 " set scrolloff=10
 
-" allow pattern matching with special characters during search
-set magic
+" " allow pattern matching with special characters during search
+" set magic
 
-" case insensitive search when searching with lower case characters
-set ignorecase
+" " case insensitive search when searching with lower case characters
+" set ignorecase
 
-" case sensitive search when searching with upper case characters
-set smartcase
+" " case sensitive search when searching with upper case characters
+" set smartcase
 
-" enable unicode
-set encoding=utf-8
+" " enable unicode
+" set encoding=utf-8
 
 " Give more space for displaying messages.
 set cmdheight=2

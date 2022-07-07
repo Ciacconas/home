@@ -16,6 +16,15 @@ vim.o.scrolloff = 10
 -- allow pattern matching with special characters during search
 vim.o.magic = 1
 
+-- case insensitive search when searching with lower case characters
+vim.o.ignorecase=1
+
+-- case sensitive search when searching with upper case characters
+vim.o.smartcase=1
+
+-- enable unicode
+vim.o.encoding="utf-8"
+
 -------------------------------------------------------------------------------
 
 -- define custom filetypes
