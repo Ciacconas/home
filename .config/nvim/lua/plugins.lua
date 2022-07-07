@@ -1,7 +1,6 @@
 local fn = vim.fn
 local map = vim.api.nvim_set_keymap
 local keymap_opt = { noremap = true, silent = true }
-vim.g.mapleader = " "
 
 -- Automatically install packer
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -78,6 +77,8 @@ return packer.startup({
 		})
 		-- easy comment
 		use({"tpope/vim-commentary"})
+		-- fzf
+		use({'junegunn/fzf.vim' })
 		-- vim hard mode (useful for training)
 		use({
 			"takac/vim-hardtime",
@@ -96,6 +97,7 @@ return packer.startup({
 		use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 0" })
 
 		-- python
+		-- use({ "jpalardy/vim-slime", ft = { "python" } })
 		use({ "jpalardy/vim-slime", ft = { "python" } })
 		use({ "hanschen/vim-ipython-cell", ft = { "python" } })
 

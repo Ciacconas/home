@@ -10,11 +10,13 @@
 "-------------------------------------------------------------------------------
 " jump to snippets file from anywhere: <leader>lp
 
-if filereadable(expand("~/.config/nvim/lua/plugins.lua"))
-    lua require('plugins')
-    lua require('pluginrc')
-    lua require('lsp')
-endif
+" if filereadable(expand("~/.config/nvim/lua/plugins.lua"))
+"     lua require('globalsettings')
+"     lua require('plugins')
+"     lua require('pluginrc')
+"     lua require('lsp')
+"     lua require('playground')
+" endif
 
 
 "" Plugins
@@ -38,19 +40,19 @@ endif
 "-------------------------------------------------------------------------------
 
 " define custom filetypes
-augroup filetypes
-    autocmd!
-    autocmd BufNewFile,BufEnter,BufRead * filetype on
-    autocmd BufNewFile,BufEnter,BufRead * filetype plugin on
-    autocmd BufNewFile,BufEnter,BufRead * filetype indent on
-    autocmd BufNewFile,BufEnter,BufRead *.vim,*.vimrc,*vifmrc setlocal filetype=vim
-    autocmd BufNewFile,BufEnter,BufRead *.ipynb setlocal filetype=ipynb
-    autocmd BufNewFile,BufEnter,BufRead *.tex,*.sty setlocal filetype=tex
-    autocmd BufNewFile,BufEnter,BufRead *.txt,/tmp/neomutt* setlocal filetype=text
-    autocmd BufNewFile,BufEnter,BufRead *.md,/tmp/calcurse*,~/.calcurse/notes/* setlocal filetype=vimwiki
-    autocmd BufNewFile,BufEnter,BufRead *.pic.yml call DetectSls()
-    autocmd BufEnter /usr/share/nvim/runtime/doc/*.txt  setlocal nospell
-augroup end
+" augroup filetypes
+"     autocmd!
+"     " autocmd BufNewFile,BufEnter,BufRead * filetype on
+"     autocmd BufNewFile,BufEnter,BufRead * filetype plugin on
+"     autocmd BufNewFile,BufEnter,BufRead * filetype indent on
+"     autocmd BufNewFile,BufEnter,BufRead *.vim,*.vimrc,*vifmrc setlocal filetype=vim
+"     autocmd BufNewFile,BufEnter,BufRead *.ipynb setlocal filetype=ipynb
+"     autocmd BufNewFile,BufEnter,BufRead *.tex,*.sty setlocal filetype=tex
+"     autocmd BufNewFile,BufEnter,BufRead *.txt,/tmp/neomutt* setlocal filetype=text
+"     autocmd BufNewFile,BufEnter,BufRead *.md,/tmp/calcurse*,~/.calcurse/notes/* setlocal filetype=vimwiki
+"     autocmd BufNewFile,BufEnter,BufRead *.pic.yml call DetectSls()
+"     autocmd BufEnter /usr/share/nvim/runtime/doc/*.txt  setlocal nospell
+" augroup end
 
 
 "" Fixed Settings
@@ -58,11 +60,11 @@ augroup end
 " these settings won't change, no matter the filetype or active extension
 
 " set leader key
-let mapleader = " "
+" let mapleader = " "
 
 " when scrolling, keep cursor in the middle of the page (disabled, use zz to center)
 " set scrolloff=1000
-set scrolloff=10
+" set scrolloff=10
 
 " allow pattern matching with special characters during search
 set magic
@@ -410,11 +412,6 @@ command! HardWrap setlocal nowrap nolinebreak formatoptions=tqj textwidth=88 col
 " enable no wrapping (disable both hard wrapping and soft wrapping)
 command! NoWrap setlocal nowrap nolinebreak formatoptions=lqj textwidth=0 colorcolumn=0
 
-augroup terminal
-  autocmd!
-  autocmd TermOpen * call OnTerminalOpen()
-  autocmd TermClose * call OnTerminalClose()
-augroup end
 
 augroup pythonterminal
     autocmd!
@@ -424,14 +421,20 @@ augroup pythonterminal
     autocmd FileType python command! VT call NewVerticalTerminal("ipython --matplotlib")
 augroup end
 
-function! OnTerminalOpen()
-    let g:last_terminal_job_id = b:terminal_job_id
-endfunction
-function! OnTerminalClose()
-    if exists("g:last_terminal_job_id")
-        unlet g:last_terminal_job_id
-    endif
-endfunction
+" augroup terminal
+"   autocmd!
+"   autocmd TermOpen * call OnTerminalOpen()
+"   autocmd TermClose * call OnTerminalClose()
+" augroup end
+
+" function! OnTerminalOpen()
+"     let g:last_terminal_job_id = b:terminal_job_id
+" endfunction
+" function! OnTerminalClose()
+"     if exists("g:last_terminal_job_id")
+"         unlet g:last_terminal_job_id
+"     endif
+" endfunction
 
 function! NewTerminal(shell)
     execute "terminal ".a:shell
@@ -1047,16 +1050,16 @@ nnoremap <F11> :echo "\<F11\>"<cr>
 " noop
 nnoremap <F12> :echo "\<F12\>"<cr>
 
-augroup pythonfunctionkeyshortcuts
-    autocmd!
-    " run cell and jump to next cell (use '##' to mark a cell)
-    autocmd FileType python nnoremap <buffer> <CR> :call RunPython("celljump")<cr>
-    autocmd FileType python nnoremap <buffer> <S-CR> :call RunPython("celljump")<cr>
-    " run cell and stay (use '##' to mark a cell)
-    autocmd FileType python nnoremap <buffer> <C-CR> :call RunPython("cellstay")<cr>
-    " run full script and show execution time
-    autocmd FileType python nnoremap <buffer> <F5> :call RunPython("all")<cr>
-augroup end
+" augroup pythonfunctionkeyshortcuts
+"     autocmd!
+"     " run cell and jump to next cell (use '##' to mark a cell)
+"     autocmd FileType python nnoremap <buffer> <CR> :call RunPython("celljump")<cr>
+"     autocmd FileType python nnoremap <buffer> <S-CR> :call RunPython("celljump")<cr>
+"     " run cell and stay (use '##' to mark a cell)
+"     autocmd FileType python nnoremap <buffer> <C-CR> :call RunPython("cellstay")<cr>
+"     " run full script and show execution time
+"     autocmd FileType python nnoremap <buffer> <F5> :call RunPython("all")<cr>
+" augroup end
 
 augroup jupyterfunctionkeyshortcuts
     autocmd!
@@ -1073,31 +1076,39 @@ augroup latexfunctionkeyshortcuts
     autocmd FileType tex nnoremap <buffer> <F5><F5> :call LatexBuild("-f")<CR>
 augroup end
 
-function! RunPython(type)
-    if exists("g:last_terminal_job_id")
-        let b:slime_config = [g:last_terminal_job_id]
-        if (a:type == "celljump")
-            IPythonCellExecuteCellJump
-        elseif (a:type == "cellstay")
-            IPythonCellExecuteCell
-        elseif (a:type == "all")
-            IPythonCellRunTime
-        endif
-    else
-        " new terminal
-        call system('ipython -c "import sys"')
-        if !v:shell_error
-            lua _IPYTHON_TERM()
-            if exists("g:last_terminal_job_id")
-                sleep 100m
-                call RunPython(a:type)
-            endif
-        else
-            echo "ipython not found"
-        endif
-    endif
-endfunction
+" function! RunPython(type)
+"     if exists("g:last_terminal_job_id")
+"         let b:slime_config = [g:last_terminal_job_id]
+"         if (a:type == "celljump")
+"             IPythonCellExecuteCellJump
+"         elseif (a:type == "cellstay")
+"             IPythonCellExecuteCell
+"         elseif (a:type == "all")
+"             IPythonCellRunTime
+"         endif
+"     else
+"         " new terminal
+"         call system('ipython -c "import sys"')
+"         if !v:shell_error
+"             call NewHorizontalTerminal("ipython --matplotlib")
+"             " lua _IPYTHON_TERM()
+"             if exists("g:last_terminal_job_id")
+"                 sleep 100m
+"                 call RunPython(a:type)
+"             endif
+"         else
+"             echo "ipython not found"
+"         endif
+"     endif
+" endfunction
 
+let g:slime_no_mappings = 1
+let g:slime_target = "neovim"
+let g:slime_python_ipython = 1
+let g:slime_dont_ask_default = 1
+let g:slime_cell_delimiter = "##"
+let g:slime_paste_file = "$HOME/.config/nvim/slime_paste"
+let g:slime_default_config = [5]
 
 function! LatexBuild(force)
     delmarks m
