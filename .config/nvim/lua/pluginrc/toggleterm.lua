@@ -41,11 +41,22 @@ toggleterm.setup({
 
 local Terminal = require("toggleterm.terminal").Terminal
 
-local ipython = Terminal:new({ cmd = "ipython --matplotlib", hidden = false, direction = "horizontal" })
+local ipython = Terminal:new({
+	count = 9,
+	cmd = "ipython --matplotlib",
+	on_open = function(term)
+		vim.g.slime_python = term.job_id
+	end,
+	on_exit = function()
+		vim.g.slime_python = nil
+	end,
+	hidden = false,
+	direction = "horizontal" })
 
 function _IPYTHON_TERM()
 	ipython:toggle()
 	vim.cmd([[execute "normal G\<C-w>k"]])
+	vim.b.slime_config = vim.g.slime_python
 end
 
 local cargo5 = Terminal:new({ count = 5, direction = "float" })
@@ -78,4 +89,5 @@ local lazygit = Terminal:new({
 function _LAZZYGIT()
 	lazygit:toggle()
 end
+
 vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })

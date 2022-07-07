@@ -1,0 +1,37 @@
+--------------------------------------------------------------------
+
+-- Python related stuff
+-- Run python in the neovim toggleterm terminal
+function PythonRun(type)
+    if vim.g.slime_python ~= nil then
+        if type == "celljump" then
+            vim.cmd('IPythonCellExecuteCellJump')
+        end
+        if type == "runall" then
+            vim.cmd('IPythonCellRunTime')
+        end
+    else
+        vim.cmd([[call system('ipython -c "import sys"')]])
+        if vim.v.shell_error == 0 then
+            _IPYTHON_TERM()
+            vim.wait(800)
+            PythonRun(type)
+        else
+            print("ipython not found")
+        end
+    end
+end
+-- keymaps
+local function set_python_related_keymaps()
+    vim.keymap.set("n", "<CR>", function() PythonRun('celljump') end, { buffer = true })
+    vim.keymap.set("n", "<F5>", function() PythonRun('runall') end, { buffer = true })
+end
+-- setting up the au group for the python filetype specific keymaps
+vim.api.nvim_create_augroup("choma_filetype_python", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "python",
+    group = "choma_filetype_python",
+    callback = set_python_related_keymaps
+})
+
+--------------------------------------------------------------------
