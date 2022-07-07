@@ -8,6 +8,8 @@
         "<C-f>": false,
         "<C-h>": false
     },
+    "vim.easymotion": false,
+    "vim.leader": " ",
     "vim.insertModeKeyBindings": [
         {
             "after": [
@@ -67,4 +69,5 @@
         "editor.defaultFormatter": "ahmadalli.vscode-nginx-conf"
     },
     "security.workspace.trust.untrustedFiles": "open",
+    "Lua.telemetry.enable": false,
 }

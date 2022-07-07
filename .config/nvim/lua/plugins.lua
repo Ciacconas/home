@@ -76,20 +76,20 @@ return packer.startup({
 			end,
 		})
 		-- easy comment
-		use({"tpope/vim-commentary"})
+		use({ "tpope/vim-commentary" })
 		-- fzf
-		use({'junegunn/fzf.vim' })
+		use({ 'junegunn/fzf.vim' })
 		-- vim hard mode (useful for training)
 		use({
 			"takac/vim-hardtime",
 			disable = true,
-			config = [[
-				vim.g.hardtime_default_on = 1
+			config = function()
+				vim.g.hardtime_default_on = 0
 				vim.g.hardtime_maxcount = 3
 				vim.g.hardtime_allow_different_key = 1
-        vim.g.list_of_normal_keys = {"j", "k", "h", "l"}
-        vim.g.list_of_visual_keys = {"h", "l"}
-        ]],
+				vim.g.list_of_normal_keys = { "j", "k", "h", "l" }
+				vim.g.list_of_visual_keys = { "h", "l" }
+			end
 		})
 		-- quick movement within line
 		use({ "unblevable/quick-scope" })
@@ -101,7 +101,7 @@ return packer.startup({
 		use({ "jpalardy/vim-slime", ft = { "python" } })
 		use({ "hanschen/vim-ipython-cell", ft = { "python" } })
 
-		use({ "tweekmonster/startuptime.vim" })
+		use({ "dstein64/vim-startuptime" })
 		-- use({ "justinmk/vim-sneak", disable = true })
 
 		-- Automatically set up your configuration after cloning packer.nvim
