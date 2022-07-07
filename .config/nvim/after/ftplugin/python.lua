@@ -1,5 +1,3 @@
-vim.cmd([[inoremap <Up>     <C-o>:echom "--> k <-- "<CR>]])
-
 -- Run python in the neovim toggleterm terminal
 function PythonRun(type)
     if vim.g.slime_python ~= nil then

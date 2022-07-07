@@ -673,11 +673,11 @@ nnoremap <C-s> <Esc>:w<CR>
 " turn of highlighting
 nnoremap <leader><leader> :noh<cr>
 
-" open next buffer
-nnoremap <leader>] :bnext<CR>
+" " open next buffer
+" nnoremap <leader>] :bnext<CR>
 
-" open previous buffer
-nnoremap <leader>[ :bprevious<CR>
+" " open previous buffer
+" nnoremap <leader>[ :bprevious<CR>
 
 " fuzzy find content in current buffer (requires junegunn/fzf)
 nnoremap <leader>/ :BLines<CR>
@@ -760,7 +760,7 @@ nnoremap <leader>H <C-w>t<C-w>K
 "nnoremap <leader>H <Esc>:call ToggleHardMode()<CR>
 
 "<leader>i: more information (toggle status bar)
-nnoremap <leader>i :call ToggleStatusBar()<CR>
+" nnoremap <leader>i :call ToggleStatusBar()<CR>
 
 " noop
 nnoremap <leader>I :echo "\<leader\>I"<cr>
@@ -837,7 +837,7 @@ nnoremap <leader>t :Tag<CR>
 nnoremap <leader>T :silent !ctags -f .tags -R .<CR>
 
 " show undotree (requires mbbill/undotree)
-nnoremap <leader>u :UndotreeShow<CR><C-w>h
+" nnoremap <leader>u :UndotreeShow<CR><C-w>h
 
 " noop
 nnoremap <leader>U :echo "\<leader\>U"<cr>
