@@ -572,9 +572,7 @@ yay_install viu
 ## spotify-tui: terminal client for spotify (building this takes LONG)
 #yay_install spotify-tui
 ## spotify daemon (dependency for spotify-tui)
-#pacman_install spotifyd
-systemctl_create spotifyd
-systemctl_enable spotifyd
+pacman_install spotifyd
 ## playerctl: terminal client to control spotify, spotifyd, vlc, ...
 pacman_install playerctl
 ## media daemon
@@ -672,7 +670,7 @@ pacman_install xorg-xhost
 ## better compositor:
 #pacman_install picom
 ## bleeding edge version of picom:
-#yay_install picom-git
+yay_install picom-git
 
 ## libxft-bgra; alternative to libxft, helper library for color emojis in my st build:
 ## the reason it is installed this way is because this library replaces libxft
@@ -862,6 +860,7 @@ systemctl_enable bluetooth
 pacman_install remmina
 ## add windows remote desktop protocol to remmina
 pacman_install freerdp
+yay_install remmina-plugin-rdesktop
 ## barrier: seemless mouse and keyboard sharing between computers (takes a while to build)
 pacman_install barrier
 pacman_install barrier-headless
@@ -991,7 +990,7 @@ pacman_install ttf-ubuntu-font-family
 ## a nice monospace font with ligatures (partly blocked by my fontconfig):
 pacman_install ttf-fira-code
 ## a patched fira code font with nerd font glyphs (partly blocked by my fontconfig):
-yay_install nerd-fonts-fira-code
+# yay_install nerd-fonts-fira-code
 ## nice serif (Linux Libertine) and sans-serif (Linux Biolinum) fonts (not blocked by my fontconfig):
  pacman_install ttf-linux-libertine
 ## recommended font package for compatibility with MS Office (fully blocked and partly aliased by my fontconfig):
@@ -1024,7 +1023,7 @@ pacman_install awesome-terminal-fonts
 ## devicons: more symbols (used in lsd)
 #yay_install ttf-devicons
 ## hack nerd fonts: patched font with nice icons (recommended for lsd):
-# yay_install nerd-fonts-hack
+yay_install nerd-fonts-hack
 ## Joypixels color emojis:
 pacman_install ttf-joypixels
 ## google color emojis (blocked by my fontconfig):
@@ -1042,7 +1041,7 @@ pacman_install ttf-joypixels
 
 ## nemo: sometimes a non-terminal file browser can be useful
 pacman_install nemo
-## nemo settings: set default terminal to st:
+## nemo settings: set default terminal to alacritty:
 gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty
 gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 ## nemo-terminal: show a small terminal window on top of the nemo windo
@@ -1132,7 +1131,7 @@ pacman_install youtube-dl
 ## YouTube-viewer
 pacman_install youtube-viewer
 ## vlc media player
-#pacman_install vlc
+pacman_install vlc
 ## mpv media player
 pacman_install mpv
 ## ffmpeg command line tool
@@ -1213,9 +1212,9 @@ pacman_install ipython
 #-------------------------------------------------------------------------------
 
 ## epiphany (gnome webbrowser)
-pacman_install epiphany
+# pacman_install epiphany
 ## waterfox (like firefox, but better defaults)
-#yay_install waterfox-current-bin
+yay_install waterfox-g4-bin
 ## firefox (like waterfox, but the original ;-) )
 pacman_install firefox
 ## patch firefox and waterfox to work with some legacy extensions (like vimfx)
@@ -1253,8 +1252,8 @@ pacman_install msmtp
 ## mbsync: sync email (isync is the distribution, mbsync is the executable)
 pacman_install isync
 ## mutt email client
-pacman_install neomutt
-link /usr/bin/neomutt /usr/bin/mutt
+# pacman_install neomutt
+# link /usr/bin/neomutt /usr/bin/mutt
 ## notmuch: email indexing
 pacman_install notmuch
 ## html email view (also browser!)
