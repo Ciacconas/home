@@ -23,7 +23,7 @@ configs.setup({
 		enable = true,
 
 		-- list of language that will be disabled
-		disable = { "sh", "vim" },
+		disable = { "sh", "vim", "toml", "yaml" },
 
 		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -31,7 +31,7 @@ configs.setup({
 		-- Instead of true it can also be a list of languages
 		additional_vim_regex_highlighting = { "sh", "vim", "conf" },
 	},
-	indent = { enable = true, disable = { "yaml", "python" } },
+	indent = { enable = false, disable = { "yaml", "python" } },
 	playground = {
 		enable = true,
 		disable = {},

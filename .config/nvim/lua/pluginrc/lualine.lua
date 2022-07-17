@@ -14,6 +14,7 @@ lualine.setup({
 		disabled_filetypes = {},
 		always_divide_middle = true,
 	},
+	globalstatus = true, -- enable global statusline
 	sections = {
 		lualine_a = { "mode" },
 		lualine_b = {
@@ -34,6 +35,9 @@ lualine.setup({
 					-- Same values as the general color option can be used here.
 					active = "lualine_a_normal", -- Color for active buffer.
 					inactive = "lualine_c_normal", -- Color for inactive buffer.
+				},
+				symbols = {
+					alternate_file = "",
 				},
 			},
 			"encoding",

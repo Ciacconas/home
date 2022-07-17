@@ -48,16 +48,17 @@ return packer.startup({
 
 		-- cmp related
 		use({ "hrsh7th/nvim-cmp" })
+		use({ "hrsh7th/cmp-nvim-lsp" })
 		use({ "hrsh7th/cmp-buffer" })
 		use({ "hrsh7th/cmp-path" })
-		use({ "hrsh7th/cmp-cmdline" })
 		use({ "hrsh7th/cmp-nvim-lua" })
-		use({ "hrsh7th/cmp-nvim-lsp" })
-		-- use({ "lukas-reineke/cmp-rg" }) -- regrip
-		use({ "Saecki/crates.nvim" }) -- rust crates
-		use({ "saadparwaiz1/cmp_luasnip" }) -- luasnip hook for cmp
+		use({ "hrsh7th/cmp-nvim-lsp-signature-help" }) -- expand function keywords expaination
+		-- use({ "hrsh7th/cmp-cmdline" })
+		-- -- use({ "lukas-reineke/cmp-rg" }) -- regrip
+		-- use({ "Saecki/crates.nvim" }) -- rust crates
 
 		use({ "L3MON4D3/LuaSnip" }) -- snippet engine
+		use({ "saadparwaiz1/cmp_luasnip" }) -- luasnip hook for cmp
 		use({ "onsails/lspkind-nvim" }) -- icons
 
 		-- -- lsp related
@@ -94,12 +95,13 @@ return packer.startup({
 		-- quick movement within line
 		use({ "unblevable/quick-scope" })
 		-- autopair with fly-mode support
-		use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 0" })
+		-- use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 0" })
+		use({ "windwp/nvim-autopairs",})
 
 		-- python
 		-- use({ "jpalardy/vim-slime", ft = { "python" } })
-		use({ "jpalardy/vim-slime", ft = { "python" } })
-		use({ "hanschen/vim-ipython-cell", ft = { "python" } })
+		use({ "jpalardy/vim-slime", })
+		use({ "hanschen/vim-ipython-cell", })
 
 		use({ "dstein64/vim-startuptime" })
 		-- use({ "justinmk/vim-sneak", disable = true })

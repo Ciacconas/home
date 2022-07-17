@@ -6,56 +6,138 @@ vim.g.mapleader = " "
 -- neovim 0.7: only use filetype.lua not fallback to filtype.vim
 vim.g.do_filetype_lua = 1
 vim.g.did_load_filetypes = 0
-vim.cmd 'filetype plugin indent on'
+vim.cmd("filetype plugin indent on")
 
 -- vim.cmd 'syntax on' -- disabled for treesitter syntax
 
+-- Fixed settings
+-------------------------------------------------------------------------------------------
+-- These settings won't change, no matter the filetype or active extension
+
 --when scrolling, keep cursor in the middle of the page (disabled, use zz to center)
-vim.o.scrolloff = 10
+vim.opt.scrolloff = 10
 
 -- allow pattern matching with special characters during search
-vim.o.magic = 1
+vim.opt.magic = true
 
 -- case insensitive search when searching with lower case characters
-vim.o.ignorecase=1
+vim.opt.ignorecase = true
 
 -- case sensitive search when searching with upper case characters
-vim.o.smartcase=1
+vim.opt.smartcase = true
 
 -- enable unicode
-vim.o.encoding="utf-8"
+vim.opt.encoding = "utf-8"
 
+-- Give more space for displaying messages(2), but now I set it to 1.
+vim.opt.cmdheight = 1
+
+-- allow opening a new buffer without saving the current one
+vim.opt.hidden = true
+
+-- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+-- delays and poor user experience.
+vim.opt.updatetime = 300
+
+-- Some lsp servers have issues with backup files, see #649.
+vim.opt.backup = false
+vim.opt.writebackup = false
+
+-- Always show the signcolumn, otherwise it would shift the text each time
+-- diagnostics appear/become resolved.
+vim.opt.signcolumn = "yes"
+
+-- when searching, search down into all subfolders
+vim.opt.path = vim.opt.path:append("**")
+
+-- new vertical splits appear on the right
+vim.opt.splitright = true
+
+-- new horizontal splits appear below
+vim.opt.splitbelow = true
+
+-- tell vim where to find the ctags
+vim.opt.tags = "./.tags;,.tags;"
+
+-- enable mouse clicks
+vim.opt.mouse = "a"
+
+-- copy to star register by default (selection copy)
+vim.opt.clipboard = vim.opt.clipboard:prepend("unnamed")
+
+-- replace tabs by spaces
+vim.opt.expandtab = true
+
+-- code folding
+-- zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
+vim.opt.foldmethod = "manual"
+
+-- show the matching part of the pair for [] {} and ()
+vim.opt.showmatch = true
+
+-- fix problems with uncommon shells (fish, zsh, xonsh, ...) and plugins
+-- running shell commands (neomake, ...)
+vim.opt.shell = "/usr/bin/zsh"
+
+-- better autocomplete:
+vim.opt.wildmenu = true
+
+-- enable unlimited undo
+vim.opt.undofile = true
+
+-- set undi directory where unlimited history can be saved it is not working! TODO
+-- vim.opt.undodir = "$HOME/.local/share/nvim/undo"
+
+-- use 256 colors if possible
+vim.opt.termguicolors = false
+
+-- disable netrw banner
+vim.g.netrw_banner = false
+
+-- Default Variable Settings
 -------------------------------------------------------------------------------
+-- these settings may change depending on the filetype or active extension
+vim.cmd("set nowrap nolinebreak formatoptions=lqj textwidth=0 colorcolumn=0")
 
--- define custom filetypes
-local file_group = "filetypes_basic_settings"
--- Have a function to easy write code
-local function multi_buf_event(pattern, command)
-	vim.api.nvim_create_autocmd(
-		{ "BufNewFile", "BufEnter", "BufRead" },
-		{ pattern = pattern, command = command, group = file_group }
-	)
-end
+-- disable automatic indent when moving to the next line while writing code
+vim.opt.autoindent = false
 
--- augroup
-vim.api.nvim_create_augroup(file_group, { clear = true })
--- vim.api.nvim_create_autocmd(
---     { "FileType" },
---     { pattern = "yaml" ,
---         -- command = "call DetectSls()",
---         command = "echo '123123123'",
---         group = file_group })
--- multi_buf_event({ "*" }, "filetype on")
--- multi_buf_event({ "*" }, "filetype plugin on")
--- multi_buf_event({ "*.vim", "*.vimrc", "*vifmrc" }, "setlocal filetype=vim")
--- multi_buf_event({ "*.ipynb" }, "setlocal filetype=ipynb")
--- multi_buf_event({ "*.tex", "*.sty" }, "setlocal filetype=tex")
--- multi_buf_event({ "*.txt", "/tmp/neomutt*" }, "setlocal filetype=text")
--- multi_buf_event({ "*.md", "/tmp/calcurse*", "~/.calcurse/notes/*" }, "setlocal filetype=vimwiki")
--- multi_buf_event({ "*.pic.yml" }, "call DetectSls")
--- vim.api.nvim_create_autocmd(
--- 	{ "BufEnter" },
--- 	{ pattern = { "/usr/share/nvim/runtime/doc/*.txt" }, command = "setlocal nospell", group = file_group }
--- )
+-- show line numbers
+vim.opt.number = true
+
+-- relative line numbering (disabled)
+vim.opt.relativenumber = false
+
+-- spell check default to en_us
+vim.cmd("set spell spelllang=en_us")
+-- ...and turn it off by default
+vim.cmd("set nospell")
+
+-- left margin width (max 12)
+vim.opt.foldcolumn = "1"
+
+-- show mode currently in (normal, insert, ...)
+vim.opt.showmode = false
+
+-- show where you are in the document in status bar (e.g. 143,61, 20%)
+-- vim.opt.ruler =true
+
+-- show status bar (0=disabled, 1=show half status bar, 2=show full status bar, 3=global statusbar)
+vim.opt.laststatus = 3
+
+-- don't show last command executed
+vim.opt.showcmd = false
+
+-- set tabs to have a width of 2 spaces
+vim.opt.tabstop = 2
+
+-- set tabs to have a maximum width of 2 spaces
+vim.opt.softtabstop = 2
+
+-- set the shift operators (`<<` and `>>`) to insert 2 spaces
+vim.opt.shiftwidth = 2
+
+-- vim.api.nvim_create_user_command('Upper', 'echo toupper(<q-args>)', { nargs = 1 })
+-- -- :command! -nargs=1 Upper echo toupper(<q-args>)
 
 -------------------------------------------------------------------------------

@@ -45,10 +45,10 @@ local ipython = Terminal:new({
 	count = 9,
 	cmd = "ipython --matplotlib",
 	on_open = function(term)
-		vim.g.slime_python = term.job_id
+		vim.g.last_terminal_job_id = term.job_id
 	end,
 	on_exit = function()
-		vim.g.slime_python = nil
+		vim.g.last_terminal_job_id = nil
 	end,
 	hidden = false,
 	direction = "horizontal" })
@@ -56,7 +56,6 @@ local ipython = Terminal:new({
 function _IPYTHON_TERM()
 	ipython:toggle()
 	vim.cmd([[execute "normal G\<C-w>k"]])
-	vim.b.slime_config = vim.g.slime_python
 end
 
 local cargo5 = Terminal:new({ count = 5, direction = "float" })

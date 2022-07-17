@@ -3,3 +3,5 @@ require("pluginrc.toggleterm")
 require("pluginrc.lualine")
 require("pluginrc.nvim-tree")
 require("pluginrc.cmp")
+require("pluginrc.autopairs")
+
