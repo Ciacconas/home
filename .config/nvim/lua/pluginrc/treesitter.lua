@@ -4,11 +4,16 @@ if not status_ok then
 end
 
 configs.setup({
-	-- One of "all", "maintained" (parsers with maintainers), or a list of languages
-	ensure_installed = "all",
+	-- A list of parser names, or "all"
+	ensure_installed = {
+		"c", "lua", "rust", "python", "bash",
+		"yaml", "json", "markdown", "toml", "cpp", "jsonc", "css"},
 
 	-- Install languages synchronously (only applied to `ensure_installed`)
 	sync_install = false,
+
+	-- Automatically install missing parsers when entering buffer
+	auto_install = true,
 
 	-- List of parsers to ignore installing
 	ignore_install = { "vim" },
@@ -18,13 +23,13 @@ configs.setup({
 		enable = true,
 
 		-- list of language that will be disabled
-		disable = { "bash", "sh", "vim" },
+		disable = { "sh", "vim" },
 
 		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
 		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = { "bash", "sh", "vim" },
+		additional_vim_regex_highlighting = { "sh", "vim", "conf" },
 	},
 	indent = { enable = true, disable = { "yaml", "python" } },
 	playground = {
