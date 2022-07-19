@@ -31,22 +31,22 @@ scrolling:
   multiplier: 3
 
 font:
-  size: 13.0
+  size: 14.0
   normal:
-    family: Bitstream Vera Sans Mono
+    family: Ubuntu Mono
     style: Regular
   bold:
-    family: Bitstream Vera Sans Mono
+    family: Ubuntu Mono
     style: Bold
   italic:
-    family: Bitstream Vera Sans Mono
+    family: Ubuntu Mono
     style: Italic
   bold_italic:
-    family: Bitstream Vera Sans Mono
+    family: Ubuntu Mono
     style: Bold Italic
   offset:
     x: 0
-    y: -1
+    y: 0
   glyph_offset:
     x: 0
     y: 0
