@@ -55,6 +55,11 @@ hi Statement cterm=bold	ctermfg=11
 hi Delimiter cterm=bold ctermfg=7 " TSDelimiter TSPunctBracket TSPunctSpecial
 " hi Comment	ctermfg=7 " TSComment
 
+" Strong Background fg 0
+" Weak Background fg 8
+hi ColorColumn ctermbg=8 " python 88 column marker color
+
+
 
 " Quickscope related -------------------------------
 hi QuickScopePrimary cterm=bold,underline ctermfg=4
@@ -88,7 +93,6 @@ hi Conceal ctermfg=11 ctermbg=8
 " Search
 hi Search	cterm=NONE ctermfg=15 ctermbg=6
 hi IncSearch	cterm=bold ctermfg=15 ctermbg=9
-hi ColorColumn ctermbg=4
 hi DiffAdd	ctermbg=4
 hi DiffChange	ctermbg=5
 hi DiffDelete	cterm=bold ctermfg=4 ctermbg=6
