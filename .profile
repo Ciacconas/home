@@ -56,6 +56,7 @@ export CHIP_DESIGN_REPOS="$HOME/Documents/xanadu/github"
 # export IPKISS_PORT=5050
 export SAVOYTRUFFLE_WORKDIR="$HOME/Documents/xanadu"
 export DOCKER_BUILDKIT=1
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
 
 # Python
