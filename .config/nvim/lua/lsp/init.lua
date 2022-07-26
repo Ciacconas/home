@@ -39,6 +39,19 @@ local custom_attach = function(client)
 	--     buf_nnoremap { "K", vim.lsp.buf.hover, { desc = "lsp:hover" } }
 	vim.schedule(function() print("LSP is ready")
 	end)
+
+	vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
+
+	-- hightlight current word
+	if client.server_capabilities.documentHighlightProvider then
+		vim.cmd [[
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]]
+	end
 end
 
 
@@ -75,9 +88,79 @@ lspconfig.sumneko_lua.setup({
 	capabilities = updated_capabilities
 })
 
+local get_vscode_python_path = function()
+	local io = require("io")
+	local file = io.open(".vscode/test.json")
+	if file == nil then
+		return
+	end
+	if file ~= nil then
+		local content = file:read "*a"
+		file:close()
+		local content = content:gsub("%s*//.-\n", "\n") -- https://www.lua.org/pil/20.2.html for lua patterns
+		-- print(content)
+		local table1 = vim.fn.json_decode(content)
+		-- print(vim.inspect(table1["terminal.integrated.env.linux"].PYTHONPATH))
+		vim.g.vscode_pythonpath = table1["terminal.integrated.env.linux"].PYTHONPATH
+		-- print(vim.inspect(table1["python.analysis.extraPaths"]))
+		vim.g.Pyright_analysis_path = table1["python.analysis.extraPaths"]
+		-- print(vim.inspect(vim.g.Pyright_analysis_path))
+		return vim.g.Pyright_analysis_path
+	end
+end
+
+
+-- setup pyright
+lspconfig.pyright.setup({
+	on_attach = function(client)
+
+		-- Read VScode launch.json and add PYTHONPATH
+		-- local f = vim.fn.filereadable("launch.json")
+		-- local file = io.open(".vscode/launch.json")
+		-- if (file ~= nil and vim.g.vscode_pythonpath == nil) then
+		-- 	-- local content = file:read "*a"
+		-- 	local lines = file:lines()
+		-- 	for line in lines do
+		-- 		line = line:gsub("%s+", "") -- https://www.lua.org/pil/20.2.html for lua patterns
+		-- 		-- print(line)
+		-- 		if line:find('^"PY') ~= nil then
+		-- 			line = line:gsub('"PYTHONPATH":', "")
+		-- 			local pythonpath = line:gsub('"', "")
+		-- 			if pythonpath ~= nil then
+		-- 				vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. pythonpath
+		-- 				vim.g.vscode_pythonpath = 1
+		-- 			end
+		-- 		end
+		-- 	end
+		-- 	file:close()
+		-- end
+
+		if (vim.g.vscode_pythonpath ~= nil and vim.g.vscode_pythonpath_done == nil) then
+			vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. vim.g.vscode_pythonpath
+			vim.g.vscode_pythonpath_done = 1
+		end
+
+		-- local handle = io.popen(command)
+		-- local result = handle:read("*a")
+		-- handle:close()
+		custom_attach(client)
+	end,
+	capabilities = updated_capabilities,
+	flags = {
+		debounce_text_changes = nil,
+	},
+	settings = {
+		python = {
+			analysis = {
+				extraPaths = get_vscode_python_path(),
+			}
+		}
+	}
+})
+
 -- other language servers
 local servers = {
-	pyright = true,
+	-- pyright = true,
 	rust_analyzer = true,
 }
 
