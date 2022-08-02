@@ -13,18 +13,6 @@ let g:colors_name="xresources"
 
 
 " Treesitting related (code highlighting related) ----------------------------
-" Strong Purple Magenta 13
-hi Function cterm=bold ctermfg=13 " TSFunction TSMethod
-" Weak Purple Magenta 5
-hi Special ctermfg=5 " SpecialChar TSStringSpecial TSVariableBuiltin TSFuncBuiltin
-
-" Strong Cyan Aqua 14
-hi TSKeywordFunction cterm=bold	ctermfg=14 " TSKeywordFunction
-hi link TSKeywordReturn TSKeywordFunction
-" Weak Cyan Aqua 6
-hi PreProc ctermfg=6 " TSAnnotation TSAttribute
-" hi link Define PreProc " Macro TSConstMacro TSFuncMacro
-" hi link Include PreProc " TSInclude TSNamespace
 
 " Strong Green 10
 hi Constant	ctermfg=10 " TSConstant
@@ -35,25 +23,41 @@ hi Constant	ctermfg=10 " TSConstant
 " hi link Float Constant " TSFloat
 " Weak Green 2
 
-" Strong Blue 12
-hi Identifier cterm=none ctermfg=12 " TSParameter
-" Weak Blue 4
-hi Type cterm=italic ctermfg=12 " TSType
-
 " Strong Yellow 11
-hi Statement cterm=bold	ctermfg=11
+hi Identifier cterm=bold ctermfg=11 " TSParameter
+" Weak Yellow 3
+hi Statement cterm=bold	ctermfg=3
 " hi link Keyword Statement " TSKeyword
 " hi link Conditional Statement " TSConditional
-" hi link Operator Statement " TSOperator
 " hi link Repeat Statement " TSRepeat
 " hi link Label Statement " TSLabel
 " hi link Exception Statement " TSException
-" Weak Yellow 3
+
+" Strong Blue 12
+hi Operator cterm=bold ctermfg=12 " TSKeywordOperator
+" hi link Operator Statement " TSOperator TSKeywordOperator
+" Weak Blue 4
+" hi Type cterm=italic ctermfg=12 " TSType
+hi Comment	ctermfg=12 " TSComment
+" hi Comment	ctermfg=14 " TSComment
+
+" Strong Purple Magenta 13
+hi Function cterm=bold ctermfg=13 " TSFunction TSMethod
+" Weak Purple Magenta 5
+hi Special ctermfg=5 " SpecialChar TSStringSpecial TSVariableBuiltin TSFuncBuiltin
+
+" Strong Cyan Aqua 14
+hi Type cterm=bold ctermfg=14 " TSType
+hi TSKeywordFunction cterm=bold	ctermfg=14 " TSKeywordFunction
+hi link TSKeywordReturn TSKeywordFunction
+" Weak Cyan Aqua 6
+hi PreProc ctermfg=6 " TSAnnotation TSAttribute
+" hi link Define PreProc " Macro TSConstMacro TSFuncMacro
+" hi link Include PreProc " TSInclude TSNamespace
 
 " Strong Foregound fg 15
 " Weak Foregound fg 7
-hi Delimiter cterm=bold ctermfg=7 " TSDelimiter TSPunctBracket TSPunctSpecial
-" hi Comment	ctermfg=7 " TSComment
+hi Delimiter cterm=bold ctermfg=7 " TSDelimiter TSPunctBracket TSPunctSpecial TSPunctDelimiter
 
 " Strong Background fg 0
 " Weak Background fg 8
