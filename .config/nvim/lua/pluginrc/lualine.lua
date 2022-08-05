@@ -3,10 +3,18 @@ if not status_ok then
 	return
 end
 
+local set_theme = function()
+	if vim.g.neovide then
+		return "auto"
+	else
+		return "gruvbox"
+	end
+end
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
-		theme = "gruvbox",
+		theme = set_theme(),
 		-- component_separators = { left = "", right = "" },
 		-- section_separators = { left = "", right = "" },
 		component_separators = { left = "", right = "" },

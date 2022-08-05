@@ -77,8 +77,14 @@ return packer.startup({
 			end,
 		})
 		-- easy comment
-		use({ "tpope/vim-commentary" })
+		use({
+			'numToStr/Comment.nvim',
+			config = function()
+				require('Comment').setup()
+			end
+		})
 		-- fzf
+		use({ 'junegunn/fzf' })
 		use({ 'junegunn/fzf.vim' })
 		-- vim hard mode (useful for training)
 		use({
@@ -92,19 +98,23 @@ return packer.startup({
 				vim.g.list_of_visual_keys = { "h", "l" }
 			end
 		})
+
 		-- quick movement within line
 		use({ "unblevable/quick-scope" })
-		-- autopair with fly-mode support
-		-- use({ "jiangmiao/auto-pairs", config = "vim.g.AutoPairsFlyMode = 0" })
-		use({ "windwp/nvim-autopairs",})
+
+		-- autopair
+		use({ "windwp/nvim-autopairs", })
 
 		-- python
-		-- use({ "jpalardy/vim-slime", ft = { "python" } })
-		use({ "jpalardy/vim-slime", })
-		use({ "hanschen/vim-ipython-cell", })
+		use({ "jpalardy/vim-slime", ft = { "python" } })
+		use({ "hanschen/vim-ipython-cell", ft = { "python" } })
 
+		-- check startuptime with :StartUpTime
 		use({ "dstein64/vim-startuptime" })
 		-- use({ "justinmk/vim-sneak", disable = true })
+
+		-- colorschemes for neovide
+		use "EdenEast/nightfox.nvim"
 
 		-- Automatically set up your configuration after cloning packer.nvim
 		-- Put this at the end after all plugins
