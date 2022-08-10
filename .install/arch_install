@@ -1424,6 +1424,11 @@ pacman_install python-pynvim
 #pip3_install dunk
 
 
+# Utility tools
+#-------------------------------------------------------------------------------
+yay_install baobab # linux alternative for space sniffer
+
+
 # Password manager
 #-------------------------------------------------------------------------------
 
