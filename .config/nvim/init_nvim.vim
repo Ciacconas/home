@@ -415,9 +415,9 @@ command! NoWrap setlocal nowrap nolinebreak formatoptions=lqj textwidth=0 colorc
 augroup pythonterminal
     autocmd!
 
-    autocmd FileType python command! T call NewTerminal("ipython")
-    autocmd FileType python command! HT call NewHorizontalTerminal("ipython")
-    autocmd FileType python command! VT call NewVerticalTerminal("ipython")
+    autocmd FileType python command! T call NewTerminal("ipython --matplotlib")
+    autocmd FileType python command! HT call NewHorizontalTerminal("ipython --matplotlib")
+    autocmd FileType python command! VT call NewVerticalTerminal("ipython --matplotlib")
 augroup end
 
 " augroup terminal
@@ -1071,29 +1071,43 @@ augroup latexfunctionkeyshortcuts
     autocmd FileType tex nnoremap <buffer> <F5><F5> :call LatexBuild("-f")<CR>
 augroup end
 
-function! RunPython(type)
-    if exists("g:last_terminal_job_id")
-        let b:slime_config = [g:last_terminal_job_id]
-        if (a:type == "celljump")
-            IPythonCellExecuteCellJump
-        elseif (a:type == "cellstay")
-            IPythonCellExecuteCell
-        elseif (a:type == "all")
-            IPythonCellRunTime
-        endif
-    else
-        call system('ipython -c "import sys"')
-        if !v:shell_error
-            call NewHorizontalTerminal("ipython --matplotlib")
-            if exists("g:last_terminal_job_id")
-                sleep 100m
-                call RunPython(a:type)
-            endif
-        else
-            echo "ipython not found"
-        endif
-    endif
-endfunction
+" function! RunPython(type)
+"     if exists("g:last_terminal_job_id")
+"         let b:slime_config = [g:last_terminal_job_id]
+"         if (a:type == "celljump")
+"             IPythonCellExecuteCellJump
+"         elseif (a:type == "cellstay")
+"             IPythonCellExecuteCell
+"         elseif (a:type == "all")
+"             IPythonCellRunTime
+"         endif
+"     else
+"         " new terminal
+"         call system('ipython -c "import sys"')
+"         if !v:shell_error
+"             " call NewHorizontalTerminal("ipython --matplotlib")
+"             lua _IPYTHON_TERM()
+"             if exists("g:last_terminal_job_id")
+"                 sleep 100m
+"                 " call RunPython(a:type)
+"             endif
+"         else
+"             echo "ipython not found"
+"         endif
+"     endif
+" endfunction
+
+let g:slime_no_mappings = 1
+let g:slime_target = "neovim"
+let g:slime_python_ipython = 1
+let g:slime_dont_ask_default = 1
+let g:slime_cell_delimiter = "##"
+" let g:slime_paste_file = "$HOME/.config/nvim/slime_paste"
+let g:slime_default_config = [5]
+
+let g:ipython_cell_tag = ['##%','##[+=\-*]' ,'```', '```python', '```py']
+let g:ipython_cell_regex=1
+let g:ipython_cell_highlight_cells=1
 
 function! LatexBuild(force)
     delmarks m
