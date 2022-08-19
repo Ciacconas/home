@@ -84,7 +84,7 @@ end
 -- python 9
 local ipython = Terminal:new({
 	count = 9,
-	cmd = "ipython --matplotlib",
+	cmd = "ipython",
 	on_open = function(term)
 		vim.g.last_terminal_job_id = term.job_id
 	end,
