@@ -80,4 +80,6 @@
     "files.associations": {
         "*.conf": "xml"
     },
+    "redhat.telemetry.enabled": false,
+    "git.mergeEditor": false,
 }
