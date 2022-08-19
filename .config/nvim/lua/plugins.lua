@@ -115,6 +115,7 @@ return packer.startup({
 
 		-- colorschemes for neovide
 		use "EdenEast/nightfox.nvim"
+		use "savq/melange" -- warm colorschem
 
 		-- Automatically set up your configuration after cloning packer.nvim
 		-- Put this at the end after all plugins

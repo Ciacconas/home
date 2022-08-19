@@ -65,8 +65,6 @@ vim.opt.mouse = "a"
 -- copy to star register by default (selection copy)
 vim.opt.clipboard = vim.opt.clipboard:prepend("unnamed")
 
--- replace tabs by spaces
-vim.opt.expandtab = true
 
 -- code folding
 -- zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
@@ -88,8 +86,6 @@ vim.opt.undofile = true
 -- set undi directory where unlimited history can be saved it is not working! TODO
 -- vim.opt.undodir = "$HOME/.local/share/nvim/undo"
 
--- use 256 colors if possible
-vim.opt.termguicolors = false
 
 -- disable netrw banner
 vim.g.netrw_banner = false
@@ -128,16 +124,24 @@ vim.opt.laststatus = 3
 -- don't show last command executed
 vim.opt.showcmd = false
 
+-- TODO: what is the best?
+-- replace tabs by spaces
+vim.opt.expandtab = true
+
 -- set tabs to have a width of 2 spaces
-vim.opt.tabstop = 2
+-- vim.opt.tabstop = 2
+vim.opt.tabstop = 4
 
 -- set tabs to have a maximum width of 2 spaces
-vim.opt.softtabstop = 2
+-- vim.opt.softtabstop = 2
+vim.opt.softtabstop = 4
+
 
 -- set the shift operators (`<<` and `>>`) to insert 2 spaces
-vim.opt.shiftwidth = 2
+vim.opt.shiftwidth = 4
 
 -- vim.api.nvim_create_user_command('Upper', 'echo toupper(<q-args>)', { nargs = 1 })
 -- -- :command! -nargs=1 Upper echo toupper(<q-args>)
 
 -------------------------------------------------------------------------------
+

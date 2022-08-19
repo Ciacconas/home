@@ -4,12 +4,12 @@
 local group = vim.api.nvim_create_augroup("currently not working", { clear = true })
 vim.api.nvim_create_autocmd(
     { "FileType" },
-    { pattern = "yaml" ,
+    { pattern = "yaml",
         command = "call DetectSls()",
         group = group })
 vim.api.nvim_create_autocmd(
-    { "FileType" },
-    { pattern = "yaml",
+    { "BufNewFile,BufEnter,BufRead" },
+    { pattern = "*.yml",
         -- command = "call DetectSls()",
         callback = function()
             local data = {
@@ -24,3 +24,9 @@ vim.api.nvim_create_autocmd(
         end,
         group = group })
 
+
+-- augroup yaml_sls
+--     autocmd!
+--     " autocmd BufNewFile,BufEnter,BufRead *.yml call DetectSls()
+-- "     autocmd BufNewFile,BufEnter,BufRead *.pic.yml call DetectSls()
+-- augroup end

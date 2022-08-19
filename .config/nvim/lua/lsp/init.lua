@@ -37,8 +37,8 @@ local custom_attach = function(client)
 	--   telescope_mapper("<space>ww", "lsp_dynamic_workspace_symbols", { ignore_filename = true }, true)
 	--   if filetype ~= "lua" then
 	--     buf_nnoremap { "K", vim.lsp.buf.hover, { desc = "lsp:hover" } }
-	vim.schedule(function() print("LSP is ready")
-	end)
+
+	vim.schedule(function() print("LSP is ready") end)
 
 	vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
@@ -88,10 +88,17 @@ lspconfig.sumneko_lua.setup({
 	capabilities = updated_capabilities
 })
 
+-- read .vscode/settings if there is one. Mainly for ipkiss environment
 local get_vscode_python_path = function()
+	if vim.fn.filereadable(".vscode/settings.json") ~= 1 then
+		-- vim.schedule(function() print("there is no settings.json file") end)
+		return
+	end
+
 	local io = require("io")
-	local file = io.open(".vscode/test.json")
+	local file = io.open(".vscode/settings.json")
 	if file == nil then
+		vim.schedule(function() print("settings.json file not readable") end)
 		return
 	end
 	if file ~= nil then
@@ -99,13 +106,22 @@ local get_vscode_python_path = function()
 		file:close()
 		local content = content:gsub("%s*//.-\n", "\n") -- https://www.lua.org/pil/20.2.html for lua patterns
 		-- print(content)
-		local table1 = vim.fn.json_decode(content)
-		-- print(vim.inspect(table1["terminal.integrated.env.linux"].PYTHONPATH))
-		vim.g.vscode_pythonpath = table1["terminal.integrated.env.linux"].PYTHONPATH
-		-- print(vim.inspect(table1["python.analysis.extraPaths"]))
-		vim.g.Pyright_analysis_path = table1["python.analysis.extraPaths"]
-		-- print(vim.inspect(vim.g.Pyright_analysis_path))
-		return vim.g.Pyright_analysis_path
+		local status_ok, table1 = pcall(vim.json.decode, content)
+		if not status_ok then
+			vim.schedule(function() print(".vscode/settings.json parse failed, check it.") end)
+			return
+		end
+		-- local table1 = vim.fn.json_decode(content)
+		local status_ok, vscode_pythonpath = pcall(function() return table1["terminal.integrated.env.linux"].PYTHONPATH end)
+		if status_ok then
+			vim.g.vscode_pythonpath = vscode_pythonpath
+		end
+		local status_ok, extraPath = pcall(function() return table1["python.analysis.extraPaths"].PYTHONPATH end)
+		if status_ok then
+			vim.g.Pyright_analysis_pathv = extraPath
+			vim.schedule(function() print("vscode settings for pyright loaded successfuly") end)
+			return vim.g.Pyright_analysis_path
+		end
 	end
 end
 
@@ -161,7 +177,18 @@ lspconfig.pyright.setup({
 -- other language servers
 local servers = {
 	-- pyright = true,
+
+	-- rust
 	rust_analyzer = true,
+
+	-- go
+	gopls = {
+		settings = {
+			gopls = {
+				gofumpt = true
+			}
+		}
+	}
 }
 
 
