@@ -590,6 +590,8 @@ systemctl_enable pacmanquery
 
 ## mount cifs parititions
 pacman_install cifs-utils
+## mount cifs parititions
+pacman_install nfs-utils
 ## dosfstools: support for dos (windows) - like filesystems
 pacman_install dosfstools
 ## exfat-utils: access fat-drives
@@ -1274,7 +1276,17 @@ pacman_install lynx
 pacman_install libva-utils
 pacman_install gstreamer-vaapi
 pacman_install vdpauinfo
-pacman_install intel-gpu-tools
+# pacman_install intel-gpu-tools
+
+##
+pacman_install mesa
+pacman_install lib32-mesa
+pacman_install xf86-video-amdgpu
+pacman_install vulkan-radeon
+pacman_install lib32-vulkan-radeon
+pacman_install libva-mesa-driver
+pacman_install lib32-libva-mesa-driver
+
 
 ## OPTION 0: do nothing
 
