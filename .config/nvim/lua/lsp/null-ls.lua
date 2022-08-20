@@ -11,6 +11,7 @@ null_ls.setup({
 		-- stylua better than lua-format
 		formatting.stylua,
 		formatting.black,
+		-- formatting.gofmt,
 	},
 })
 

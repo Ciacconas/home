@@ -113,7 +113,7 @@ let g:jedi#goto_assignments_command = '<Leader>a'
 
 " hanschen/vim-ipython-cell ----------------------
 
-let g:ipython_cell_tag = ['##+', '```', '```python', '```py']
+let g:ipython_cell_tag = ['## #+', '```', '```python', '```py']
 let g:ipython_cell_regex=1
 
 

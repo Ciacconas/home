@@ -55,6 +55,7 @@ endif
 " augroup end
 
 
+
 "" Fixed Settings
 "-------------------------------------------------------------------------------
 " these settings won't change, no matter the filetype or active extension
@@ -78,101 +79,99 @@ endif
 " " enable unicode
 " set encoding=utf-8
 
-" Give more space for displaying messages.
-set cmdheight=2
+" " Give more space for displaying messages.
+" set cmdheight=2
 
-" TextEdit might fail if hidden is not set.
-set hidden
 
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=300
+" " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" " delays and poor user experience.
+" set updatetime=300
 
-" Some lsp servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
+" " Some lsp servers have issues with backup files, see #649.
+" set nobackup
+" set nowritebackup
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-set signcolumn=yes
+" " Always show the signcolumn, otherwise it would shift the text each time
+" " diagnostics appear/become resolved.
+" set signcolumn=yes
 
-" when searching, search down into all subfolders
-set path+=**
+" " when searching, search down into all subfolders
+" set path+=**
 
-" allow opening a new buffer without saving the current one
-set hidden
+" " allow opening a new buffer without saving the current one
+" set hidden
 
-" new vertical splits appear on the right
-set splitright
+" " new vertical splits appear on the right
+" set splitright
 
-" new horizontal splits appear below
-set splitbelow
+" " new horizontal splits appear below
+" set splitbelow
 
 " tell vim where to find the ctags
-set tags=./.tags;,.tags;
+" set tags=./.tags;,.tags;
 
-" enable mouse clicks
-set mouse=a
+" " enable mouse clicks
+" set mouse=a
 
 " copy to star register by default (selection copy)
-set clipboard^=unnamed
+" set clipboard^=unnamed
 
-" replace tabs by spaces
-set expandtab
+" " replace tabs by spaces
+" set expandtab
 
-" code folding
-" zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
-set foldmethod=manual
+" " code folding
+" " zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
+" set foldmethod=manual
 
-" show the matching part of the pair for [] {} and ()
-set showmatch
+" " show the matching part of the pair for [] {} and ()
+" set showmatch
 
-" fix problems with uncommon shells (fish, zsh, xonsh, ...) and plugins
-" running shell commands (neomake, ...)
-set shell=/usr/bin/zsh
+" " fix problems with uncommon shells (fish, zsh, xonsh, ...) and plugins
+" " running shell commands (neomake, ...)
+" set shell=/usr/bin/zsh
 
-" lower updatetime (for vim signify)
-set updatetime=200
+" " lower updatetime (for vim signify)
+" set updatetime=200
 
-" better autocomplete:
-set wildmenu
+" " better autocomplete:
+" set wildmenu
 
-" enable unlimited undo
-set undofile
+" " enable unlimited undo
+" set undofile
 
-" set undi directory where unlimited history can be saved
+" " set undi directory where unlimited history can be saved
 set undodir=$HOME/.local/share/nvim/undo
 
-" use 256 colors if possible
-set notermguicolors
+" " use 256 colors if possible
+" set notermguicolors
 
 " custom colorscheme using only colors from ~/.Xresources.
-colorscheme xresources
+" colorscheme xresources
 " colorscheme noctu " somewhat broken
 
 " override some colors of colorscheme
-hi FoldColumn ctermbg=NONE
+" hi FoldColumn ctermbg=NONE
 
 " some say this results in an improved wildmenu. I disagree...
 " set wildmode=longest,longest,full
 
-" enable syntax highlighting
+" enable syntax highlighting disable for treesitter
 " syntax enable
 
-" disable netrw banner
-let g:netrw_banner=0
+" " disable netrw banner
+" let g:netrw_banner=0
 
 augroup fixedsettings
     autocmd!
 
     " underline current line if in insert mode
-    autocmd InsertEnter * set cul
+    " autocmd InsertEnter * set cul
 
     " remove underline when in normal mode
-    autocmd InsertLeave * set nocul
+    " autocmd InsertLeave * set nocul
 
     " disable automatic commenting on newline:
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    " autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
     " sometimes syntax highlighting breaks in large files on buffer change:
     autocmd BufEnter * syntax sync fromstart
@@ -186,47 +185,47 @@ augroup end
 "-------------------------------------------------------------------------------
 " these settings may change depending on the filetype or active extension
 
-" enable no wrapping (disable both hard wrapping and soft wrapping)
-set nowrap nolinebreak formatoptions=lqj textwidth=0 colorcolumn=0
+" " enable no wrapping (disable both hard wrapping and soft wrapping)
+" set nowrap nolinebreak formatoptions=lqj textwidth=0 colorcolumn=0
 
-" disable automatic indent when moving to the next line while writing code
-set noautoindent
+" " disable automatic indent when moving to the next line while writing code
+" set noautoindent
 
 " show line numbers
-set number
+" set number
 
 " relative line numbering
 " set relativenumber
 
-" spell check, set default to en_us...
-set spell spelllang=en_us
+" " spell check, set default to en_us...
+" set spell spelllang=en_us
 
-" ...and turn it off by default
-set nospell
+" " ...and turn it off by default
+" set nospell
 
-" left margin width (max 12)
-set foldcolumn=2
+" " left margin width (max 12)
+" set foldcolumn=2
 
-" show mode currently in (normal, insert, ...)
-set noshowmode
+" " show mode currently in (normal, insert, ...)
+" set noshowmode
 
-" show where you are in the document in status bar (e.g. 143,61, 20%)
-set ruler
+" " show where you are in the document in status bar (e.g. 143,61, 20%)
+" set ruler
 
-" show status bar (0=disabled, 1=show half status bar, 2=show full status bar)
-set laststatus=2
+" " show status bar (0=disabled, 1=show half status bar, 2=show full status bar)
+" set laststatus=2
 
-" don't show last command executed
-set noshowcmd
+" " don't show last command executed
+" set noshowcmd
 
-" set tabs to have a width of 2 spaces
-set tabstop=2
+" " set tabs to have a width of 2 spaces
+" set tabstop=2
 
-" set tabs to have a maximum width of 2 spaces
-set softtabstop=2
+" " set tabs to have a maximum width of 2 spaces
+" set softtabstop=2
 
-" set the shift operators (`<<` and `>>`) to insert 2 spaces
-set shiftwidth=2
+" " set the shift operators (`<<` and `>>`) to insert 2 spaces
+" set shiftwidth=2
 
 augroup latexmarkdownsettings
     autocmd!
@@ -319,10 +318,10 @@ augroup yamlsettings
     let g:indentLine_enabled = 1
 augroup end
 
-" Other filetype specific settings
-if filereadable(expand("~/.config/nvim/vimscript/filetype.vim"))
-    source ~/.config/nvim/vimscript/filetype.vim
-endif
+" " Other filetype specific settings
+" if filereadable(expand("~/.config/nvim/vimscript/filetype.vim"))
+"     source ~/.config/nvim/vimscript/filetype.vim
+" endif
 
 
 
@@ -334,7 +333,7 @@ augroup saving
     autocmd!
     autocmd BufWritePre * :call DoOnSave()
     autocmd FocusLost * :silent call MaybeSave()
-    autocmd BufWritePost *.py call PyflybyImport()
+    " autocmd BufWritePost *.py call PyflybyImport()
 augroup end
 
 function! DoOnSave()
@@ -621,8 +620,8 @@ tnoremap <C-l> <C-\><C-N><C-w>l
 " jump backward in cursor position stack (opposite of <C-i> or TAB)
 " <C-o> " standard vim keybinding
 
-" fuzzy open file with fzf (requires fzf plugin)
-nnoremap <C-p> :Files<CR>
+" " fuzzy open file with fzf (requires fzf plugin)
+" nnoremap <C-p> :Files<CR>
 
 " save and exit
 inoremap <C-q> <Esc>:wqa<CR>
@@ -673,11 +672,11 @@ nnoremap <C-s> <Esc>:w<CR>
 " turn of highlighting
 nnoremap <leader><leader> :noh<cr>
 
-" " open next buffer
-" nnoremap <leader>] :bnext<CR>
+" open next buffer
+nnoremap <leader>] :bnext<CR>
 
-" " open previous buffer
-" nnoremap <leader>[ :bprevious<CR>
+" open previous buffer
+nnoremap <leader>[ :bprevious<CR>
 
 " fuzzy find content in current buffer (requires junegunn/fzf)
 nnoremap <leader>/ :BLines<CR>
@@ -717,19 +716,15 @@ nnoremap <leader>C :echo "\<leader\>C"<cr>
 nnoremap <leader>D :echo "\<leader\>D"<cr>
 
 
-" nvim tree toggle
-nnoremap <C-b> :NvimTreeToggle<CR>
-
-
 " fuzzy find content in all files in tree  (requires junegunn/fzf)
-nnoremap <leader>fb :Buffers<CR>
-nnoremap <leader>fc :Commands<CR>
-nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fl :Lines<CR>
-nnoremap <leader>fL :BLines<CR>
-nnoremap <leader>fm :Marks<CR>
-nnoremap <leader>fM :Maps<CR>
-nnoremap <leader>ft :Tags<CR>
+" nnoremap <leader>fb :Buffers<CR>
+" nnoremap <leader>fc :Commands<CR>
+" nnoremap <leader>ff :Files<CR>
+" nnoremap <leader>fl :Lines<CR>
+" nnoremap <leader>fL :BLines<CR>
+" nnoremap <leader>fm :Marks<CR>
+" nnoremap <leader>fM :Maps<CR>
+" nnoremap <leader>ft :Tags<CR>
 
 
 " Toggle (git) diff bar (requires tpope/vim-fugitive and mhinz/vim-signify)
@@ -877,8 +872,8 @@ nnoremap <leader>Z :echo "\<leader\>Z"<cr>
 augroup pythonleadershortcuts
     autocmd!
 
-    " black python formatting for visual selection
-    autocmd FileType python xmap <buffer> <leader>F :!black - 2>/dev/null<CR>
+    " " black python formatting for visual selection
+    " autocmd FileType python xmap <buffer> <leader>F :!black - 2>/dev/null<CR>
 
     " go to definition (python only) -- inherited from plugins
     " <leader>d
@@ -1026,8 +1021,8 @@ inoremap <F3><F3> <Esc>:setlocal spell spelllang=
 nnoremap <F4> <Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>:luafile ~/.config/nvim/lua/pluginrc/init.lua<CR>
 inoremap <F4> <Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>:luafile ~/.config/nvim/lua/pluginrc/init.lua<CR>
 
-" noop
-nnoremap <F5> :echo "\<F5\>"<cr>
+" " noop
+" nnoremap <F5> :echo "\<F5\>"<cr>
 
 " noop
 nnoremap <F6> :echo "\<F6\>"<cr>
@@ -1090,11 +1085,11 @@ augroup end
 "         " new terminal
 "         call system('ipython -c "import sys"')
 "         if !v:shell_error
-"             call NewHorizontalTerminal("ipython --matplotlib")
-"             " lua _IPYTHON_TERM()
+"             " call NewHorizontalTerminal("ipython --matplotlib")
+"             lua _IPYTHON_TERM()
 "             if exists("g:last_terminal_job_id")
 "                 sleep 100m
-"                 call RunPython(a:type)
+"                 " call RunPython(a:type)
 "             endif
 "         else
 "             echo "ipython not found"
@@ -1107,8 +1102,12 @@ let g:slime_target = "neovim"
 let g:slime_python_ipython = 1
 let g:slime_dont_ask_default = 1
 let g:slime_cell_delimiter = "##"
-let g:slime_paste_file = "$HOME/.config/nvim/slime_paste"
+" let g:slime_paste_file = "$HOME/.config/nvim/slime_paste"
 let g:slime_default_config = [5]
+
+let g:ipython_cell_tag = ['##%','##[+=\-*]' ,'```', '```python', '```py']
+let g:ipython_cell_regex=1
+let g:ipython_cell_highlight_cells=1
 
 function! LatexBuild(force)
     delmarks m
@@ -1173,3 +1172,10 @@ command! SmdvStop call StopSmdv()
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,css EmmetInstall
 
+let g:fzf_layout = {
+    \ 'window' : {
+        \ 'width': 0.8,
+        \ 'height': 0.6,
+        \ 'highlight': 'Comment'
+    \}
+\}

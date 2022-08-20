@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# !/usr/bin/env bash
 #    _____ _     ____  ____  ____  ____  _____
 #   /    // \   /  _ \/  __\/  _ \/  __\/__ __\
 #   |  __\| |   | / \||  \/|| / \||  \/|  / \
@@ -9,7 +9,7 @@
 # !!! NOTE THAT THIS SCRIPT SHOULD NOT BE SOURCED. !!! #
 # ---------------------------------------------------- #
 
-# last complete install: 2021.10.21
+# last run: 2022.08.13 (in full)
 
 ## checks
 #-------------------------------------------------------------------------------
@@ -89,3 +89,13 @@ mamba install -y -n work -c conda-forge nodejs\>=10 jupyterlab\>=3 \
 # conda run -n base jupyter labextension install @arbennett/base16-nord
 # $CONDAROOT/bin/python -m ipykernel install --user --name base --display-name base
 # $CONDAROOT/bin/jupyter labextension install @arbennett/base16-nord
+# conda env update -n base -f "$HOME/.install/python_envs/base.yml"
+
+# $CONDAROOT/bin/python -m ipykernel install --user --name base --display-name base
+# $CONDAROOT/bin/jupyter serverextension enable --py jupyter_server_proxy
+# $CONDAROOT/bin/jupyter labextension install \
+#     @arbennett/base16-nord \
+#     @arbennett/base16-mexico-light \
+#     jupyterlab-plotly \
+#     @jupyterlab/hdf5 \
+#     @jupyterlab/server-proxy

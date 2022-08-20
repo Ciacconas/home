@@ -46,6 +46,10 @@ bindkey "^[h" up-line-or-history # alt + h
 bindkey "^[l" down-line-or-history # alt + l
 bindkey "^y" "" # noop
 
+# reverse history search
+bindkey -v
+bindkey '^R' history-incremental-search-backward
+
 # complecation related settings
 # Define completers
 zstyle ':completion:*' completer _extensions _complete _approximate
@@ -193,7 +197,18 @@ sourcefile "$HOME/.travis/travis.sh"
 sourcefile $HOME/.config/broot/launcher/bash/br
 
 # autojump
-sourcefile $HOME/.config/autojump/share/autojump/autojump.zsh
+my_autojump_chpwd() {
+  # only run autojump when not in python dir
+  # to prevent errors from path clashes
+  if [ ! -f ./__init__.py ]; then
+    autojump_chpwd
+  fi
+}
+if [ -f $HOME/.config/autojump/share/autojump/autojump.zsh ]; then
+  sourcefile $HOME/.config/autojump/share/autojump/autojump.zsh
+  chpwd_functions=my_autojump_chpwd
+fi
+
 
 # my custom autojump commands (slightly different from default behavior):
 sourcefile $HOME/.scripts/autojump/autojump-improved.zsh

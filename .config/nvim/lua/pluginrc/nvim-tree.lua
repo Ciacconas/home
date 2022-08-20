@@ -154,3 +154,7 @@ nvim_tree.setup({
 	-- 	tree_width = 30,
 	-- },
 })
+
+-- nvim tree toggle
+vim.keymap.set('n', '<C-b>', "<cmd>NvimTreeToggle<CR>")
+-- nnoremap <C-b> :NvimTreeToggle<CR>

@@ -1,5 +1,5 @@
 [Default Applications]
-application/octet-stream=open-octet-stream.desktop
+application/octet-stream=klayoutEditor.desktop
 application/pdf=org.pwmt.zathura.desktop
 application/pkix-cert=nvim.desktop
 application/vnd.oasis.opendocument.text=libreoffice-writer.desktop
@@ -63,7 +63,7 @@ application/vnd.rar=unarchive.desktop
 x-scheme-handler/webcal=chromium.desktop
 
 [Added Associations]
-application/octet-stream=fdtd-solutions.desktop;mode-solutions.desktop;klayout.desktop;interconnect.desktop;open-octet-stream.desktop
+application/octet-stream=fdtd-solutions.desktop;mode-solutions.desktop;klayout.desktop;interconnect.desktop;open-octet-stream.desktop;klayoutEditor.desktop;
 application/pdf=org.pwmt.zathura.desktop
 application/pkix-cert=nvim.desktop
 application/vnd.ms-visio.drawing.main+xml=libreoffice-draw.desktop;

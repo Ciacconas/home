@@ -7,7 +7,7 @@ toggleterm.setup({
 	-- size can be a number or function which is passed the current terminal
 	size = function(term)
 		if term.direction == "horizontal" then
-			return math.floor(vim.o.lines * 0.25)
+			return math.floor(vim.o.lines * 0.20)
 		elseif term.direction == "vertical" then
 			return math.floor(vim.o.columns * 0.4)
 		end
@@ -41,23 +41,7 @@ toggleterm.setup({
 
 local Terminal = require("toggleterm.terminal").Terminal
 
-local ipython = Terminal:new({
-	count = 9,
-	cmd = "ipython --matplotlib",
-	on_open = function(term)
-		vim.g.last_terminal_job_id = term.job_id
-	end,
-	on_exit = function()
-		vim.g.last_terminal_job_id = nil
-	end,
-	hidden = false,
-	direction = "horizontal" })
-
-function _IPYTHON_TERM()
-	ipython:toggle()
-	vim.cmd([[execute "normal G\<C-w>k"]])
-end
-
+-- carge 5
 local cargo5 = Terminal:new({ count = 5, direction = "float" })
 function _CARGORUN()
 	cargo5:toggle()
@@ -65,7 +49,7 @@ function _CARGORUN()
 	toggleterm.exec("cargo run", 5)
 end
 
--- mklatex
+-- mklatex 6
 local mklatex = Terminal:new({ count = 6, hidden = false, direction = "horizontal" })
 function _MK_Latex(mklatex_arg)
 	mklatex:toggle()
@@ -75,7 +59,7 @@ function _MK_Latex(mklatex_arg)
 	vim.cmd([[execute "normal G\<C-w>k"]])
 end
 
--- lazygit
+-- lazygit 7
 local lazygit = Terminal:new({
 	cmd = "lazygit",
 	count = 7,
@@ -84,9 +68,34 @@ local lazygit = Terminal:new({
 		vim.cmd("startinsert!")
 	end,
 })
-
 function _LAZZYGIT()
 	lazygit:toggle()
+end
+
+-- go 8
+local go8 = Terminal:new({ count = 8, direction = "float" })
+function _GORUN()
+	local run_commmand = "go run " .. vim.fn.expand('%')
+	go8:toggle()
+	-- vim.cmd([[execute "normal G\<C-w>k"]])
+	toggleterm.exec(run_commmand, 8)
+end
+
+-- python 9
+local ipython = Terminal:new({
+	count = 9,
+	cmd = "ipython",
+	on_open = function(term)
+		vim.g.last_terminal_job_id = term.job_id
+	end,
+	on_exit = function()
+		vim.g.last_terminal_job_id = nil
+	end,
+	hidden = false,
+	direction = "horizontal" })
+function _IPYTHON_TERM()
+	ipython:toggle()
+	vim.cmd([[execute "normal G\<C-w>k"]])
 end
 
 vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })

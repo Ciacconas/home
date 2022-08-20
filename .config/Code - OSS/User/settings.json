@@ -46,7 +46,6 @@
     "window.restoreWindows": "none",
     "window.zoomLevel": 0,
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.colorTheme": "Default Light+",
     "explorer.confirmDragAndDrop": false,
     "workbench.settings.useSplitJSON": true,
     "latex-workshop.latex.magic.args": [
@@ -70,4 +69,17 @@
     },
     "security.workspace.trust.untrustedFiles": "open",
     "Lua.telemetry.enable": false,
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "files.exclude": {
+        "**/.git": false,
+        "**/.gitw": true
+    },
+    "workbench.colorTheme": "Visual Studio Light",
+    "files.associations": {
+        "*.conf": "xml"
+    },
+    "redhat.telemetry.enabled": false,
+    "git.mergeEditor": false,
 }
