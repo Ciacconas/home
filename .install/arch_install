@@ -616,6 +616,8 @@ pacman_install gocryptfs
 pacman_install davfs2
 ## recommended settings for davfs2 + Nextcloud
 echo $password | sudo -S sed -i 's/# use_locks.*/use_locks 0/g' /etc/davfs2/davfs2.conf
+## file encryption
+pacman_install age
 
 
 # Graphical desktop server: xorg
@@ -1068,6 +1070,8 @@ pacman_install blueman
 #pacman_install jami-daemon
 #pacman_install libjamiclient
 #pacman_install jami-gnome
+## secure chat app
+pacman_install signal-desktop
 ## 'airdrop' for linux (only works between pcs):
 #yay_install warpinator
 ## natifier: make 'native' electron apps given a url
@@ -1174,6 +1178,12 @@ pacman_install biber
 yay_install pandoc-bin
 ## open-source note taking app (takes a while to build)
 #yay_install joplin
+## obsidian note
+pacman_install obsidian
+## Scientific paper management
+yay_install zotero-bin
+## E-book management
+pacman_install calibre
 
 
 # Programming
