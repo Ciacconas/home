@@ -653,6 +653,8 @@ yay_install xurls
 #yay_install xcape-git
 ## emulate mouse clicks and keyboard presses
 pacman_install xdotool
+## disable mouse acceleration
+pacman_install xorg-xinput
 ## emulate mouse clicks and more from within python
 yay_install python-pyautogui
 ## xsettingsd: immediately apply changes in GTK theme
@@ -666,7 +668,7 @@ pacman_install xorg-xhost
 ## view x11vnc session (executable: gvncviewer)
 #pacman_install gtk-vnc
 ## view x11vnc session (executable: vncviewer) <-- better framerate
-#pacman_install tigervnc
+pacman_install tigervnc
 ## view x11vnc and realvnc sessions (executable: vncviewer)
 #yay_install realvnc-vnc-viewer
 ## compositor (for transparent windows, blur, ...)
@@ -682,7 +684,7 @@ yay_install picom-git
 pacman -Q libxft-bgra-git &> /dev/null || yes | LC_ALL=en_US.UTF-8 yay -S -q libxft-bgra-git >> "$LOG" 2>> "$ERR"
 
 ## Dell displaylink drivers:
-#pacman_install linux-headers
+pacman_install linux-headers
 #yay_install evdi-git
 #yay_install evdi
 #yay_install displaylink
@@ -1450,7 +1452,12 @@ pacman_install python-pynvim
 
 # Utility tools
 #-------------------------------------------------------------------------------
-yay_install baobab # linux alternative for space sniffer
+# linux alternative for space sniffer
+yay_install baobab
+# obs studio virtual cam
+pacman_install obs-studio
+pacman_install v4l2loopback-dkms
+
 
 
 # Password manager
