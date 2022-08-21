@@ -78,7 +78,7 @@
     },
     "workbench.colorTheme": "Visual Studio Light",
     "files.associations": {
-        "*.conf": "xml"
+        "*.conf": "properties"
     },
     "redhat.telemetry.enabled": false,
     "git.mergeEditor": false,
