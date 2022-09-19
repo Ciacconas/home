@@ -854,6 +854,8 @@ echo $password | sudo -S sed -i 's|^.*X11Forwarding.*|X11Forwarding yes|g' /etc/
 systemctl_enable sshd
 ## autossh (for ssh daemons)
 pacman_install autossh
+## netcat ssh with socks proxy
+pacman_install openbsd-netcat
 ## access to google servers
 #yay_install google-cloud-sdk
 ## bluetooth
@@ -862,14 +864,17 @@ pacman_install bluez-utils
 pacman_install pulseaudio-bluetooth
 ## enable bluetooth service
 systemctl_enable bluetooth
-## remote desktop
+## remote desktop with vnc support
 pacman_install remmina
+pacman_install libvncserver
 ## add windows remote desktop protocol to remmina
 pacman_install freerdp
 yay_install remmina-plugin-rdesktop
 ## barrier: seemless mouse and keyboard sharing between computers (takes a while to build)
 pacman_install barrier
 pacman_install barrier-headless
+## wireguard ecrypted vpn tunnel
+pacman_install wireguard-tools
 
 
 # Themes
@@ -1074,6 +1079,8 @@ pacman_install blueman
 #pacman_install jami-gnome
 ## secure chat app
 pacman_install signal-desktop
+## telegram chat app
+pacman_install telegram-desktop
 ## 'airdrop' for linux (only works between pcs):
 #yay_install warpinator
 ## natifier: make 'native' electron apps given a url
@@ -1147,7 +1154,7 @@ pacman_install ffmpeg
 ## spotify (I prefer spotifyd + spotify-tui)
 #yay_install spotify
 ## GDS viewer and editor
-#pacman_install klayout
+pacman_install klayout
 ## lbry: youtube alternative
 #yay_install lbry-app-bin
 ## skype: video calls
@@ -1452,11 +1459,19 @@ pacman_install python-pynvim
 
 # Utility tools
 #-------------------------------------------------------------------------------
-# linux alternative for space sniffer
+## linux alternative for space sniffer
 yay_install baobab
-# obs studio virtual cam
+## obs studio virtual cam
 pacman_install obs-studio
 pacman_install v4l2loopback-dkms
+## Chinese input
+pacman_install fcitx5
+pacman_install fcitx5-rime
+## bitwarden password manager cli interface
+pacman_install rbw
+## lazygit git too TUI
+pacman_install lazygit
+
 
 
 
