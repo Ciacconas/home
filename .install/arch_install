@@ -1475,6 +1475,8 @@ pacman_install rbw
 pacman_install lazygit
 ## usb utils
 pacman_install usbutils
+## fido2 lib
+pacman_install libfido2
 
 
 
