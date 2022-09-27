@@ -583,6 +583,8 @@ pacman_install playerctl
 ## service that checks number of packages that need updating:
 systemctl_create pacmanquery
 systemctl_enable pacmanquery
+## linux screen
+pacman_install screen
 
 
 # Drive and file system drivers
@@ -1471,6 +1473,8 @@ pacman_install fcitx5-rime
 pacman_install rbw
 ## lazygit git too TUI
 pacman_install lazygit
+## usb utils
+pacman_install usbutils
 
 
 
