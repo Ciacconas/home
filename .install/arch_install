@@ -1477,6 +1477,9 @@ pacman_install lazygit
 pacman_install usbutils
 ## fido2 lib
 pacman_install libfido2
+## yubiky manager ykman
+pacman_install yubikey-manager
+pacman_install yubikey-manager-qt
 
 
 
