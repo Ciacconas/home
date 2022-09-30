@@ -877,6 +877,8 @@ pacman_install barrier
 pacman_install barrier-headless
 ## wireguard ecrypted vpn tunnel
 pacman_install wireguard-tools
+## dns utils bind
+pacman_install bind
 
 
 # Themes
