@@ -689,6 +689,8 @@ local thumbnailer_options = {
 
     -- Only automatically thumbnail videos shorter than this (seconds)
     autogenerate_max_duration = 3600, -- 1 hour
+    -- Only automatically thumbnail videos longer than this (seconds)
+    autogenerate_min_duration = 300, -- 5 min
 
     -- SHA1-sum filenames over this length
     -- It's nice to know what files the thumbnails are (hence directory names)
@@ -1074,10 +1076,11 @@ function Thumbnailer:register_client()
     mp.observe_property("video-dec-params", "native", function()
         local duration = mp.get_property_native("duration")
         local max_duration = thumbnailer_options.autogenerate_max_duration
+        local min_duration = thumbnailer_options.autogenerate_min_duration
 
         if duration ~= nil and self.state.available and thumbnailer_options.autogenerate then
             -- Notify if autogenerate is on and video is not too long
-            if duration < max_duration or max_duration == 0 then
+            if (duration < max_duration and duration > min_duration) or max_duration == 0 then
                 self:start_worker_jobs()
             end
         end

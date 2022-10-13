@@ -206,7 +206,7 @@ my_autojump_chpwd() {
 }
 if [ -f $HOME/.config/autojump/share/autojump/autojump.zsh ]; then
   sourcefile $HOME/.config/autojump/share/autojump/autojump.zsh
-  chpwd_functions=my_autojump_chpwd
+  # chpwd_functions=my_autojump_chpwd
 fi
 
 

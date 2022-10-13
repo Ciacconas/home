@@ -71,6 +71,8 @@ mamba install -y -n work -c conda-forge nodejs\>=10 jupyterlab\>=3 \
   pyflakes isort yapf pytest twine jupyterlab_vim build pip wheel setuptools sphinx gdspy \
   shapely bump2version lxml grayskull bokeh jupyterlab-lsp pyright nbdev
 
+# !!!!pip pynvim
+
 # conda run -n base --no-capture-output jupyter labextension install @arbennett/base16-nord
 
 #---- floris script ----

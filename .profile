@@ -67,4 +67,4 @@ export MKL_DEBUG_CPU_TYPE=5 # fix intel mkl poor performance on amd cpu
 # (start line with space to prevent fish config from parsing this line.)
  export PYTHONPATH="$(tr '\n' ':' < ~/.pythonpath | head -c -1 | sed 's|~|'$HOME'|g')"
 
-source "$HOME/.cargo/env"
+# source "$HOME/.cargo/env"
