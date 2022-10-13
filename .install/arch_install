@@ -879,6 +879,12 @@ pacman_install barrier-headless
 pacman_install wireguard-tools
 ## dns utils bind
 pacman_install bind
+## traceroute
+pacman_install traceroute
+## tcptraceroute
+yay_install tcptraceroute
+## nmap network scan
+pacman_install nmap
 
 
 # Themes
