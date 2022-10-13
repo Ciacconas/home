@@ -4,16 +4,18 @@ if not null_ls_status_ok then
 	return
 end
 
+
 local formatting = null_ls.builtins.formatting
 null_ls.setup({
-	debug = false,
+	debug = true,
 	sources = {
 		-- stylua better than lua-format
 		formatting.stylua,
-		formatting.black,
+		formatting.black.with({ extra_args = { "-t", "py36", "-l", "88" } }),
 		-- formatting.gofmt,
 	},
 })
 
+
 -- vim.cmd([[ command! LSPFormat execute 'lua vim.lsp.buf.formatting()' ]])
-vim.keymap.set('n', '<leader>F', vim.lsp.buf.formatting)
+vim.keymap.set('n', '<leader>F', vim.lsp.buf.format)

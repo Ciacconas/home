@@ -46,31 +46,12 @@ vim.api.nvim_create_autocmd("InsertLeave", { group = insert_underline, command =
 -- " autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 
-
-
-
-
-
 -- fzf.vim
 vim.keymap.set("n", "<C-p>", "<cmd>GFiles<CR>")
 vim.keymap.set("n", "<leader>ff", "<cmd>Files<CR>")
 vim.keymap.set("n", "<leader>fl", "<cmd>Lines<CR>")
 vim.keymap.set("n", "<leader>fm", "<cmd>Maps<CR>")
 vim.keymap.set("n", "<leader>fc", "<cmd>Commands<CR>")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 -- Run python in the neovim toggleterm terminal

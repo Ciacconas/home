@@ -46,7 +46,7 @@ return packer.startup({
 		-- coc
 		-- use({ "neoclide/coc.nvim", branch = "release" })
 
-		-- cmp related
+		-- cmp related: auto complete and so on...
 		use({ "hrsh7th/nvim-cmp" })
 		use({ "hrsh7th/cmp-nvim-lsp" })
 		use({ "hrsh7th/cmp-buffer" })

@@ -114,7 +114,7 @@ endif
 " set mouse=a
 
 " copy to star register by default (selection copy)
-" set clipboard^=unnamed
+set clipboard^=unnamed
 
 " " replace tabs by spaces
 " set expandtab

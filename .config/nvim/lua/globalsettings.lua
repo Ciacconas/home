@@ -4,8 +4,8 @@ vim.g.mapleader = " "
 
 -- Filetypes
 -- neovim 0.7: only use filetype.lua not fallback to filtype.vim
-vim.g.do_filetype_lua = 1
-vim.g.did_load_filetypes = 0
+-- vim.g.do_filetype_lua = 1
+-- vim.g.did_load_filetypes = 0
 vim.cmd("filetype plugin indent on")
 
 -- vim.cmd 'syntax on' -- disabled for treesitter syntax
@@ -15,7 +15,7 @@ vim.cmd("filetype plugin indent on")
 -- These settings won't change, no matter the filetype or active extension
 
 --when scrolling, keep cursor in the middle of the page (disabled, use zz to center)
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 0
 
 -- allow pattern matching with special characters during search
 vim.opt.magic = true
