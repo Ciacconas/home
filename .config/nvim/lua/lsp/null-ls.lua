@@ -16,6 +16,4 @@ null_ls.setup({
 	},
 })
 
-
--- vim.cmd([[ command! LSPFormat execute 'lua vim.lsp.buf.formatting()' ]])
 vim.keymap.set('n', '<leader>F', vim.lsp.buf.format)
