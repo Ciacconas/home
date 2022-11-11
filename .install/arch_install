@@ -829,7 +829,7 @@ pacman_install pulseaudio
 pacman_install networkmanager
 systemctl_enable NetworkManager
 ## use cloudflare DNS servers:
-printf "[global-dns-domain-*]\nservers=1.1.1.1,1.0.0.1" | sudo tee /etc/NetworkManager/conf.d/dns-servers.conf > /dev/null 2>> "$ERR"
+# printf "[global-dns-domain-*]\nservers=1.1.1.1,1.0.0.1" | sudo tee /etc/NetworkManager/conf.d/dns-servers.conf > /dev/null 2>> "$ERR"
 ## create network group (this might fail if the group exists already, but who cares.)
 groupadd network >> "$LOG" 2>> "$ERR"
 ## create policy kit rule (everyone in network group can connect to / change networks)
@@ -1076,7 +1076,7 @@ pacman_install zathura-pdf-mupdf
 ## djvu reader extension
 pacman_install zathura-djvu
 ## etcher: GUI dd alternative
-#yay_install etcher-bin
+yay_install etcher-bin
 ## anki: a flashcard program
 #pacman_install anki
 ## pulseaudio control panel
