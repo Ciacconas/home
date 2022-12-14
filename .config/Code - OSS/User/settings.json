@@ -84,4 +84,6 @@
     "redhat.telemetry.enabled": false,
     "git.mergeEditor": false,
     "git.untrackedChanges": "separate",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "prettier.tabWidth": 4,
 }
