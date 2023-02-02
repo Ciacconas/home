@@ -1493,6 +1493,8 @@ pacman_install libfido2
 ## yubiky manager ykman
 pacman_install yubikey-manager
 pacman_install yubikey-manager-qt
+## zsa keyboard flashing tool
+pacman_install zsa-wally
 
 
 
