@@ -8,8 +8,10 @@ require("lsp.null-ls")
 
 
 
-local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
-updated_capabilities = require("cmp_nvim_lsp").update_capabilities(updated_capabilities)
+-- local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
+-- updated_capabilities = require("cmp_nvim_lsp").update_capabilities(updated_capabilities)
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local custom_attach = function(client)
 	local filetype = vim.api.nvim_buf_get_option(0, "filetype")
@@ -85,7 +87,7 @@ lspconfig.sumneko_lua.setup({
 		}
 	},
 	on_attach = custom_attach,
-	capabilities = updated_capabilities
+	capabilities = capabilities
 })
 
 -- read .vscode/settings if there is one. Mainly for ipkiss environment
@@ -161,7 +163,7 @@ lspconfig.pyright.setup({
 		-- handle:close()
 		custom_attach(client)
 	end,
-	capabilities = updated_capabilities,
+	capabilities = capabilities,
 	flags = {
 		debounce_text_changes = nil,
 	},
@@ -206,7 +208,7 @@ local setup_server = function(server, config)
 	config = vim.tbl_deep_extend("force", {
 		-- on_init = custom_init,
 		on_attach = custom_attach,
-		capabilities = updated_capabilities,
+		capabilities = capabilities,
 		flags = {
 			debounce_text_changes = nil,
 		},
