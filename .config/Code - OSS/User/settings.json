@@ -76,7 +76,6 @@
         "**/.git": false,
         "**/.gitw": true
     },
-    "workbench.colorTheme": "Visual Studio Light",
     "files.associations": {
         "*.conf": "properties",
         "*.vim": "vimrc"
@@ -86,4 +85,9 @@
     "git.untrackedChanges": "separate",
     "diffEditor.ignoreTrimWhitespace": false,
     "prettier.tabWidth": 4,
+    "workbench.colorTheme": "Default Light+",
+    "[lua]": {
+        "editor.defaultFormatter": "yinfei.luahelper"
+    },
+    "luahelper.format.0 allReadMe": "",
 }
