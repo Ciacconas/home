@@ -51,7 +51,7 @@
     icon_position = left
     max_icon_size = 40
     icon_path = ~/.local/share/icons/
-    sticky_history = yes
+    sticky_history = false
     history_length = 20
     dmenu = /usr/bin/dmenu -p dunst:
     browser = /usr/bin/firefox --new-window
