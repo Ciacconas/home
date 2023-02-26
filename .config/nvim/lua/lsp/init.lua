@@ -61,7 +61,7 @@ end
 
 -- An example of configuring for `sumneko_lua`,
 --  a language server for Lua.
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
 	-- cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" };
 	-- An example of settings for an LSP server.
 	--    For more options, see nvim-lspconfig
