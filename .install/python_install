@@ -54,22 +54,34 @@ source "$CONDAROOT/etc/profile.d/conda.sh"
 ## base environment
 #-------------------------------------------------------------------------------
 
-# jupyter hub related
-mamba install -y -n base -c conda-forge black nodejs\>=10 jupyterlab\>=3 jupyterhub \
-  jupyterlab_code_formatter ipympl nbstripout pylint pydocstyle pep8 flake8 pyflakes isort yapf \
-  jupyterlab_vim pip wheel jupyterlab-lsp pyright
+conda env update -n base -f "$HOME/.install/python_envs/base.yml"
 
+$CONDAROOT/bin/python -m ipykernel install --user --name base --display-name base
+$CONDAROOT/bin/jupyter labextension install \
+    @arbennett/base16-nord \
+    @arbennett/base16-mexico-light \
+    @jupyterlab/hdf5
 
-# work python env
-## pytorch
-mamba create -y -n work -c pytorch pytorch
-
-mamba install -y -n work -c conda-forge nodejs\>=10 jupyterlab\>=3 \
-  jupyterlab_code_formatter ipympl nbstripout pre-commit nbdime cython numpy \
-  scipy sympy pandas pytables scikit-learn matplotlib altair plotly      \
-  pillow pandoc h5py tqdm line_profiler pylint pydocstyle mypy pep8 black flake8    \
-  pyflakes isort yapf pytest twine jupyterlab_vim build pip wheel setuptools sphinx gdspy \
-  shapely bump2version lxml grayskull bokeh jupyterlab-lsp pyright nbdev
+# ## base environment
+# #-------------------------------------------------------------------------------
+#
+# # jupyter hub related
+# mamba install -y -n base -c conda-forge black nodejs\>=10 jupyterlab\>=3 jupyterhub \
+#   jupyterlab_code_formatter ipympl nbstripout pylint pydocstyle pep8 flake8 pyflakes isort yapf \
+#   jupyterlab_vim pip wheel jupyterlab-lsp pyright
+#
+# #====================================
+# # work python env
+# ## pytorch
+# mamba create -y -n work -c pytorch pytorch
+#
+# mamba install -y -n work -c conda-forge nodejs\>=10 jupyterlab\>=3 \
+#   jupyterlab_code_formatter ipympl nbstripout pre-commit nbdime cython numpy \
+#   scipy sympy pandas pytables scikit-learn matplotlib altair plotly      \
+#   pillow pandoc h5py tqdm line_profiler pylint pydocstyle mypy pep8 black flake8    \
+#   pyflakes isort yapf pytest twine jupyterlab_vim build pip wheel setuptools sphinx gdspy \
+#   shapely bump2version lxml grayskull bokeh jupyterlab-lsp pyright nbdev
+# #=====================================
 
 # !!!!pip pynvim
 
