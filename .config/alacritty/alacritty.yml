@@ -31,7 +31,7 @@ scrolling:
   multiplier: 3
 
 font:
-  size: 14.0
+  size: 16.0
   normal:
     family: Ubuntu Mono
     style: Regular

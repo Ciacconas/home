@@ -52,6 +52,9 @@ export SAVEHIST=1000000
 export SUDO_ASKPASS="$HOME/.local/bin/askpass"
 export SUDO_ASKUSERPASS="$HOME/.local/bin/askuserpass"
 export TERMINAL="alacritty"
+## screen dpi scaling
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
 # export IPKISS_PORT=5050
 export DOCKER_BUILDKIT=1
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"

@@ -9,7 +9,7 @@ null_ls.setup({
     debug = true,
     sources = { -- stylua better than lua-format
     formatting.stylua, formatting.black.with({
-        extra_args = {"-t", "py38", "-l", "120"}
+        extra_args = {"-t", "py38", "-l", "96"}
     }) -- formatting.gofmt,
     }
 })

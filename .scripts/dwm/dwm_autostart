@@ -105,7 +105,7 @@ done &
 
 # diable mouse acceleration
 while true; do
-    xinput --set-prop pointer:"Logitech G304" "libinput Accel Profile Enabled" 0, 1
+    xinput --set-prop pointer:"Logitech G305" "libinput Accel Profile Enabled" 0, 1
     sleep 600s
 done &
 
@@ -117,9 +117,9 @@ else
     log picom --daemon --experimental-backends
 fi
 
-# conky dashboards (same one on three monitors)
-if ! pidof conky >/dev/null 2> /dev/null; then
-    log conky -d -x 60
-    # log conky -d -x -1860
-    # log conky -d -x -3780
-fi
+# # conky dashboards (same one on three monitors)
+# if ! pidof conky >/dev/null 2> /dev/null; then
+#     log conky -d -x 60
+#     # log conky -d -x -1860
+#     # log conky -d -x -3780
+# fi
