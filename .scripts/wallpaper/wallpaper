@@ -18,7 +18,8 @@ def usage():
     exit(1)
 
 def set_current_wallpaper():
-    return subprocess.call(["feh", "--bg-scale", "--no-fehbg", CURRENT_WALLPAPER])
+    # return subprocess.call(["feh", "--bg-scale", "--no-fehbg", CURRENT_WALLPAPER])
+    return subprocess.call(["feh", "--bg-fill", "--no-xinerama", CURRENT_WALLPAPER])
 
 def save_current_wallpaper_path(path):
     with open(os.path.expanduser("~/.cache/current-wallpaper-path"), "w") as file:
