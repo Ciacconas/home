@@ -275,7 +275,7 @@ augroup pythonsettings
     autocmd Filetype python setlocal colorcolumn=88
 
     " enable colde folding
-    autocmd Filetype python setlocal foldmethod=manual
+    " autocmd Filetype python setlocal foldmethod=manual
 
     " enable autoindent on new line
     autocmd FileType python setlocal autoindent

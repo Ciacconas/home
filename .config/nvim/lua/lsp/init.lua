@@ -171,6 +171,7 @@ lspconfig.pyright.setup({
 		python = {
 			analysis = {
 				extraPaths = get_vscode_python_path(),
+				typeCheckingMode = "off"
 			}
 		}
 	}

@@ -68,7 +68,7 @@ vim.opt.clipboard = vim.opt.clipboard:prepend("unnamed")
 
 -- code folding
 -- zM: fold all; zR: unfold all; za: toggle fold, zv: unfold one; zc: fold one
-vim.opt.foldmethod = "manual"
+-- vim.opt.foldmethod = "manual"
 
 -- show the matching part of the pair for [] {} and ()
 vim.opt.showmatch = true

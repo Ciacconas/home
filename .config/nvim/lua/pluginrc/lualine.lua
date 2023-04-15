@@ -37,7 +37,7 @@ lualine.setup({
 		lualine_x = {
 			{
 				"buffers",
-				show_modified_status = false,
+				show_modified_status = true,
 				max_length = vim.o.columns * 2 / 3,
 				buffers_color = {
 					-- Same values as the general color option can be used here.

@@ -48,8 +48,8 @@ hi Special ctermfg=5 " SpecialChar TSStringSpecial TSVariableBuiltin TSFuncBuilt
 
 " Strong Cyan Aqua 14
 hi Type cterm=bold ctermfg=14 " TSType
-hi TSKeywordFunction cterm=bold	ctermfg=14 " TSKeywordFunction
-hi link TSKeywordReturn TSKeywordFunction
+" hi TSKeywordFunction cterm=bold	ctermfg=14 " TSKeywordFunction
+" hi link TSKeywordReturn TSKeywordFunction
 " Weak Cyan Aqua 6
 hi PreProc ctermfg=6 " TSAnnotation TSAttribute
 " hi link Define PreProc " Macro TSConstMacro TSFuncMacro
