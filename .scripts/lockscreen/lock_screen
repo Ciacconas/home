@@ -13,7 +13,7 @@ while true; do
     pidof i3lock && ! pidof xset && xset dpms force off
     sleep 600
 done &
-timeout 1s playerctl pause && (icon=$(cat $HOME/.cache/dwm_playercontrol) && [ "$icon" = "" ] && echo  > $HOME/.cache/dwm_playercontrol || echo  > $HOME.cache/dwm_playercontrol) &
+# timeout 1s playerctl pause && (icon=$(cat $HOME/.cache/dwm_playercontrol) && [ "$icon" = "" ] && echo  > $HOME/.cache/dwm_playercontrol || echo  > $HOME.cache/dwm_playercontrol) &
 
 # actual lock command
 i3lock --color 444444 --ignore-empty-password --show-failed-attempts --nofork

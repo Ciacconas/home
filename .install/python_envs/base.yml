@@ -29,4 +29,4 @@ dependencies:
   - pytables
   - scipy
   - setuptools
-prefix: /home/flaport/.anaconda
+prefix: $HOME/.anaconda

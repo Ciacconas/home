@@ -44,7 +44,7 @@ video/mpeg=mpv.desktop
 video/quicktime=mpv.desktop;
 video/x-matroska=mpv.desktop
 x-scheme-handler/chrome=chromium.desktop
-x-scheme-handler/etcher=balena-etcher-electron.desktop
+x-scheme-handler/etcher=balena-etcher.desktop
 x-scheme-handler/ftp=chromium.desktop
 x-scheme-handler/http=chromium.desktop
 x-scheme-handler/https=chromium.desktop
@@ -62,6 +62,7 @@ video/mp2t=mpv.desktop
 video/x-ms-wmv=mpv.desktop
 application/vnd.rar=unarchive.desktop
 x-scheme-handler/webcal=chromium.desktop
+x-scheme-handler/baiduyunguanjia=baidunetdisk.desktop
 
 [Added Associations]
 application/octet-stream=fdtd-solutions.desktop;mode-solutions.desktop;klayout.desktop;interconnect.desktop;open-octet-stream.desktop;klayoutEditor.desktop;

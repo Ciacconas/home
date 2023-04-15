@@ -112,7 +112,7 @@ done &
 # enable transparent windows (should be last)
 sleep 1
 if [ -f "$HOME/.cache/xcs/picom.conf" ]; then
-    log picom --daemon --config "$HOME/.cache/xcs/picom.conf"
+    log picom --daemon --experimental-backends --config "$HOME/.cache/xcs/picom.conf"
 else
     log picom --daemon
 fi
@@ -123,3 +123,6 @@ fi
 #     # log conky -d -x -1860
 #     # log conky -d -x -3780
 # fi
+
+
+gocryptfs --extpass "rbw get cipher_note" /home/choma/Documents/cipher /home/choma/Documents/xanadu >/dev/null 2>&1 &

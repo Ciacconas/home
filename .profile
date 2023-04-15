@@ -56,7 +56,7 @@ export TERMINAL="alacritty"
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 # export IPKISS_PORT=5050
-export DOCKER_BUILDKIT=1
+# export DOCKER_BUILDKIT=1
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 export MKL_DEBUG_CPU_TYPE=5 # fix intel mkl poor performance on amd cpu
 export CHIP_DESIGN_REPOS="$HOME/Documents/xanadu/github"

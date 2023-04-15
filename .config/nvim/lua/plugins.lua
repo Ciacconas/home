@@ -70,7 +70,7 @@ return packer.startup({
 		-- Easy motion in vim
 		use({
 			"phaazon/hop.nvim",
-			branch = "v1",
+			branch = "v2",
 			config = function()
 				require("hop").setup({})
 				vim.cmd([[nnoremap s <cmd>HopChar2<CR>]])
