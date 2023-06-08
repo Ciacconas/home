@@ -4,7 +4,7 @@ local osd_duration = math.max(decay_delay, mp.get_property_number("osd-duration"
 local auto_dec_timer = nil
 
 local fast_speed = 2.8
-local slow_speed = 0.5
+local slow_speed = 0.3
 
 -- local rubberband_af = {
 -- 	{ name = "rubberband", enabled = true, params = { channels = "together", transients = "smooth" } },
