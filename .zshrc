@@ -14,7 +14,7 @@ export LANG=en_US.UTF-8
 
 # source function (ignore file if file does not exist)
 function sourcefile {
-    [[ -f "$1" ]] && source "$1"
+  [[ -f "$1" ]] && source "$1"
 }
 
 # source settings not in source control
@@ -28,7 +28,7 @@ autoload -U compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
-_comp_options+=(globdots)		# Include hidden files.
+_comp_options+=(globdots)   # Include hidden files.
 
 # use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
@@ -97,44 +97,44 @@ prompt(){
     [[ $retval == 0 ]] && echo -ne "%B%F{green}%{%G❭%}%f%b " || echo -ne "%B%F{red}%{%G❭%}%f%b " # ➜ ❭
 }
 rprompt(){
-    retval=$1
-    # return value
-    [[ $retval != 0 ]] && echo -ne "%B%F{red}[$retval]%f%b "
-    # user@host
-    if [[ $UID == 0 ]]; then
-       echo -ne "%B%F{red}root%f%b"
-    else
-        [[ $UID != 1000 || -n $SSH_CLIENT ]] && echo -ne "%F{yellow}$USER%f"
-    fi
-    if [[ -n $SSH_CLIENT ]]; then
-       echo -ne "@%F{blue}$HOST%f"
-    else
-       echo -ne "    " # spacer
-    fi
+  retval=$1
+  # return value
+  [[ $retval != 0 ]] && echo -ne "%B%F{red}[$retval]%f%b "
+  # user@host
+  if [[ $UID == 0 ]]; then
+    echo -ne "%B%F{red}root%f%b"
+  else
+    [[ $UID != 1000 || -n $SSH_CLIENT ]] && echo -ne "%F{yellow}$USER%f"
+  fi
+  if [[ -n $SSH_CLIENT ]]; then
+    echo -ne "@%F{blue}$HOST%f"
+  else
+    echo -ne "    " # spacer
+  fi
 }
 PROMPT="$(prompt 0)"
 RPROMPT="$(rprompt 0)"
 NORMAL='\e[1 q\e\\' # █
 INSERT='\e[4 q\e\\' # _   - INSERT='\e[5 q\e\\' # |
-[ -z $NVIM_LISTEN_ADDRESS ] || INSERT=$NORMAL
-echo -ne $INSERT
-function zle-keymap-select { # gets run every time the mode changes
-    if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
-        echo -ne $NORMAL
-    elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
-        echo -ne $INSERT
-    fi
-    zle reset-prompt
+  [ -z $NVIM_LISTEN_ADDRESS ] || INSERT=$NORMAL
+  echo -ne $INSERT
+  function zle-keymap-select { # gets run every time the mode changes
+  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+    echo -ne $NORMAL
+  elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
+    echo -ne $INSERT
+  fi
+  zle reset-prompt
 }
 function zle-line-init() { # gets run every new line
-    retval="$?" # should obviously always be first
-    echo -ne $INSERT
-    PROMPT="$(prompt $retval)"
-    RPROMPT="$(rprompt $retval)"
-    zle reset-prompt
+retval="$?" # should obviously always be first
+echo -ne $INSERT
+PROMPT="$(prompt $retval)"
+RPROMPT="$(rprompt $retval)"
+zle reset-prompt
 }
 function preexec() { # gets run at new prompt.
-    echo -ne $INSERT
+  echo -ne $INSERT
 }
 zle -N zle-keymap-select
 zle -N zle-line-init
@@ -156,7 +156,7 @@ alias system="conda deactivate && conda deactivate"
 alias history="history 1"
 alias D="dunk | less -R"
 
-alias pip="python -m pip --no-cache-dir"
+alias pip="python -m pip --no-cache-dir --use-deprecated=legacy-resolver"
 alias pip3="python3 -m pip --no-cache-dir"
 alias pip2="python2 -m pip --no-cache-dir"
 
@@ -168,14 +168,14 @@ alias spip2="sudo /usr/bin/python2 -m pip --no-cache-dir"
 alias rake="noglob rake"
 
 man() { # colored man pages:
-    LESS_TERMCAP_md=$'\e[01;31m' \
+  LESS_TERMCAP_md=$'\e[01;31m' \
     LESS_TERMCAP_me=$'\e[0m' \
     LESS_TERMCAP_se=$'\e[0m' \
     LESS_TERMCAP_so=$'\e[01;44;33m' \
     LESS_TERMCAP_ue=$'\e[0m' \
     LESS_TERMCAP_us=$'\e[01;32m' \
     command man "$@"
-}
+  }
 
 alias note="cd ~/Documents/Notes/"
 alias kee="cd ~/Documents/self_file/"
