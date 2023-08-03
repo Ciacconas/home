@@ -94,5 +94,4 @@
     "[python]": {
         "editor.formatOnType": true
     },
-    "workbench.colorTheme": "Default Light+",
 }

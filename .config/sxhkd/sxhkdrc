@@ -267,7 +267,7 @@ super + Return
     cd $HOME; $TERMINAL
 
 # new floating terminal
-super + shift + Return
+control + shift + Return
     cd $HOME; st -n float
 
 # new floating ipython shell
