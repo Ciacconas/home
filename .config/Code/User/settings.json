@@ -70,7 +70,7 @@
     "security.workspace.trust.untrustedFiles": "open",
     "Lua.telemetry.enable": false,
     "[jsonc]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "vscode.json-language-features"
     },
     "files.exclude": {
         "**/.git": false,

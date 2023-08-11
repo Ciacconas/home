@@ -5,7 +5,7 @@ return {
     q = { ":confirm q<CR>", "Quit" },
     c = { ":bd<CR>", "Close Buffer" },
     h = { ":nohlsearch<CR>", "No Highlight" },
-    p = { ":Lazy<CR>", "Lazy" },
+    z = { ":Lazy<CR>", "Lazy" },
     f = { ':Telescope find_files<CR>', "Find Files" },
     r = { function() require("spectre").open() end, "Replace (Spectre)" },
     b = {

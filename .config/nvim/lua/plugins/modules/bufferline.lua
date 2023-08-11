@@ -1,6 +1,9 @@
 return {
     {
         "akinsho/bufferline.nvim",
+        dependencies = {
+            {"nvim-tree/nvim-web-devicons"},
+        },
         enabled = true,
         event = "VimEnter",
         lazy = true,
@@ -23,6 +26,11 @@ return {
                 diagnostics = "nvim_lsp",
                 show_close_icon = false,
                 always_show_bufferline = false,
+                indicator = {
+                    -- icon = '▎', -- this should be omitted if indicator style is not 'icon'
+                    icon = "󰛓", --"󰈙" -- this should be omitted if indicator style is not 'icon'
+                    style = 'icon',
+                },
                 hover = {
                     enabled = false,
                     delay = 200,
