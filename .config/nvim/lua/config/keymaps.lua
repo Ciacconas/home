@@ -5,11 +5,14 @@ local telescope = require('telescope.builtin')
 
 -- LEADER BASED
 -- map("n", "<leader>pv", vim.cmd.Ex, opts)
-map('n', '<leader>ff', telescope.find_files, opts)
-map('n', '<leader>fg', telescope.live_grep, opts)
-map('n', '<leader>fb', telescope.buffers, opts)
-map('n', '<leader>fh', telescope.help_tags, opts)
-map('n', '<leader>g', telescope.live_grep, opts)
+-- map('n', '<leader>ff', telescope.find_files, opts)
+-- map('n', '<leader>fg', telescope.live_grep, opts)
+-- map('n', '<leader>fb', telescope.buffers, opts)
+-- map('n', '<leader>fh', telescope.help_tags, opts)
+-- map('n', '<leader>g', telescope.live_grep, opts)
+
+-- turn of highlighting
+map("n", "<leader><leader>", "<cmd>noh<CR>", opts)
 
 -- open next buffer
 map("n", "<leader>]", ":bnext<CR>", opts)
@@ -21,7 +24,7 @@ map("n", "<leader>[", ":bprevious<CR>", opts)
 map("n", "<leader>.", ":MtaJumpToOtherTag<cr>", opts)
 
 -- cd into folder containing current file
-map("n", "<leader>cd", ":lcd %:p:h<CR>", opts)
+-- map("n", "<leader>cd", ":lcd %:p:h<CR>", opts)
 
 -- jump to next error / warning in file
 -- map("n", "<leader>e", vim.lsp.diagnostic.goto_next(), opts)
@@ -36,7 +39,7 @@ map("n", "<leader>fi", ":IsortSync<CR>", opts)
 -- map("n", "<leader>F", ":NotImplemented", opts)
 
 -- toggle git signify
-map("n", "<leader>gt", ":SignifyToggle<CR>", opts)
+-- map("n", "<leader>gt", ":SignifyToggle<CR>", opts)
 
 -- shrink current horizontal split (decrease height)
 map("n", "<leader>h", "3<C-w>-", opts)
@@ -45,7 +48,7 @@ map("n", "<leader>h", "3<C-w>-", opts)
 map("n", "<leader>H", "<C-w>t<C-w>K", opts)
 
 -- toggle visible marks (requires vim-signature)
-map("n", "<leader>m", ":SignatureToggleSigns<CR>", opts)
+-- map("n", "<leader>m", ":SignatureToggleSigns<CR>", opts)
 
 -- create tags
 map("n", "<leader>T", ":silent !ctags -f .tags -R .<CR>", opts)
@@ -233,7 +236,7 @@ map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true }, opts)
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true }, opts)
 
 -- Normal Mode (Leader-based)
-map("n", "<leader><leader>", ":Telescope buffers<CR>", opts)
+-- map("n", "<leader><leader>", ":Telescope buffers<CR>", opts)
 
 -- VISUAL MODE
 

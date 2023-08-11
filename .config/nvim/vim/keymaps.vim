@@ -14,27 +14,27 @@ function! ToggleStatusBar()
     endif
 endfunction
 
-" toggle relative line numbers
-nnoremap <leader>l :call RelativeNumberToggle()<CR>
-function! RelativeNumberToggle()
-    if (&relativenumber == 1)
-        setlocal norelativenumber
-    else
-        setlocal relativenumber
-    endif
-    setlocal nonumber
-endfunc
+" " toggle relative line numbers
+" nnoremap <leader>l :call RelativeNumberToggle()<CR>
+" function! RelativeNumberToggle()
+"     if (&relativenumber == 1)
+"         setlocal norelativenumber
+"     else
+"         setlocal relativenumber
+"     endif
+"     setlocal nonumber
+" endfunc
 
-" toggle absolute line numbers
-nnoremap <leader>L :call AbsoluteNumberToggle()<CR>
-function! AbsoluteNumberToggle()
-    if (&number == 1)
-        setlocal nonumber
-    else
-        setlocal number
-    endif
-    setlocal norelativenumber
-endfunc
+" " toggle absolute line numbers
+" nnoremap <leader>L :call AbsoluteNumberToggle()<CR>
+" function! AbsoluteNumberToggle()
+"     if (&number == 1)
+"         setlocal nonumber
+"     else
+"         setlocal number
+"     endif
+"     setlocal norelativenumber
+" endfunc
 
 " paste from clipboard in stead of selection
 nnoremap <leader>p :call Paste()<CR>

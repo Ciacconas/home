@@ -1,40 +1,43 @@
 return {
     mode = { "n", "v" },
     [";"] = { ":Alpha<CR>", "Dashboard" },
-    w = { ":w!<CR>", "Save" },
-    q = { ":confirm q<CR>", "Quit" },
-    c = { ":bd<CR>", "Close Buffer" },
-    h = { ":nohlsearch<CR>", "No Highlight" },
-    z = { ":Lazy<CR>", "Lazy" },
-    f = { ':Telescope find_files<CR>', "Find Files" },
-    r = { function() require("spectre").open() end, "Replace (Spectre)" },
-    b = {
-        name = "Buffers",
-        j = { "<cmd>BufferLinePick<cr>", "Jump" },
-        f = { "<cmd>Telescope buffers previewer=false<cr>", "Find" },
-        b = { "<cmd>BufferLineCyclePrev<cr>", "Previous" },
-        n = { "<cmd>BufferLineCycleNext<cr>", "Next" },
-        W = { "<cmd>noautocmd w<cr>", "Save without formatting (noautocmd)" },
-        e = {
-            "<cmd>BufferLinePickClose<cr>",
-            "Pick which buffer to close",
-        },
-        h = { "<cmd>BufferLineCloseLeft<cr>", "Close all to the left" },
-        l = {
-            "<cmd>BufferLineCloseRight<cr>",
-            "Close all to the right",
-        },
-        D = {
-            "<cmd>BufferLineSortByDirectory<cr>",
-            "Sort by directory",
-        },
-        L = {
-            "<cmd>BufferLineSortByExtension<cr>",
-            "Sort by language",
-        },
-        p = { "<cmd>BufferLineTogglePin<CR>", "Toggle pin" },
-        P = { "<cmd>BufferLineGroupClose ungrouped<CR>", "Delete non-pinned buffers" },
+    cd = {":lcd %:p:h<CR>", "cd into folder" },
+    f = {
+        name = "Find",
+        f = {function() require('telescope.builtin').find_files() end, "Find files"},
+        g = {function() require('telescope.builtin').live_grep() end, "Live grep"},
+        b = {function() require('telescope.builtin').buffers() end, "Find in buffers"},
+        h = {function() require('telescope.builtin').help_tags() end, "Find in help tags"},
     },
+    z = { ":Lazy<CR>", "Lazy" },
+    r = { function() require("spectre").open() end, "Replace (Spectre)" },
+    -- b = {
+        -- name = "Buffers",
+        -- j = { "<cmd>BufferLinePick<cr>", "Jump" },
+        -- f = { "<cmd>Telescope buffers previewer=false<cr>", "Find" },
+        -- b = { "<cmd>BufferLineCyclePrev<cr>", "Previous" },
+        -- n = { "<cmd>BufferLineCycleNext<cr>", "Next" },
+        -- W = { "<cmd>noautocmd w<cr>", "Save without formatting (noautocmd)" },
+        -- e = {
+        --     "<cmd>BufferLinePickClose<cr>",
+        --     "Pick which buffer to close",
+        -- },
+        -- h = { "<cmd>BufferLineCloseLeft<cr>", "Close all to the left" },
+        -- l = {
+        --     "<cmd>BufferLineCloseRight<cr>",
+        --     "Close all to the right",
+        -- },
+        -- D = {
+        --     "<cmd>BufferLineSortByDirectory<cr>",
+        --     "Sort by directory",
+        -- },
+        -- L = {
+        --     "<cmd>BufferLineSortByExtension<cr>",
+        --     "Sort by language",
+        -- },
+        -- p = { "<cmd>BufferLineTogglePin<CR>", "Toggle pin" },
+        -- P = { "<cmd>BufferLineGroupClose ungrouped<CR>", "Delete non-pinned buffers" },
+    -- },
     G = {
         name = "+Git",
         j = { "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>", "Next Hunk" },
@@ -48,9 +51,9 @@ return {
             "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
             "Undo Stage Hunk",
         },
-        o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
-        b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
-        c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
+        o = { "<cmd>Telescope git_status<cr>", "Git status changed file" },
+        -- b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+        -- c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
         C = {
             "<cmd>Telescope git_bcommits<cr>",
             "Checkout commit(for current file)",
@@ -59,6 +62,8 @@ return {
             "<cmd>Gitsigns diffthis HEAD<cr>",
             "Git Diff",
         },
+        t = {"<cmd>SignifyToggle<CR>", "Signify toggle" },
+        b = {"<cmd>Gitsigns toggle_current_line_blame<CR>", "toggle line blame"}
     },
     l = {
         name = "+LSP",
@@ -76,19 +81,19 @@ return {
         l = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics (Trouble)" },
         L = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics (Trouble)" },
         w = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
-        p = {
-            name = "+LspSaga",
-            -- LSP finder - Find the symbol's definition
-            -- If there is no definition, it will instead be hidden
-            -- When you use an action in finder like "open vsplit",
-            -- you can use <C-t> to jump back
-            h = { "<cmd>Lspsaga lsp_finder<CR>", "LSP Finder" },
-            p = { "<cmd>Lspsaga peek_definition<CR>", "Peek Definition" },
-            t = { "<cmd>Lspsaga peek_type_definition<CR>", "Peek Type Definition" },
-            o = { "<cmd>Lspsaga outline<CR>", "Outline" },
-        },
-        -- j = { "<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>", "Previous Diagnostic" },
-        -- k = { "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", "Next Diagnostic" },
+        -- p = {
+        --     name = "+LspSaga",
+        --     -- LSP finder - Find the symbol's definition
+        --     -- If there is no definition, it will instead be hidden
+        --     -- When you use an action in finder like "open vsplit",
+        --     -- you can use <C-t> to jump back
+        --     h = { "<cmd>Lspsaga lsp_finder<CR>", "LSP Finder" },
+        --     p = { "<cmd>Lspsaga peek_definition<CR>", "Peek Definition" },
+        --     t = { "<cmd>Lspsaga peek_type_definition<CR>", "Peek Type Definition" },
+        --     o = { "<cmd>Lspsaga outline<CR>", "Outline" },
+        -- },
+        j = { "<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>", "Previous Diagnostic" },
+        k = { "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", "Next Diagnostic" },
         -- e = { "<cmd>Telescope quickfix<cr>", "Telescope Quickfix" },
     },
     s = {
