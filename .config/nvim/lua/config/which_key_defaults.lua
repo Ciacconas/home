@@ -110,11 +110,12 @@ return {
         C = { "<cmd>Telescope commands<cr>", "Commands" },
         l = { "<cmd>Telescope resume<cr>", "Resume last search" },
     },
-    t = {
-        name = "+Todo",
-        t = { "<cmd>TodoTelescope<cr>", "Todo" },
-        T = { "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", "Todo/Fix/Fixme" },
-        x = { "<cmd>TodoTrouble<cr>", "Todo (Trouble)" },
-        X = { "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr><cr>", "Todo/Fix/Fixme (Trouble)" },
-    }
+    -- t = {
+    --     name = "+Todo",
+    --     t = { "<cmd>TodoTelescope<cr>", "Todo" },
+    --     T = { "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", "Todo/Fix/Fixme" },
+    --     x = { "<cmd>TodoTrouble<cr>", "Todo (Trouble)" },
+    --     X = { "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr><cr>", "Todo/Fix/Fixme (Trouble)" },
+    -- }
+    t = {"<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr><cr>", "Todo/Fix/Fixme (Trouble)"}
 }

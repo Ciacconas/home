@@ -61,4 +61,25 @@ function SetColors()
 	vim.api.nvim_set_hl(0, "WildMenu", { ctermfg = 0, ctermbg = 3 })
 end
 
-SetColors()
+if vim.g.neovide then
+    -- use gui colors by neovide default to be dark since it looks good during night
+    vim.opt.termguicolors = true
+    vim.opt.background = "dark"
+    -- vim.cmd([[colorscheme melange]])
+	vim.cmd.colorscheme 'melange'
+    vim.opt.guifont = "Hack Nerd Font Mono:h14"
+
+    -- -- use light scheme during the day
+    -- local t = os.date("*t")
+    -- local hour = t.hour
+    -- if (hour < 22) and (hour > 6) then
+    --     vim.opt.background = "light"
+    --     -- vim.cmd([[colorscheme dayfox]])
+    -- end
+else
+    -- use 256 colors if possible
+    vim.opt.termguicolors = false
+    -- -- custom colorscheme using only colors from ~/.Xresources.
+	SetColors()
+
+end
