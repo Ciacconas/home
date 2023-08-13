@@ -63,8 +63,8 @@ local custom_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-	vim.keymap.set("n", "<leader>f", function()
-		vim.lsp.buf.format({ async = true })
+	vim.keymap.set("n", "<leader>F", function()
+		vim.lsp.buf.format({ async = true, timeout_ms = 2000 })
 	end, bufopts)
 end
 
