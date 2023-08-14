@@ -99,7 +99,7 @@ vim.keymap.set('n', '<leader>F', function()
     })
 end)
 
--- toggleterm 
+-- toggleterm
 vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })
 
 -- CONTROL BASED
@@ -256,7 +256,8 @@ map("t", "<Esc>", "<C-\\><C-n>", opts)
 map("t", "`<Esc>", "<Esc>", opts)
 
 -- treesitter playground show highlight
-map("n", "T", ":TSHighlightCapturesUnderCursor<CR>", opts)
+-- map("n", "T", ":TSHighlightCapturesUnderCursor<CR>", opts)
+map("n", "T", ":Inspect<CR>", opts)
 
 -- DEFAULTS
 
