@@ -42,6 +42,7 @@ return {
         end,
         'Replace (Spectre)',
     },
+    o = {'<cmd>SymbolsOutline<CR>', "Outline"},
     -- b = {
     -- name = "Buffers",
     -- j = { "<cmd>BufferLinePick<cr>", "Jump" },
@@ -103,7 +104,8 @@ return {
         D = { '<cmd>lua vim.lsp.buf.declaration()<cr>', 'Declaration' },
         i = { '<cmd>lua vim.lsp.buf.implementation()<cr>', 'Implementation' },
         o = { '<cmd>lua vim.lsp.buf.type_definition()<cr>', 'Type Definition' },
-        R = { '<cmd>lua vim.lsp.buf.references()<cr>', 'References' },
+        -- R = { '<cmd>lua vim.lsp.buf.references()<cr>', 'References' },
+        R = { function() require("trouble").open("lsp_references") end , 'References' },
         s = { '<cmd>lua vim.lsp.buf.signature_help()<cr>', 'Display Signature Information' },
         r = { '<cmd>lua vim.lsp.buf.rename()<cr>', 'Rename all references' },
         f = { '<cmd>lua vim.lsp.buf.format()<cr>', 'Format' },
@@ -148,5 +150,5 @@ return {
     --     x = { "<cmd>TodoTrouble<cr>", "Todo (Trouble)" },
     --     X = { "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr><cr>", "Todo/Fix/Fixme (Trouble)" },
     -- }
-    t = { '<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr><cr>', 'Todo/Fix/Fixme (Trouble)' },
+    T = { '<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr><cr>', 'Todo/Fix/Fixme (Trouble)' },
 }

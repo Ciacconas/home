@@ -18,9 +18,6 @@ vim.opt.autoindent = false
 -- show line numbers
 vim.opt.number = true
 
--- relative line numbering
-vim.opt.relativenumber = true
-
 -- spell check, set default to en_us...
 vim.opt.spell = false
 vim.opt.spelllang = "en_us"
