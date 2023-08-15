@@ -1,88 +1,86 @@
-local status_ok, lualine = pcall(require, "lualine")
+local status_ok, lualine = pcall(require, 'lualine')
 if not status_ok then
-	return
+    return
 end
 
 local set_theme = function()
-	if vim.g.neovide then
-		return "auto"
-	else
-		return "gruvbox"
-	end
+    if vim.g.neovide then
+        return 'auto'
+    else
+        return 'gruvbox'
+    end
 end
 
-lualine.setup({
+lualine.setup {
 
+    options = {
+        icons_enabled = true,
+        theme = set_theme(),
+        -- component_separators = { left = "", right = "" },
+        -- section_separators = { left = "", right = "" },
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
+        disabled_filetypes = {},
+        always_divide_middle = true,
+    },
+    globalstatus = true, -- enable global statusline
+    sections = {
+        lualine_a = { 'mode' },
+        lualine_b = {
+            'branch',
+            -- { "diff", colored = false },
+            {
+                'diagnostics',
+                colored = false,
+            },
+        },
+        lualine_c = {
+            {
+                'filename',
+                path = 1, -- 0: Just the filename
+                -- 1: Relative path
+                -- 2: Absolute path
+                -- 3: Absolute path, with tilde as the home directory
+                -- 4: Filename and parent dir, with tilde as the home directory
 
-
-	options = {
-		icons_enabled = true,
-		theme = set_theme(),
-		-- component_separators = { left = "", right = "" },
-		-- section_separators = { left = "", right = "" },
-		component_separators = { left = "", right = "" },
-		section_separators = { left = "", right = "" },
-		disabled_filetypes = {},
-		always_divide_middle = true,
-	},
-	globalstatus = true, -- enable global statusline
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = {
-			"branch",
-			-- { "diff", colored = false },
-			{
-				"diagnostics",
-				colored = false,
-			},
-		},
-		lualine_c = { 
-			{
-				"filename",
-				path = 1,                -- 0: Just the filename
-										-- 1: Relative path
-										-- 2: Absolute path
-										-- 3: Absolute path, with tilde as the home directory
-										-- 4: Filename and parent dir, with tilde as the home directory
-
-				shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
-		} 
-		},
-		lualine_x = {
-			-- {
-			-- 	"buffers",
-			-- 	show_modified_status = true,
-			-- 	max_length = vim.o.columns * 2 / 3,
-			-- 	buffers_color = {
-			-- 		-- Same values as the general color option can be used here.
-			-- 		active = "lualine_a_normal", -- Color for active buffer.
-			-- 		inactive = "lualine_c_normal", -- Color for inactive buffer.
-			-- 	},
-			-- 	symbols = {
-			-- 		alternate_file = "",
-			-- 	},
-			-- },
-			"encoding",
-			"fileformat",
-			{ "filetype", icon_only = false },
-		},
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
-	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = { "filename" },
-		lualine_x = { "location" },
-		lualine_y = {},
-		lualine_z = {},
-	},
-	tabline = {},
-	extensions = { "nvim-tree", "neo-tree", "lazy", "toggleterm", "trouble", "fzf"},
-})
+                shorting_target = 40, -- Shortens path to leave 40 spaces in the window
+            },
+        },
+        lualine_x = {
+            -- {
+            -- 	"buffers",
+            -- 	show_modified_status = true,
+            -- 	max_length = vim.o.columns * 2 / 3,
+            -- 	buffers_color = {
+            -- 		-- Same values as the general color option can be used here.
+            -- 		active = "lualine_a_normal", -- Color for active buffer.
+            -- 		inactive = "lualine_c_normal", -- Color for inactive buffer.
+            -- 	},
+            -- 	symbols = {
+            -- 		alternate_file = "",
+            -- 	},
+            -- },
+            'encoding',
+            'fileformat',
+            { 'filetype', icon_only = false },
+        },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' },
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { 'filename' },
+        lualine_x = { 'location' },
+        lualine_y = {},
+        lualine_z = {},
+    },
+    tabline = {},
+    extensions = { 'nvim-tree', 'neo-tree', 'lazy', 'toggleterm', 'trouble', 'fzf' },
+}
 
 -- custom theme
-local custom_gruvbox = require("lualine.themes.gruvbox")
+local custom_gruvbox = require 'lualine.themes.gruvbox'
 
 -- normal mode
 custom_gruvbox.normal.a.fg = 0
