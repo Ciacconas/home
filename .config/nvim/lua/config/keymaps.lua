@@ -291,6 +291,10 @@ map("n", "T", ":Inspect<CR>", opts)
 -- fold one
 -- zc " standard vim keybinding
 
+-- move around folds
+map("n", "z[", "zk", opts)
+map("n", "z]", "zj", opts)
+
 -- toggle comments
 -- gc " from vim-commentary plugin
 

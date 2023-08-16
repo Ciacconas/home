@@ -34,6 +34,12 @@ return {
             end,
             'Find in help tags',
         },
+        ['/'] = {
+            function()
+                require('telescope.builtin').current_buffer_fuzzy_find()
+            end,
+            'Search in current buffer',
+        }
     },
     z = { ':Lazy<CR>', 'Lazy' },
     r = {
