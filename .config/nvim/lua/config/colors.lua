@@ -67,6 +67,9 @@ if vim.g.neovide then
     vim.cmd.colorscheme 'melange'
     vim.opt.guifont = 'Hack Nerd Font Mono:h14'
 
+    vim.api.nvim_set_hl(0, 'IlluminatedWordText', { link = 'NormalFloat' })
+    vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { link = 'NormalFloat' })
+    vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { link = 'NormalFloat' })
 -- -- use light scheme during the day
 -- local t = os.date("*t")
 -- local hour = t.hour
