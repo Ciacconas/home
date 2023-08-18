@@ -126,4 +126,4 @@ vim.opt.foldlevelstart=1
 vim.opt.foldenable = true
 
 -- fix the problem of telescope messing up with code folding
-vim.api.nvim_create_autocmd({ "BufEnter" }, { pattern = { "*" }, command = "normal zx", })
+vim.api.nvim_create_autocmd({ "BufRead" }, { pattern = { "*" }, command = "normal zx", })
