@@ -221,7 +221,7 @@ lspconfig.tsserver.setup({
 	flags = lsp_flags,
 })
 lspconfig.rust_analyzer.setup({
-	on_attach = custom_attach, 
+	on_attach = custom_attach,
 	flags = lsp_flags,
 	-- Server-specific settings...
 	settings = {
@@ -243,6 +243,7 @@ cmp.setup({
     {name = 'buffer'},
 	{ name = "vsnip" },
 	{ name = "path" },
+	{ name = 'nvim_lsp_signature_help' },
   }
 })
 
@@ -278,7 +279,7 @@ local formatting = null_ls.builtins.formatting
 null_ls.setup({
     debug = true,
     sources = { -- stylua better than lua-format
-    formatting.stylua, 
+    formatting.stylua,
     formatting.black.with({
         extra_args = {"-t", "py38", "-l", "96"}
     }) -- formatting.gofmt,
