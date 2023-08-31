@@ -6,7 +6,7 @@ return {
         name = 'Find',
         f = {
             function()
-                require('telescope.builtin').find_files()
+                require('telescope.builtin').find_files({ find_command = {'rg', '--no-ignore', '--files'} })
             end,
             'Find files',
         },

@@ -1,7 +1,7 @@
 -- LOCALS
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
-local telescope = require('telescope.builtin')
+local telescope = require("telescope.builtin")
 
 -- LEADER BASED
 -- map("n", "<leader>pv", vim.cmd.Ex, opts)
@@ -68,21 +68,13 @@ vim.api.nvim_create_user_command("SoftWrap", "setlocal wrap linebreak formatopti
 
 -- enable no wrapping
 map("n", "<leader>wn", ":NoWrap<cr>", opts)
-vim.api.nvim_create_user_command(
-	"NoWrap",
-	"setlocal nowrap nolinebreak formatoptions=lqj textwidth=0 colorcolumn=0",
-	{}
-)
+vim.api.nvim_create_user_command("NoWrap", "setlocal nowrap nolinebreak formatoptions=lqj textwidth=0 colorcolumn=0", {})
 
 -- enable hard wrapping
 map("n", "<leader>wh", ":HardWrap<cr>", opts)
-vim.api.nvim_create_user_command(
-	"HardWrap",
-	"setlocal nowrap nolinebreak formatoptions=tqj textwidth=88 colorcolumn=88",
-	{}
-)
+vim.api.nvim_create_user_command("HardWrap", "setlocal nowrap nolinebreak formatoptions=tqj textwidth=88 colorcolumn=88", {})
 
-map("n", "<leader>s", ":call SyncTex()<CR>", {noremap=true, buffer=true, silent=true})
+map("n", "<leader>s", ":call SyncTex()<CR>", { noremap = true, buffer = true, silent = true })
 
 map("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
 map("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
@@ -91,11 +83,10 @@ map("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", opts)
 map("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
 map("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", opts)
 
-
 -- null-ls formating
-vim.keymap.set('n', '<leader>F', function()
+vim.keymap.set("n", "<leader>F", function()
     vim.lsp.buf.format({
-        timeout_ms = 2000
+        timeout_ms = 2000,
     })
 end)
 
@@ -155,7 +146,13 @@ map("t", "<C-l>", "<C-\\><C-N><C-w>l", opts)
 -- <C-o> " standard vim keybinding
 
 -- browse git files
-map("n", "<C-p>", telescope.git_files, opts)
+-- map("n", "<C-p>", telescope.git_files, opts)
+map("n", "<C-p>", function()
+    local ok = pcall(require("telescope.builtin").git_files)
+    if not ok then
+        require("telescope.builtin").find_files({ find_command = { "rg", "--no-ignore", "--files" } })
+    end
+end, opts)
 
 -- save and exit
 map("i", "<C-q>", "<Esc>:wqa<CR>", opts)
@@ -178,7 +175,7 @@ function CloseBuffer()
     if vim.bo.filetype == "netrw" then
         vim.cmd("bd!")
     else
-        local buf_list = vim.fn.getbufinfo({buflisted = 1})
+        local buf_list = vim.fn.getbufinfo({ buflisted = 1 })
         local numbuffers = #buf_list
         if numbuffers > 1 then
             vim.cmd("bd!")
@@ -188,8 +185,8 @@ function CloseBuffer()
     end
 end
 
-map("i", '<C-c>', '<Esc>:lua CloseBuffer()<CR>', opts)
-map("n", '<C-c>', '<Esc>:lua CloseBuffer()<CR>', opts)
+map("i", "<C-c>", "<Esc>:lua CloseBuffer()<CR>", opts)
+map("n", "<C-c>", "<Esc>:lua CloseBuffer()<CR>", opts)
 
 -- visual block
 -- <C-v> " standard vim keybinding
@@ -214,7 +211,6 @@ map("n", '<C-c>', '<Esc>:lua CloseBuffer()<CR>', opts)
 
 -- go to last open buffer
 -- <C-^> " standard vim keybinding
-
 
 -- NORMAL MODE
 
