@@ -1,6 +1,6 @@
 [user]
-name = ciacconas
-email = chonghuai.ma@mailbox.org
+name = Ciacconas
+email = ma@chonghuai.me
 [credential]
 helper = cache --timeout=100000
 
