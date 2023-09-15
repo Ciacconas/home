@@ -79,6 +79,9 @@ if vim.g.neovide then
 -- end
 else
     -- use 256 colors if possible
+    print("runing the color script")
+
+    vim.opt.background = 'light'
     vim.opt.termguicolors = false
     -- -- custom colorscheme using only colors from ~/.Xresources.
     SetColors()

@@ -1,12 +1,12 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+require("config.colors")
 require("config.icons")
 require("config.options")
 require("config.variables")
 require("config.autocmds")
 require("plugins")
-require("config.colors")
 require("config.which_key_defaults")
 require("config.keymaps")
 
@@ -32,3 +32,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		require("lsp-inlayhints").on_attach(client, bufnr)
 	end,
 })
+
