@@ -21,6 +21,7 @@ function SetColors()
     vim.api.nvim_set_hl(0, 'QuickScopePrimary', { cterm = { bold = true }, ctermfg = 4 })
 
     -- TUI
+    vim.api.nvim_set_hl(0, 'Pmenu', { ctermfg = 7, ctermbg = 8 })
     vim.api.nvim_set_hl(0, 'Search', { cterm = {}, ctermfg = 15, ctermbg = 6 })
     vim.api.nvim_set_hl(0, 'IncSearch', { cterm = { bold = true }, ctermfg = 15, ctermbg = 6 })
     vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg = 4 })
