@@ -123,7 +123,24 @@ vim.opt.foldexpr="nvim_treesitter#foldexpr()"
 -- vim.opt.foldlevel=99
 vim.opt.foldnestmax=2
 vim.opt.foldlevelstart=1
-vim.opt.foldenable = true
+vim.opt.foldenable = false
 
--- fix the problem of telescope messing up with code folding
-vim.api.nvim_create_autocmd({ "BufReadPost" }, { pattern = { "*" }, command = "normal zx", })
+-- -- fix the problem of telescope messing up with code folding
+-- local function fold_once()
+-- 	-- Check for the existence of the buffer variable 'did_my_command'
+
+-- 	-- If buffer variable does not exist, then execute the command
+-- 	if vim.fn.exists("b:did_my_command") == 0 then
+-- 	-- if not exists then
+-- 		vim.cmd("normal zx")
+-- 		print("1111")
+-- 		vim.api.nvim_buf_set_var(0, "did_my_command", 1)
+-- 	end
+  
+--   end
+  
+
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, { pattern = { "*" }, callback = fold_once, })
+-- -- vim.api.nvim_create_autocmd({ "BufEnter" }, { pattern = { "*" }, command = "normal zx", })
+
+vim.api.nvim_set_keymap('n', 'zT', ':set foldenable!<CR>', { noremap = true, silent = true })
