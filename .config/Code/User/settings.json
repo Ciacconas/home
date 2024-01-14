@@ -86,12 +86,14 @@
     "diffEditor.ignoreTrimWhitespace": false,
     "prettier.tabWidth": 4,
     "[lua]": {
-        "editor.defaultFormatter": "yinfei.luahelper"
+        "editor.defaultFormatter": "sumneko.lua"
     },
     "luahelper.format.0 allReadMe": "",
     "editor.minimap.renderCharacters": false,
     "workbench.startupEditor": "none",
     "[python]": {
-        "editor.formatOnType": true
+        "editor.formatOnType": true,
+        "editor.defaultFormatter": "ms-python.black-formatter"
     },
+    "workbench.colorTheme": "Default Light+",
 }
