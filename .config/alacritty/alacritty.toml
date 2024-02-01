@@ -1,5 +1,4 @@
 live_config_reload = true
-"window.dynamic_title" = true
 
 [bell]
 animation = "EaseOutExpo"
@@ -512,19 +511,12 @@ hide_when_typing = true
 action = "PasteSelection"
 mouse = "Middle"
 
-[mouse.double_click]
-threshold = 300
-
-[mouse.triple_click]
-threshold = 300
-
 [scrolling]
 history = 10000
 multiplier = 3
 
 [window]
 decorations = "none"
-gtk_theme_variant = "None"
 opacity = 0.9
 startup_mode = "Windowed"
 title = "Alacritty"
