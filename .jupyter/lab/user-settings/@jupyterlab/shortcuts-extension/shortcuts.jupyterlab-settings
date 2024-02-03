@@ -407,6 +407,14 @@
             "args": {}
         },
         {
+            "command": "git:submit-commit",
+            "keys": [
+                "Accel Enter"
+            ],
+            "selector": ".jp-git-CommitBox",
+            "args": {}
+        },
+        {
             "command": "imageviewer:flip-horizontal",
             "keys": [
                 "H"
@@ -1003,9 +1011,6 @@
             "keys": [
                 "Alt Enter"
             ],
-            "macKeys": [
-                "Ctrl Enter"
-            ],
             "selector": ".jp-Notebook.jp-mod-editMode",
             "args": {}
         },
@@ -1024,6 +1029,9 @@
             "command": "notebook:select-all",
             "keys": [
                 "Accel A"
+            ],
+            "macKeys": [
+                "Ctrl Enter"
             ],
             "selector": ".jp-Notebook:focus",
             "args": {}
@@ -1117,6 +1125,9 @@
             "keys": [
                 "U"
             ],
+            "macKeys": [
+                "Ctrl Enter"
+            ],
             "selector": ".jp-NotebookPanel[data-jp-vim-mode='true'] .jp-Notebook:focus",
             "args": {}
         },
@@ -1135,9 +1146,6 @@
             "command": "settingeditor:open",
             "keys": [
                 "Accel ,"
-            ],
-            "macKeys": [
-                "Ctrl Enter"
             ],
             "selector": "body",
             "args": {}
