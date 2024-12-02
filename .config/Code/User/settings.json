@@ -78,7 +78,7 @@
     },
     "files.associations": {
         "*.conf": "properties",
-        "*.vim": "vimrc"
+        "*.vim": "viml"
     },
     "redhat.telemetry.enabled": false,
     "git.mergeEditor": false,
@@ -96,4 +96,5 @@
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
     "workbench.colorTheme": "Default Light+",
+    "editor.minimap.enabled": false,
 }
