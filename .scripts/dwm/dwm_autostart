@@ -112,7 +112,8 @@ done &
 # enable transparent windows (should be last)
 sleep 1
 if [ -f "$HOME/.cache/xcs/picom.conf" ]; then
-    log picom --daemon --experimental-backends --config "$HOME/.cache/xcs/picom.conf"
+    # log picom --daemon --experimental-backends --config "$HOME/.cache/xcs/picom.conf"
+    log picom --daemon
 else
     log picom --daemon
 fi
