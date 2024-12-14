@@ -263,6 +263,8 @@ sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
 alias svim="sudo nvim"
 
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uv generate-shell-completion zsh | sed 's/uv/guv/g')"
 guv() {
   source "$HOME/.scripts/uv/guv" "$@"
 }
