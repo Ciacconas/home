@@ -83,7 +83,12 @@ prompt(){
     fi
     # virtualenv info
     if [[ ! -z $VIRTUAL_ENV ]]; then
-        echo -ne "%F{yellow}%{%G%} %f" # 
+        # echo -ne "%F{yellow}%{%G%} %f" # 
+      if [[ $VIRTUAL_ENV == "$HOME/.local/share/guv"* ]]; then
+        echo -ne "%F{yellow}%{%G%} %f"
+      else
+        echo -ne "%F{yellow}%{%G%}%f"
+      fi
         echo -ne "%F{yellow}$(basename $VIRTUAL_ENV)%f "
     fi
     # path
