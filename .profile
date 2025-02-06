@@ -31,7 +31,7 @@
 ## Environment variables
 #-------------------------------------------------------------------------------
 
-export BROWSER="firefox"
+export BROWSER="firefox-developer-edition"
 export BROWSER2="chromium" # fallback browser
 export CC="gcc"
 export COLORTERM="truecolor"

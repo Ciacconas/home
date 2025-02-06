@@ -197,7 +197,7 @@ alias paper="cd ~/Documents/Papers/mypapers/"
 sourcefile "$HOME/.anaconda/etc/profile.d/conda.sh"
 if [ -f "$HOME/.anaconda/etc/profile.d/mamba.sh" ]; then
   source "$HOME/.anaconda/etc/profile.d/mamba.sh"
-  alias conda=mamba
+#   alias conda=mamba
 fi
 
 # travis (continuous integration)
