@@ -15,13 +15,13 @@ local telescope = require("telescope.builtin")
 map("n", "<leader><leader>", "<cmd>noh<CR>", opts)
 
 -- open next buffer
-map('n', '<leader>]', ':bnext<CR>', opts)
+map("n", "<leader>]", ":bnext<CR>", opts)
 
 -- open previous buffer
-map('n', '<leader>[', ':bprevious<CR>', opts)
+map("n", "<leader>[", ":bprevious<CR>", opts)
 
 -- jump to other/closing tag (requires valloric/MatchTagAlways)
-map('n', '<leader>.', ':MtaJumpToOtherTag<cr>', opts)
+map("n", "<leader>.", ":MtaJumpToOtherTag<cr>", opts)
 
 -- cd into folder containing current file
 -- map("n", "<leader>cd", ":lcd %:p:h<CR>", opts)
@@ -33,7 +33,7 @@ map('n', '<leader>.', ':MtaJumpToOtherTag<cr>', opts)
 -- map("n", "<leader>E", vim.lsp.diagnostic.goto_prev(), opts)
 
 -- sort imports (python)
-map('n', '<leader>fi', ':IsortSync<CR>', opts)
+map("n", "<leader>fi", ":IsortSync<CR>", opts)
 
 -- autoformat code (requires neoclide/coc.nvim)
 -- map("n", "<leader>F", ":NotImplemented", opts)
@@ -42,33 +42,29 @@ map('n', '<leader>fi', ':IsortSync<CR>', opts)
 -- map("n", "<leader>gt", ":SignifyToggle<CR>", opts)
 
 -- shrink current horizontal split (decrease height)
-map('n', '<leader>h', '3<C-w>-', opts)
+map("n", "<leader>h", "3<C-w>-", opts)
 
 -- make all splits horizontal
-map('n', '<leader>H', '<C-w>t<C-w>K', opts)
+map("n", "<leader>H", "<C-w>t<C-w>K", opts)
 
 -- toggle visible marks (requires vim-signature)
 -- map("n", "<leader>m", ":SignatureToggleSigns<CR>", opts)
 
 -- create tags
-map('n', '<leader>T', ':silent !ctags -f .tags -R .<CR>', opts)
+map("n", "<leader>T", ":silent !ctags -f .tags -R .<CR>", opts)
 
 -- show undotree (requires mbbill/undotree)
-map('n', '<leader>u', ':UndotreeShow<CR><C-w>h', opts)
+map("n", "<leader>u", ":UndotreeShow<CR><C-w>h", opts)
 
 -- shrink current vertical split (decrease width)
-map('n', '<leader>v', '3<C-w><', opts)
+map("n", "<leader>v", "3<C-w><", opts)
 
 -- make all splits vertical
-map('n', '<leader>V', '<C-w>t<C-w>H', opts)
+map("n", "<leader>V", "<C-w>t<C-w>H", opts)
 
 -- enable soft wrapping
-map('n', '<leader>ws', ':SoftWrap<cr>', opts)
-vim.api.nvim_create_user_command(
-  'SoftWrap',
-  'setlocal wrap linebreak formatoptions=lqj textwidth=0 colorcolumn=0',
-  {}
-)
+map("n", "<leader>ws", ":SoftWrap<cr>", opts)
+vim.api.nvim_create_user_command("SoftWrap", "setlocal wrap linebreak formatoptions=lqj textwidth=0 colorcolumn=0", {})
 
 -- enable no wrapping
 map("n", "<leader>wn", ":NoWrap<cr>", opts)
@@ -95,17 +91,12 @@ vim.keymap.set("n", "<leader>F", function()
 end)
 
 -- toggleterm
-vim.api.nvim_set_keymap(
-  'n',
-  '<leader>lg',
-  '<cmd>lua _LAZZYGIT()<CR>',
-  { noremap = true, silent = false }
-)
+vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })
 
 -- CONTROL BASED
 
 -- show available leader shortcuts
-map('n', '<C-Space>', ':WhichKey \\<space><cr>', opts)
+map("n", "<C-Space>", ":WhichKey \\<space><cr>", opts)
 
 -- increase number
 -- <C-a> " standard vim keybinding
@@ -118,35 +109,35 @@ map('n', '<C-Space>', ':WhichKey \\<space><cr>', opts)
 -- map("n", "<C-c>", "<Esc>:bd<CR>", opts)
 
 -- down half screen
-map('n', '<C-d>', '<C-d>zz', opts)
+map("n", "<C-d>", "<C-d>zz", opts)
 
 -- exit terminal mode
-map('t', '<C-e>', '<C-\\><C-N>', opts)
+map("t", "<C-e>", "<C-\\><C-N>", opts)
 
 -- down full screen
-map('n', '<C-f>', '<C-f>zz', opts)
+map("n", "<C-f>", "<C-f>zz", opts)
 
 -- up full screen
-map('n', '<C-g>', '<C-g>zz', opts)
+map("n", "<C-g>", "<C-g>zz", opts)
 
 -- move to split left of current split
-map('n', '<C-h>', '<C-w>h', opts)
-map('t', '<C-h>', '<C-\\><C-N><C-w>h', opts)
+map("n", "<C-h>", "<C-w>h", opts)
+map("t", "<C-h>", "<C-\\><C-N><C-w>h", opts)
 
 -- jump forward in cursor position stack
 -- <C-i> = TAB " standard vim keybinding
 
 -- move to split below of current split (also when in terminal mode)
-map('n', '<C-j>', '<C-w>j', opts)
-map('t', '<C-j>', '<C-\\><C-N><C-w>j', opts)
+map("n", "<C-j>", "<C-w>j", opts)
+map("t", "<C-j>", "<C-\\><C-N><C-w>j", opts)
 
 -- move to split above of current split (also when in terminal mode)
-map('n', '<C-k>', '<C-w>k', opts)
-map('t', '<C-k>', '<C-\\><C-N><C-w>k', opts)
+map("n", "<C-k>", "<C-w>k", opts)
+map("t", "<C-k>", "<C-\\><C-N><C-w>k", opts)
 
 -- move to split right of current split (also when in terminal mode)
-map('n', '<C-l>', '<C-w>l', opts)
-map('t', '<C-l>', '<C-\\><C-N><C-w>l', opts)
+map("n", "<C-l>", "<C-w>l", opts)
+map("t", "<C-l>", "<C-\\><C-N><C-w>l", opts)
 
 -- move to first non-whitespace of next line
 -- <C-m> " standard vim keybinding
@@ -164,30 +155,25 @@ map("n", "<C-p>", function()
 end, opts)
 
 -- save and exit
-map('i', '<C-q>', '<Esc>:wqa<CR>', opts)
-map('n', '<C-q>', '<Esc>:wqa<CR>', opts)
+map("i", "<C-q>", "<Esc>:wqa<CR>", opts)
+map("n", "<C-q>", "<Esc>:wqa<CR>", opts)
 
 -- redo
 -- <C-r> " standard vim keybinding
 
 -- save buffer
-map('i', '<C-s>', '<Esc>:w<CR>', opts)
-map('n', '<C-s>', '<Esc>:w<CR>', opts)
+map("i", "<C-s>", "<Esc>:w<CR>", opts)
+map("n", "<C-s>", "<Esc>:w<CR>", opts)
 
 -- go one step back in tag stack
 -- <C-t> " standard vim keybinding
 
 -- up half screen
-map('n', '<C-u>', '<C-u>zz', opts)
+map("n", "<C-u>", "<C-u>zz", opts)
 
 function CloseBuffer()
-  if vim.bo.filetype == 'netrw' then
-    vim.cmd 'bd!'
-  else
-    local buf_list = vim.fn.getbufinfo { buflisted = 1 }
-    local numbuffers = #buf_list
-    if numbuffers > 1 then
-      vim.cmd 'bd!'
+    if vim.bo.filetype == "netrw" then
+        vim.cmd("bd!")
     else
         local buf_list = vim.fn.getbufinfo({ buflisted = 1 })
         local numbuffers = #buf_list
@@ -197,7 +183,6 @@ function CloseBuffer()
             vim.cmd("q!")
         end
     end
-  end
 end
 
 map("i", "<C-c>", "<Esc>:lua CloseBuffer()<CR>", opts)
@@ -230,21 +215,21 @@ map("n", "<C-c>", "<Esc>:lua CloseBuffer()<CR>", opts)
 -- NORMAL MODE
 
 -- toggle spell checker:
-map('n', '<F3>', '<Esc>:setlocal spell!<CR>', opts)
+map("n", "<F3>", "<Esc>:setlocal spell!<CR>", opts)
 
 -- choose spell checker language and enable
-map('n', '<F3><F3>', '<Esc>:setlocal spell spelllang=', opts)
+map("n", "<F3><F3>", "<Esc>:setlocal spell spelllang=", opts)
 
 -- source init.vim again.
-map('n', '<F4>', '<Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>', opts)
+map("n", "<F4>", "<Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>", opts)
 
 -- remap 'n' and 'N' to center screen after jumping to next match
-map('n', 'n', 'nzz', opts)
-map('n', 'N', 'Nzz', opts)
+map("n", "n", "nzz", opts)
+map("n", "N", "Nzz", opts)
 
 -- Remap for dealing with visual line wraps
-map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true }, opts)
-map('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true }, opts)
+map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true }, opts)
+map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true }, opts)
 
 -- Normal Mode (Leader-based)
 -- map("n", "<leader><leader>", ":Telescope buffers<CR>", opts)
@@ -252,19 +237,19 @@ map('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true }, opts)
 -- VISUAL MODE
 
 -- paste over currently selected text without yanking it
-map('v', 'p', '"_dp', opts)
-map('v', 'P', '"_dP', opts)
+map("v", "p", '"_dp', opts)
+map("v", "P", '"_dP', opts)
 
 -- move selected block up or down
-map('v', '<C-j>', ":m '>+1<CR>gv=gv", opts)
-map('v', '<C-k>', ":m '<-2<CR>gv=gv", opts)
+map("v", "J", ":m '>+1<CR>gv=gv", opts)
+map("v", "K", ":m '<-2<CR>gv=gv", opts)
 
 -- TERMINAL MODE
 -- go to edit mode in terminal emulator:
 -- the backtick is there to not interfere with the <Esc> of the shell itself.
-map('t', '<Esc>', '<C-\\><C-n>', opts)
+map("t", "<Esc>", "<C-\\><C-n>", opts)
 -- keep original Escape available uner `<Esc>
-map('t', '`<Esc>', '<Esc>', opts)
+map("t", "`<Esc>", "<Esc>", opts)
 
 -- treesitter playground show highlight
 -- map("n", "T", ":TSHighlightCapturesUnderCursor<CR>", opts)

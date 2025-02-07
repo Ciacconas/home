@@ -1,5 +1,5 @@
 " more information (toggle status bar)
-nnoremap <leader>I :call ToggleStatusBar()<CR>
+nnoremap <leader>i :call ToggleStatusBar()<CR>
 function! ToggleStatusBar()
     if (&laststatus == 2)
         setlocal noshowmode
