@@ -200,6 +200,11 @@ if which modular > /dev/null; then
   export MODULAR_HOME="$HOME/.modular"
 fi
 
+if which modular > /dev/null; then
+  export MAX_PATH="$(modular config max.path)"
+  export MODULAR_HOME="$HOME/.modular"
+fi
+
 ## Extensions
 #-------------------------------------------------------------------------------
 
