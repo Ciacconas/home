@@ -64,11 +64,11 @@ WINIT_X11_SCALE_FACTOR = "1.0"
 size = 16.0
 
 [font.bold]
-family = "Ubuntu Mono"
+family = "UbuntuMono Nerd Font Propo"
 style = "Bold"
 
 [font.bold_italic]
-family = "Ubuntu Mono"
+family = "UbuntuMono Nerd Font Propo"
 style = "Bold Italic"
 
 [font.glyph_offset]
@@ -76,11 +76,11 @@ x = 0
 y = 0
 
 [font.italic]
-family = "Ubuntu Mono"
+family = "UbuntuMono Nerd Font Propo"
 style = "Italic"
 
 [font.normal]
-family = "Ubuntu Mono"
+family = "UbuntuMono Nerd Font Propo"
 style = "Regular"
 
 [font.offset]

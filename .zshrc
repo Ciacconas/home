@@ -77,13 +77,12 @@ prompt(){
     [[ $UID == 0 ]] && echo -ne "%B%F{yellow}%{%G%} %f%b " # 
     # conda info
     if [[ ! -z $CONDA_DEFAULT_ENV ]]; then
-        echo -ne "%F{blue}%{%G%} %f" #    
+        echo -ne "%F{blue}%{%G%} %f" #  󰌠󰌠
 
         [[ $CONDA_DEFAULT_ENV != base ]] && echo -ne "%F{blue}$CONDA_DEFAULT_ENV%f "
     fi
     # virtualenv info
     if [[ ! -z $VIRTUAL_ENV ]]; then
-        # echo -ne "%F{yellow}%{%G%} %f" # 
       if [[ $VIRTUAL_ENV == "$HOME/.local/share/guv"* ]]; then
         echo -ne "%F{yellow}%{%G%} %f"
       else
@@ -186,20 +185,6 @@ man() { # colored man pages:
     command man "$@"
   }
 
-alias note="cd ~/Documents/Notes/"
-alias kee="cd ~/Documents/self_file/"
-alias work="cd ~/Documents/Work/photonsim/"
-alias dev="cd ~/Documents/dev/Python/photondev/photondev/"
-alias lowres="cd ~/Documents/Work/LowRes_Phresco/"
-alias net="cd ~/Documents/net/"
-alias paper="cd ~/Documents/Papers/mypapers/"
-
-
-if which modular > /dev/null; then
-  export MAX_PATH="$(modular config max.path)"
-  export MODULAR_HOME="$HOME/.modular"
-fi
-
 if which modular > /dev/null; then
   export MAX_PATH="$(modular config max.path)"
   export MODULAR_HOME="$HOME/.modular"
@@ -208,12 +193,12 @@ fi
 ## Extensions
 #-------------------------------------------------------------------------------
 
-# conda (scientific python distribution and environments)
-sourcefile "$HOME/.anaconda/etc/profile.d/conda.sh"
-if [ -f "$HOME/.anaconda/etc/profile.d/mamba.sh" ]; then
-  source "$HOME/.anaconda/etc/profile.d/mamba.sh"
-#   alias conda=mamba
-fi
+# # conda (scientific python distribution and environments)
+# sourcefile "$HOME/.anaconda/etc/profile.d/conda.sh"
+# if [ -f "$HOME/.anaconda/etc/profile.d/mamba.sh" ]; then
+#   source "$HOME/.anaconda/etc/profile.d/mamba.sh"
+#   # alias conda=mamba
+# fi
 
 # travis (continuous integration)
 sourcefile "$HOME/.travis/travis.sh"
@@ -246,17 +231,6 @@ bindkey '^p' autosuggest-accept #-execute
 bindkey '^n' autosuggest-accept #-execute
 bindkey '^o' autosuggest-toggle # enable/disable autosuggest
 
-# # auto commplete based on the current input before cursor
-# autoload history-search-end
-# autoload history-beginning-search-backward-end
-# autoload history-beginning-search-forward-end
-# zle -N history-beginning-search-backward-end \
-#        history-search-end
-# zle -N history-beginning-search-forward-end \
-#        history-search-end
-# bindkey "\e[A" history-beginning-search-backward-end # up-line-or-history # alt + h
-# bindkey "\e[B" history-beginning-search-forward-end # down-line-or-history # alt + l
-
 # stderr in red; should be last.
 [ -f $HOME/.config/stderred/build/libstderred.so ] && export LD_PRELOAD="$HOME/.config/stderred/build/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
 ghci(){LD_PRELOAD="" /usr/bin/ghci "$@"}
@@ -268,10 +242,24 @@ sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
 alias svim="sudo nvim"
 
-if which uv > /dev/null 2> /dev/null; then
-  eval "$(uv generate-shell-completion zsh)"
-  eval "$(uv generate-shell-completion zsh | sed 's/uv/guv/g')"
-  guv() {
-    source "$HOME/.scripts/uv/guv" "$@"
-  }
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/home/choma/.anaconda/bin/mamba';
+export MAMBA_ROOT_PREFIX='/home/choma/.anaconda';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
 fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+
+# if which uv > /dev/null 2> /dev/null; then
+#   eval "$(uv generate-shell-completion zsh)"
+#   eval "$(uv generate-shell-completion zsh | sed 's/uv/guv/g')"
+#   guv() {
+#     source "$HOME/.scripts/uv/guv" "$@"
+#   }
+# fi
