@@ -21,7 +21,7 @@ if [ ! "$2" ]; then
         if exe="$(which "$1" 2> /dev/null)"; then
             if [ -f "$exe" ]; then
                 echo "$exe"
-                $vim "$exe"
+                XDG_CONFIG_HOME="$HOME/.config/nvim_choma/" $vim "$exe"
                 exit 0
             fi
         fi
@@ -30,4 +30,4 @@ if [ ! "$2" ]; then
 fi
 
 # all other cases, just open neovim with all the arguments supplied.
-/usr/bin/nvim "$@"
+XDG_CONFIG_HOME="$HOME/.config/nvim_choma" $vim "$@"
