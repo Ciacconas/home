@@ -356,13 +356,30 @@ def write_alacritty_config(xresources, filename="~/.cache/alacritty/alacritty.to
                 if line.startswith("opacity ="):
                     line = f"opacity = {xresources['alpha']:.2f}\n"
                 elif line.startswith("background ="):
-                    line = f"background = '{xresources['color0']}'\n"
+                    try:
+                        line = f"background = '{xresources['colorbackground']}'\n"
+                    except:
+                        line = f"background = '{xresources['color0']}'\n"
                 elif line.startswith("foreground ="):
-                    line = f"foreground = '{xresources['color15']}'\n"
+                    try:
+                        line = f"foreground = '{xresources['colorforeground']}'\n"
+                    except:
+                        line = f"foreground = '{xresources['color15']}'\n"
                 elif line.startswith("dim_foreground ="):
-                    line = f"dim_foreground = '{xresources['color8']}'\n"
+                    try:
+                        line = f"dim_foreground = '{xresources['colorforeground']}'\n"
+                    except:
+                        line = f"dim_foreground = '{xresources['color8']}'\n"
                 elif line.startswith("bright_foreground ="):
-                    line = f"bright_foreground = '{xresources['color7']}'\n"
+                    try:
+                        line = f"bright_foreground = '{xresources['colorforeground']}'\n"
+                    except:
+                        line = f"bright_foreground = '{xresources['color7']}'\n"
+                elif line.startswith("cursor ="):
+                    try:
+                        line = f"cursor = '{xresources['colorcursor']}'\n"
+                    except:
+                        pass
                 elif (normal or dim) and line.startswith("black = "):
                     line = f"black = '{xresources['color0']}'\n"
                 elif bright and line.startswith("black = "):

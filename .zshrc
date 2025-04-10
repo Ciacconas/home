@@ -226,7 +226,7 @@ sourcefile $HOME/.scripts/autojump/autojump-improved.zsh
 # zsh autosuggestions (like in the fish shell)
 # Change the ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE to 'fg=7'
 sourcefile $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-typeset -g ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
+typeset -g ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 bindkey '^p' autosuggest-accept #-execute
 bindkey '^n' autosuggest-accept #-execute
 bindkey '^o' autosuggest-toggle # enable/disable autosuggest
@@ -256,10 +256,10 @@ fi
 unset __mamba_setup
 # <<< mamba initialize <<<
 
-# if which uv > /dev/null 2> /dev/null; then
-#   eval "$(uv generate-shell-completion zsh)"
-#   eval "$(uv generate-shell-completion zsh | sed 's/uv/guv/g')"
-#   guv() {
-#     source "$HOME/.scripts/uv/guv" "$@"
-#   }
-# fi
+if which uv > /dev/null 2> /dev/null; then
+  eval "$(uv generate-shell-completion zsh)"
+  eval "$(uv generate-shell-completion zsh | sed 's/uv/guv/g')"
+  guv() {
+    source "$HOME/.scripts/uv/guv" "$@"
+  }
+fi
