@@ -68,39 +68,50 @@ return {
       telescope.load_extension 'fzf'
       telescope.load_extension 'ui-select'
 
-
-
-
       -- custom file search. <C-p> for git files with fallback to all files(ignore gitignore)
       -- map("n", "<C-p>", telescope.git_files, opts)
       local opts = { noremap = true, silent = true }
       local map = vim.keymap.set
 
-
-
       -- Utility to check if .gitignore exists in current working dir
       -- if it does, use git_files, otherwise use find_files
-      local Path = require("plenary.path")
+      local Path = require 'plenary.path'
       local function has_local_gitignore()
         local cwd = vim.fn.getcwd()
-        local gitignore_path = Path:new(cwd, ".gitignore")
+        local gitignore_path = Path:new(cwd, '.gitignore')
         return gitignore_path:exists()
       end
       map('n', '<C-p>', function()
         if has_local_gitignore() then
-          require('telescope.builtin').git_files()
+          require('telescope.builtin').git_files {
+            layout_config = {
+              preview_width = 0.65,
+            },
+          }
         else
           require('telescope.builtin').find_files {
             find_command = { 'rg', '--no-ignore-vcs', '--files' },
+            layout_config = {
+              preview_width = 0.65,
+            },
           }
         end
       end, opts)
 
       map('n', '<C-f>', function()
         if has_local_gitignore() then
-          require('telescope.builtin').live_grep()
+          require('telescope.builtin').live_grep {
+            layout_config = {
+              preview_width = 0.65,
+            },
+          }
         else
-          require('telescope.builtin').live_grep{additional_args = {'--no-ignore'}}
+          require('telescope.builtin').live_grep {
+            additional_args = { '--no-ignore' },
+            layout_config = {
+              preview_width = 0.65,
+            },
+          }
         end
       end, opts)
       -- -- older implementation
@@ -114,11 +125,9 @@ return {
       --   end
       -- end, opts)
 
-
       -- custom file search. <leader>ff for all files (ignore gitignore)
       map('n', '<leader>ff', function()
         require('telescope.builtin').find_files { find_command = { 'rg', '--no-ignore', '--files' } }
-        print 'git_files failed'
       end, opts)
 
       local builtin = require 'telescope.builtin'
