@@ -43,9 +43,6 @@ bright_foreground = '#D8DEE9'
 dim_foreground = '#D8DEE9'
 foreground = '#D8DEE9'
 
-[colors.cursor]
-cursor = '#D8DEE9'
-
 [cursor]
 style = "Underline"
 thickness = 0.15
