@@ -1,19 +1,27 @@
--- TODO
-
--- references:
+-- Neo-tree is a Neovim plugin to browse the file system
 -- https://github.com/nvim-neo-tree/neo-tree.nvim
--- https://github.com/nvim-neo-tree/neo-tree.nvim/wiki/Recipes
+
 return {
-    "nvim-neo-tree/neo-tree.nvim",
+    'nvim-neo-tree/neo-tree.nvim',
+    version = '*',
     dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons",
-        "MunifTanjim/nui.nvim",
+        'nvim-lua/plenary.nvim',
+        'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+        'MunifTanjim/nui.nvim',
     },
-    event = "VeryLazy",
+    cmd = 'Neotree',
     keys = {
-        { "<leader>t", ":Neotree toggle<CR>", silent = true, desc = "File Explorer" },
+        { '<leader>t', ':Neotree toggle<CR>', desc = 'NeoTree reveal', silent = true },
     },
+    -- opts = {
+    --     filesystem = {
+    --         window = {
+    --             mappings = {
+    --                 ['\\'] = 'close_window',
+    --             },
+    --         },
+    --     },
+    -- },
     config = function()
         require("neo-tree").setup({
             close_if_last_window = true,
@@ -32,10 +40,10 @@ return {
                     highlight = "NeoTreeModified",
                 },
                 icon = {
-                    folder_closed = "",
-                    folder_open = "",
-                    folder_empty = "",
-                    folder_empty_open = "",
+                    folder_closed = "",
+                    folder_open = "",
+                    -- folder_empty = "",
+                    -- folder_empty_open = "",
                 },
                 git_status = {
                     symbols = {
@@ -43,11 +51,11 @@ return {
                         added = "",
                         deleted = "",
                         modified = "",
-                        renamed = "",
+                        renamed = "󰑕",
                         -- Status type
                         untracked = "",
                         ignored = "",
-                        unstaged = "",
+                        unstaged = "",
                         staged = "",
                         conflict = "",
                     },
@@ -55,10 +63,11 @@ return {
             },
             window = {
                 position = "left",
-                width = 35,
+                -- width = 35,
             },
             filesystem = {
-                use_libuv_file_watcher = true,
+                use_libuv_file_watcher = false,
+                hijack_netrw_behavior = "open_default",
                 filtered_items = {
                     hide_dotfiles = false,
                     hide_gitignored = false,
@@ -68,6 +77,10 @@ return {
                     never_show = {
                         ".DS_Store",
                         "thumbs.db",
+                        "__pycache__",
+                    },
+                    never_show_by_pattern = { -- uses glob style patterns
+                        --".null-ls_*",
                     },
                 },
             },

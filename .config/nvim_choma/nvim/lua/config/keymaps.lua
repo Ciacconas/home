@@ -91,6 +91,7 @@ map("n", "<C-Space>", ":WhichKey \\<space><cr>", opts)
 
 -- increase number
 -- <C-a> " standard vim keybinding
+map('n', '<C-a>', '<Nop>', { noremap = true, silent = true })
 
 -- scroll page backward
 -- <C-b> " standard vim keybinding
