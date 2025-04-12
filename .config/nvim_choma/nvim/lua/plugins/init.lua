@@ -1,47 +1,4 @@
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
--- local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
--- if not vim.loop.fs_stat(lazypath) then
---     vim.fn.system {
---         'git',
---         'clone',
---         '--filter=blob:none',
---         'https://github.com/folke/lazy.nvim.git',
---         '--branch=stable',
---         lazypath,
---     }
--- end
--- vim.opt.rtp:prepend(lazypath)
--- -- Install plugin modules
--- require("lazy").setup("plugins.modules", {
--- 	-- defaults = {
--- 	-- 	lazy = false,
--- 	-- 	version = nil,
--- 	-- },
--- 	install = {
--- 		missing = true,
--- 	},
--- 	checker = {
--- 		enabled = true,
--- 		notify = false,
--- 	},
--- 	change_detection = {
--- 		enabled = true,
--- 		notify = false,
--- 	},
---     performance = {
---         rtp = {
---             -- disable some rtp plugins
---             disabled_plugins = {
---                 "gzip",
---                 "tarPlugin",
---                 "tohtml",
---                 "tutor",
---                 "zipPlugin",
---             },
---         },
---     },
--- })
+-- Heavily inspired by kickstart.nvim
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -61,6 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.g.have_nerd_font = true
 
 -- Setup lazy.nvim
 require("lazy").setup({
@@ -68,13 +26,13 @@ require("lazy").setup({
     {
       import = "plugins.modules"
     },
-    { 'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+    { { 'tpope/vim-sleuth' }, -- Detect tabstop and shiftwidth automatically
       {
         'catppuccin/nvim',
         name = 'catppuccin',
         priority = 1000
       },
-      { 'numToStr/Comment.nvim', lazy = false } -- "gc" to comment visual regions/lines
+      { 'numToStr/Comment.nvim' }, -- "gc" to comment visual regions/lines
     }
   },
   ui = {

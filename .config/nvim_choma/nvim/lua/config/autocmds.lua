@@ -23,12 +23,17 @@ api.nvim_create_autocmd("Filetype", {
     end,
 })
 
--- Highlight on yank
-api.nvim_create_autocmd("TextYankPost", {
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.highlight.on_yank()`
+vim.api.nvim_create_autocmd('TextYankPost', {
+    desc = 'Highlight when yanking (copying) text',
+    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
     callback = function()
-        vim.highlight.on_yank()
+      vim.highlight.on_yank()
     end,
-})
+  })
+
 
 -- go to last loc when opening a buffer
 api.nvim_create_autocmd("BufReadPost", {

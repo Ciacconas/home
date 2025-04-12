@@ -131,7 +131,8 @@ if vim.g.neovide then
     vim.opt.background = 'dark'
     -- vim.cmd([[colorscheme melange]])
     vim.cmd.colorscheme 'catppuccin'
-    vim.opt.guifont = 'FiraCode Nerd Font Propo:h15'
+    -- vim.opt.guifont = 'FiraCode Nerd Font:h14'
+    vim.opt.guifont = 'UbuntuMono Nerd Font:h15'
     
 
 
