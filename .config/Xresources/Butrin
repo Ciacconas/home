@@ -14,6 +14,9 @@
 *color13: #D8BFD8
 *color14: #64DBDB
 *color15: #F2F2F2
+*gtktheme: Arc-Dark
+*kvtheme: KvArcDark#
+Xft.dpi:120
 *colorforeground: #F2F2F2
 *colorbackground: #4B3B3C
 *colorcursor: #E39D93
