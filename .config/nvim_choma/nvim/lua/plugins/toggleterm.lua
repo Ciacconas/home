@@ -40,8 +40,22 @@ return {
 
         local Terminal = require("toggleterm.terminal").Terminal
 
+        -- -- aider AI 5 ==================================
+        -- local aider_term = Terminal:new({
+        --     cmd = "aider",
+        --     count = 5,
+        --     direction = "float",
+        --     close_on_exit = true, -- close the terminal window when the process exits
+        --     auto_scroll = true -- automatically scroll to the bottom on terminal output
+        --     on_open = function(term)
+        --         vim.cmd("startinsert!")
+        --     end, }
+        -- )
+        -- -- using vim.keymap.set
+        -- vim.keymap.set('n', '<leader>ai', aider_term:toggle(), { noremap = true, silent = false })
 
-        -- lazygit 7
+
+        -- lazygit 7 =================================
         local lazygit = Terminal:new({
             cmd = "lazygit",
             count = 7,
@@ -60,7 +74,7 @@ return {
         -- toggleterm
         vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })
 
-        -- python 9
+        -- python 9 ===================================
         local ipython = Terminal:new({
             count = 9,
             cmd = "ipython",

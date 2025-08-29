@@ -1,6 +1,6 @@
 vim.lsp.enable('pyright')
 vim.lsp.enable('ruff')
-
+vim.lsp.enable('lua_ls')
 
 vim.diagnostic.config({
     virtual_text = true,
@@ -15,11 +15,10 @@ vim.diagnostic.config({
     } or {},
 })
 
-
-vim.api.nvim_create_autocmd("LspAttach", {
+vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
     callback = function(event)
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         -- vim.notify('lsp attached', vim.log.levels.INFO)
-    end
+    end,
 })

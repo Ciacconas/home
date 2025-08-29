@@ -74,13 +74,6 @@ map("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", opts)
 map("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
 map("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", opts)
 
--- null-ls formating
-vim.keymap.set("n", "<leader>F", function()
-    vim.lsp.buf.format({
-        timeout_ms = 2000,
-    })
-end)
-
 -- CONTROL BASED
 
 -- show available leader shortcuts
