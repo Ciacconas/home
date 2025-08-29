@@ -5,10 +5,11 @@ require("config.options")
 require("config.variables")
 
 -- require("config.icons")
-require("config.autocmds")
 require("config.keymaps")
-require("plugins")
+require("config.lazy")
+require("config.lsp")
 require("config.colors")
+require("config.autocmds")
 -- require("config.which_key_defaults")
 
 -- vim.cmd([[source ~/.config/nvim/vim/commands.vim ]])

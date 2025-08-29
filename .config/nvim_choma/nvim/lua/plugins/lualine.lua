@@ -10,7 +10,8 @@ return {
       if vim.g.neovide then
         return 'auto'
       else
-        return 'gruvbox'
+        return 'auto' -- use auto adapted theme
+        -- return 'gruvbox' -- use the custom override of the gruvbox theme below
       end
     end
 

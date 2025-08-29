@@ -57,6 +57,9 @@ return {
             lazygit:toggle()
         end
 
+        -- toggleterm
+        vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })
+
         -- python 9
         local ipython = Terminal:new({
             count = 9,

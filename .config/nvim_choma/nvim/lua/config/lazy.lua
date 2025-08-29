@@ -24,7 +24,7 @@ vim.g.have_nerd_font = true
 require("lazy").setup({
   spec = { -- import your plugins
     {
-      import = "plugins.modules"
+      import = "plugins"
     },
     { { 'tpope/vim-sleuth' }, -- Detect tabstop and shiftwidth automatically
       {
@@ -32,6 +32,12 @@ require("lazy").setup({
         name = 'catppuccin',
         priority = 1000
       },
+      {
+        'catppuccin/nvim',
+        name = 'catppuccin',
+        priority = 1000
+      },
+      {'NLKNguyen/papercolor-theme'},
       { 'numToStr/Comment.nvim' }, -- "gc" to comment visual regions/lines
     }
   },

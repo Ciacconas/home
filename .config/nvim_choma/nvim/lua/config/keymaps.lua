@@ -81,9 +81,6 @@ vim.keymap.set("n", "<leader>F", function()
     })
 end)
 
--- toggleterm
-vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })
-
 -- CONTROL BASED
 
 -- show available leader shortcuts

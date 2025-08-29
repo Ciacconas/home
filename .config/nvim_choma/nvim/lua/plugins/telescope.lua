@@ -7,6 +7,7 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
+      "nvim-treesitter/nvim-treesitter",
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
@@ -84,28 +85,30 @@ return {
       map('n', '<C-p>', function()
         if has_local_gitignore() then
           require('telescope.builtin').git_files {
-            layout_config = {
-              preview_width = 0.65,
-            },
+            -- layout_config = {
+            --   preview_width = 0.65,
+            -- },
           }
         else
           require('telescope.builtin').find_files {
             find_command = { 'rg', '--no-ignore-vcs', '--files' },
-            layout_config = {
-              preview_width = 0.65,
-            },
+            -- layout_config = {
+            --   preview_width = 0.65,
+            -- },
           }
         end
       end, opts)
 
       map('n', '<C-f>', function()
         if has_local_gitignore() then
+          print("has local gitignore")
           require('telescope.builtin').live_grep {
             layout_config = {
               preview_width = 0.65,
             },
           }
         else
+          print("no local gitignore")
           require('telescope.builtin').live_grep {
             additional_args = { '--no-ignore' },
             layout_config = {
