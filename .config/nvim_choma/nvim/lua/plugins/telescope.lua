@@ -108,7 +108,7 @@ return {
             },
           }
         else
-          print("no local gitignore")
+          -- print("no local gitignore")
           require('telescope.builtin').live_grep {
             additional_args = { '--no-ignore' },
             layout_config = {

@@ -25,6 +25,12 @@ return {
         },
         {
             'folke/lazydev.nvim', -- for lua lsp configuring
+            ft = 'lua',
+            opts = {
+                library = {
+                    { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+                },
+            },
         },
         -- Useful status updates for LSP.
         { 'j-hui/fidget.nvim', opts = {} },

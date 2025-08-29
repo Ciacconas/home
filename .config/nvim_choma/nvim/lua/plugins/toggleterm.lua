@@ -1,13 +1,13 @@
 return {
-    "akinsho/toggleterm.nvim",
+    'akinsho/toggleterm.nvim',
     lazy = false,
-    version = "*",
+    version = '*',
     config = function()
-        require("toggleterm").setup({
+        require('toggleterm').setup({
             size = function(term)
-                if term.direction == "horizontal" then
+                if term.direction == 'horizontal' then
                     return math.floor(vim.o.lines * 0.23)
-                elseif term.direction == "vertical" then
+                elseif term.direction == 'vertical' then
                     return math.floor(vim.o.columns * 0.4)
                 end
             end,
@@ -19,8 +19,8 @@ return {
             start_in_insert = false,
             insert_mappings = true, -- whether or not the open mapping applies in insert mode
             persist_size = false,
-            direction = "float",    -- "vertical" | 'horizontal' | 'window' | 'float',
-            close_on_exit = true,   -- close the terminal window when the process exits
+            direction = 'float', -- "vertical" | 'horizontal' | 'window' | 'float',
+            close_on_exit = true, -- close the terminal window when the process exits
             -- shell = vim.o.shell, -- change the default shell
             -- -- This field is only relevant if direction is set to 'float'
             float_opts = {
@@ -28,7 +28,7 @@ return {
                 -- 	-- see :h nvim_open_win for details on borders however
                 -- 	-- the 'curved' border is a custom border type
                 -- 	-- not natively supported but implemented in this plugin.
-                border = "single", --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
+                border = 'single', --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
                 width = function()
                     return math.floor(vim.o.columns * 0.8)
                 end,
@@ -38,31 +38,33 @@ return {
             },
         })
 
-        local Terminal = require("toggleterm.terminal").Terminal
+        local Terminal = require('toggleterm.terminal').Terminal
 
-        -- -- aider AI 5 ==================================
-        -- local aider_term = Terminal:new({
-        --     cmd = "aider",
-        --     count = 5,
-        --     direction = "float",
-        --     close_on_exit = true, -- close the terminal window when the process exits
-        --     auto_scroll = true -- automatically scroll to the bottom on terminal output
-        --     on_open = function(term)
-        --         vim.cmd("startinsert!")
-        --     end, }
-        -- )
-        -- -- using vim.keymap.set
-        -- vim.keymap.set('n', '<leader>ai', aider_term:toggle(), { noremap = true, silent = false })
-
+        -- aider AI 5 ==================================
+        local aider_term = Terminal:new({
+            cmd = 'aider',
+            count = 5,
+            direction = 'float',
+            close_on_exit = true, -- close the terminal window when the process exits
+            auto_scroll = true, -- automatically scroll to the bottom on terminal output
+            on_open = function(term)
+                vim.cmd('startinsert!')
+            end,
+        })
+        -- function _AIDERAI()
+        --     aider_term:toggle()
+        -- end
+        -- using vim.keymap.set
+        vim.keymap.set('n', '<leader>ai', function() aider_term:toggle() end, { noremap = true, silent = false })
 
         -- lazygit 7 =================================
         local lazygit = Terminal:new({
-            cmd = "lazygit",
+            cmd = 'lazygit',
             count = 7,
-            direction = "float",
+            direction = 'float',
             close_on_exit = true,
             on_open = function(term)
-                vim.cmd("startinsert!")
+                vim.cmd('startinsert!')
                 local opts = { buffer = 0 }
                 vim.keymap.set('t', '<esc>', '<esc>', opts)
             end,
@@ -72,12 +74,17 @@ return {
         end
 
         -- toggleterm
-        vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _LAZZYGIT()<CR>", { noremap = true, silent = false })
+        vim.api.nvim_set_keymap(
+            'n',
+            '<leader>lg',
+            '<cmd>lua _LAZZYGIT()<CR>',
+            { noremap = true, silent = false }
+        )
 
         -- python 9 ===================================
         local ipython = Terminal:new({
             count = 9,
-            cmd = "ipython",
+            cmd = 'ipython',
             on_open = function(term)
                 vim.g.last_terminal_job_id = term.job_id
                 -- vim.cmd([[execute "normal"]])
@@ -86,7 +93,7 @@ return {
                 vim.g.last_terminal_job_id = nil
             end,
             hidden = false,
-            direction = "horizontal"
+            direction = 'horizontal',
         })
 
         function _IPYTHON_TERM()
@@ -100,10 +107,10 @@ return {
             if vim.g.last_terminal_job_id ~= nil then
                 -- print(vim.g.last_terminal_job_id)
                 vim.b.slime_config = { jobid = vim.g.last_terminal_job_id }
-                if type == "celljump" then
+                if type == 'celljump' then
                     vim.cmd('IPythonCellExecuteCellJump')
                 end
-                if type == "runall" then
+                if type == 'runall' then
                     vim.cmd('IPythonCellRunTime')
                 end
             else
@@ -114,25 +121,30 @@ return {
                     -- vim.wait(100)
                     -- PythonRun(type)
                 else
-                    print("ipython not found")
+                    print('ipython not found')
                 end
             end
         end
 
         -- keymaps
         local function set_python_related_keymaps()
-            vim.keymap.set("n", "<CR>", function() PythonRun('celljump') end, { buffer = true })
-            vim.keymap.set("n", "<F5>", function() PythonRun('runall') end, { buffer = true })
-            vim.keymap.set("n", "<leader>\\", function() _IPYTHON_TERM() end, { buffer = true })
+            vim.keymap.set('n', '<CR>', function()
+                PythonRun('celljump')
+            end, { buffer = true })
+            vim.keymap.set('n', '<F5>', function()
+                PythonRun('runall')
+            end, { buffer = true })
+            vim.keymap.set('n', '<leader>\\', function()
+                _IPYTHON_TERM()
+            end, { buffer = true })
         end
 
         -- setting up the au group for the python filetype specific keymaps
-        local group_python = vim.api.nvim_create_augroup("custom_filetype_python", { clear = true })
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = "python",
+        local group_python = vim.api.nvim_create_augroup('custom_filetype_python', { clear = true })
+        vim.api.nvim_create_autocmd('FileType', {
+            pattern = 'python',
             group = group_python,
-            callback = set_python_related_keymaps
+            callback = set_python_related_keymaps,
         })
-
-    end
+    end,
 }

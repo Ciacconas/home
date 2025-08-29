@@ -144,7 +144,7 @@ map("n", "<C-q>", "<Esc>:wqa<CR>", opts)
 -- <C-r> " standard vim keybinding
 
 -- save buffer
-map("i", "<C-s>", "<Esc>:w<CR>", opts)
+-- map("i", "<C-s>", "<Esc>:w<CR>", opts)
 map("n", "<C-s>", "<Esc>:w<CR>", opts)
 
 -- go one step back in tag stack
