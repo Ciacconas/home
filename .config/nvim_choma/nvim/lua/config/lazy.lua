@@ -49,7 +49,6 @@ require('lazy').setup({
                     end
                 end,
             },
-            { 'NLKNguyen/papercolor-theme' },
             { 'numToStr/Comment.nvim' }, -- "gc" to comment visual regions/lines
         },
     },

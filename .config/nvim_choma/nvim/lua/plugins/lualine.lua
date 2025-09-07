@@ -4,67 +4,68 @@ return {
     lazy = false,
     event = { 'BufReadPost', 'BufNewFile' },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    priority = 0,
     config = function()
         -- custom theme logic
         local set_theme = function()
             local cs = vim.g.colors_name
             if cs == 'termcolor' then
-                return 'gruvbox'
+                -- custom theme
+                local custom_gruvbox = require('lualine.themes.gruvbox')
+
+                -- normal mode
+                custom_gruvbox.normal.a.fg = 0
+                custom_gruvbox.normal.a.bg = 10
+                custom_gruvbox.normal.b.fg = 15
+                custom_gruvbox.normal.b.bg = 8
+                custom_gruvbox.normal.c.fg = 15
+                custom_gruvbox.normal.c.bg = 0
+
+                -- insert mode
+                custom_gruvbox.insert.a.fg = 0
+                custom_gruvbox.insert.a.bg = 9
+                custom_gruvbox.insert.b.fg = 15
+                custom_gruvbox.insert.b.bg = 8
+                custom_gruvbox.insert.c.fg = 15
+                custom_gruvbox.insert.c.bg = 0
+
+                -- visual mode
+                custom_gruvbox.visual.a.fg = 0
+                custom_gruvbox.visual.a.bg = 11
+                custom_gruvbox.visual.b.fg = 15
+                custom_gruvbox.visual.b.bg = 8
+                custom_gruvbox.visual.c.fg = 15
+                custom_gruvbox.visual.c.bg = 0
+
+                -- replace mode
+                custom_gruvbox.replace.a.fg = 0
+                custom_gruvbox.replace.a.bg = 15
+                custom_gruvbox.replace.b.fg = 15
+                custom_gruvbox.replace.b.bg = 8
+                custom_gruvbox.replace.c.fg = 15
+                custom_gruvbox.replace.c.bg = 0
+
+                -- command mode
+                custom_gruvbox.command.a.fg = 0
+                custom_gruvbox.command.a.bg = 13
+                custom_gruvbox.command.b.fg = 15
+                custom_gruvbox.command.b.bg = 8
+                custom_gruvbox.command.c.fg = 15
+                custom_gruvbox.command.c.bg = 0
+
+                -- inactive mode
+                custom_gruvbox.inactive.a.fg = 0
+                custom_gruvbox.inactive.a.bg = 2
+                custom_gruvbox.inactive.b.fg = 0
+                custom_gruvbox.inactive.b.bg = 7
+                custom_gruvbox.inactive.c.fg = 15
+                custom_gruvbox.inactive.c.bg = 8
+
+                return custom_gruvbox
             else
                 return 'auto'
             end
         end
-
-        -- custom theme
-        local custom_gruvbox = require('lualine.themes.gruvbox')
-
-        -- normal mode
-        custom_gruvbox.normal.a.fg = 0
-        custom_gruvbox.normal.a.bg = 10
-        custom_gruvbox.normal.b.fg = 15
-        custom_gruvbox.normal.b.bg = 8
-        custom_gruvbox.normal.c.fg = 15
-        custom_gruvbox.normal.c.bg = 0
-
-        -- insert mode
-        custom_gruvbox.insert.a.fg = 0
-        custom_gruvbox.insert.a.bg = 9
-        custom_gruvbox.insert.b.fg = 15
-        custom_gruvbox.insert.b.bg = 8
-        custom_gruvbox.insert.c.fg = 15
-        custom_gruvbox.insert.c.bg = 0
-
-        -- visual mode
-        custom_gruvbox.visual.a.fg = 0
-        custom_gruvbox.visual.a.bg = 11
-        custom_gruvbox.visual.b.fg = 15
-        custom_gruvbox.visual.b.bg = 8
-        custom_gruvbox.visual.c.fg = 15
-        custom_gruvbox.visual.c.bg = 0
-
-        -- replace mode
-        custom_gruvbox.replace.a.fg = 0
-        custom_gruvbox.replace.a.bg = 15
-        custom_gruvbox.replace.b.fg = 15
-        custom_gruvbox.replace.b.bg = 8
-        custom_gruvbox.replace.c.fg = 15
-        custom_gruvbox.replace.c.bg = 0
-
-        -- command mode
-        custom_gruvbox.command.a.fg = 0
-        custom_gruvbox.command.a.bg = 13
-        custom_gruvbox.command.b.fg = 15
-        custom_gruvbox.command.b.bg = 8
-        custom_gruvbox.command.c.fg = 15
-        custom_gruvbox.command.c.bg = 0
-
-        -- inactive mode
-        custom_gruvbox.inactive.a.fg = 0
-        custom_gruvbox.inactive.a.bg = 2
-        custom_gruvbox.inactive.b.fg = 0
-        custom_gruvbox.inactive.b.bg = 7
-        custom_gruvbox.inactive.c.fg = 15
-        custom_gruvbox.inactive.c.bg = 8
 
         require('lualine').setup({
             options = {
