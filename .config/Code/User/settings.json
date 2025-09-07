@@ -95,6 +95,7 @@
         "editor.formatOnType": true,
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "workbench.colorTheme": "Default Light+",
-    "editor.minimap.enabled": false,
+    "gitlens.codeLens.authors.enabled": false,
+    "gitlens.codeLens.recentChange.enabled": false,
+    "workbench.colorTheme": "Default Light Modern",
 }
