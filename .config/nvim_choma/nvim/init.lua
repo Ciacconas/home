@@ -1,5 +1,9 @@
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.g.have_nerd_font = true
 
 require("config.options")
 require("config.variables")
@@ -8,8 +12,8 @@ require("config.variables")
 require("config.keymaps")
 require("config.lazy")
 require("config.lsp")
-require("config.colors")
 require("config.autocmds")
+
 -- require("config.which_key_defaults")
 
 -- vim.cmd([[source ~/.config/nvim/vim/commands.vim ]])

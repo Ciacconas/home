@@ -44,7 +44,7 @@ local get_vscode_python_path = function()
             -- end)
         end
         local status_ok, extraPath = pcall(function()
-            return table1['python.analysis.extraPaths'].PYTHONPATH
+            return table1['python.analysis.extraPaths']
         end)
         if status_ok then
             vim.g.Pyright_analysis_pathv = extraPath

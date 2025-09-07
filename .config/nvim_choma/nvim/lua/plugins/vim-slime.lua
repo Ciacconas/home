@@ -13,7 +13,7 @@ return {
             -- vim.g.slime_default_config = { 5 }
             vim.g.slime_suggest_default = 1
 
-            vim.g.ipython_cell_tag = { '##%', '##[+=\\-*]', '```', '```python', '```py' }
+            vim.g.ipython_cell_tag = { '# %%', '##[+=\\-*]', '```', '```python', '```py' }
             vim.g.ipython_cell_regex = 1
             vim.g.ipython_cell_highlight_cells = 1
         end

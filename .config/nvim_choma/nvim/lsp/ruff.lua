@@ -41,6 +41,8 @@ return {
         },
     },
     on_attach = function(client, bufnr)
-        vim.notify('ruff attached', vim.log.levels.INFO)
+        vim.schedule(function()
+            print 'ruff attached'
+        end)
     end,
 }

@@ -11,47 +11,9 @@ map("n", "<leader>]", ":bnext<CR>", opts)
 -- open previous buffer
 map("n", "<leader>[", ":bprevious<CR>", opts)
 
--- jump to other/closing tag (requires valloric/MatchTagAlways)
-map("n", "<leader>.", ":MtaJumpToOtherTag<cr>", opts)
-
 -- cd into folder containing current file
--- map("n", "<leader>cd", ":lcd %:p:h<CR>", opts)
+map("n", "<leader>cd", ":lcd %:p:h<CR>", opts)
 
--- jump to next error / warning in file
--- map("n", "<leader>e", vim.lsp.diagnostic.goto_next(), opts)
-
--- jump to previous error / warning in file
--- map("n", "<leader>E", vim.lsp.diagnostic.goto_prev(), opts)
-
--- sort imports (python)
-map("n", "<leader>fi", ":IsortSync<CR>", opts)
-
--- autoformat code (requires neoclide/coc.nvim)
--- map("n", "<leader>F", ":NotImplemented", opts)
-
--- toggle git signify
--- map("n", "<leader>gt", ":SignifyToggle<CR>", opts)
-
--- shrink current horizontal split (decrease height)
-map("n", "<leader>h", "3<C-w>-", opts)
-
--- make all splits horizontal
-map("n", "<leader>H", "<C-w>t<C-w>K", opts)
-
--- toggle visible marks (requires vim-signature)
--- map("n", "<leader>m", ":SignatureToggleSigns<CR>", opts)
-
--- create tags
-map("n", "<leader>T", ":silent !ctags -f .tags -R .<CR>", opts)
-
--- show undotree (requires mbbill/undotree)
-map("n", "<leader>u", ":UndotreeShow<CR><C-w>h", opts)
-
--- shrink current vertical split (decrease width)
-map("n", "<leader>v", "3<C-w><", opts)
-
--- make all splits vertical
-map("n", "<leader>V", "<C-w>t<C-w>H", opts)
 
 -- enable soft wrapping
 map("n", "<leader>ws", ":SoftWrap<cr>", opts)
@@ -65,36 +27,17 @@ vim.api.nvim_create_user_command("NoWrap", "setlocal nowrap nolinebreak formatop
 map("n", "<leader>wh", ":HardWrap<cr>", opts)
 vim.api.nvim_create_user_command("HardWrap", "setlocal nowrap nolinebreak formatoptions=tqj textwidth=88 colorcolumn=88", {})
 
-map("n", "<leader>s", ":call SyncTex()<CR>", { noremap = true, buffer = true, silent = true })
-
-map("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
-map("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
-map("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", opts)
-map("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", opts)
-map("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
-map("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", opts)
-
--- CONTROL BASED
-
--- show available leader shortcuts
-map("n", "<C-Space>", ":WhichKey \\<space><cr>", opts)
 
 -- increase number
 -- <C-a> " standard vim keybinding
 map('n', '<C-a>', '<Nop>', { noremap = true, silent = true })
 
--- scroll page backward
--- <C-b> " standard vim keybinding
-
--- close current buffer
--- map("i", "<C-c>", "<Esc>:bd<CR>", opts)
--- map("n", "<C-c>", "<Esc>:bd<CR>", opts)
 
 -- down half screen
 map("n", "<C-d>", "<C-d>zz", opts)
 
--- exit terminal mode
-map("t", "<C-e>", "<C-\\><C-N>", opts)
+-- up half screen
+map("n", "<C-u>", "<C-u>zz", opts)
 
 -- down full screen
 map("n", "<C-f>", "<C-f>zz", opts)
@@ -102,12 +45,9 @@ map("n", "<C-f>", "<C-f>zz", opts)
 -- up full screen
 map("n", "<C-g>", "<C-g>zz", opts)
 
--- move to split left of current split
+-- move to split left of current split (also when in terminal mode)
 map("n", "<C-h>", "<C-w>h", opts)
 map("t", "<C-h>", "<C-\\><C-N><C-w>h", opts)
-
--- jump forward in cursor position stack
--- <C-i> = TAB " standard vim keybinding
 
 -- move to split below of current split (also when in terminal mode)
 map("n", "<C-j>", "<C-w>j", opts)
@@ -121,37 +61,11 @@ map("t", "<C-k>", "<C-\\><C-N><C-w>k", opts)
 map("n", "<C-l>", "<C-w>l", opts)
 map("t", "<C-l>", "<C-\\><C-N><C-w>l", opts)
 
--- move to first non-whitespace of next line
--- <C-m> " standard vim keybinding
-
--- jump backward in cursor position stack (opposite of <C-i> or TAB)
--- <C-o> " standard vim keybinding
-
--- -- browse git files
--- -- map("n", "<C-p>", telescope.git_files, opts)
--- map("n", "<C-p>", function()
---     local ok = pcall(require("telescope.builtin").git_files)
---     if not ok then
---         require("telescope.builtin").find_files({ find_command = { "rg", "--no-ignore", "--files" } })
---     end
--- end, opts)
-
--- save and exit
-map("i", "<C-q>", "<Esc>:wqa<CR>", opts)
-map("n", "<C-q>", "<Esc>:wqa<CR>", opts)
-
--- redo
--- <C-r> " standard vim keybinding
 
 -- save buffer
 -- map("i", "<C-s>", "<Esc>:w<CR>", opts)
 map("n", "<C-s>", "<Esc>:w<CR>", opts)
 
--- go one step back in tag stack
--- <C-t> " standard vim keybinding
-
--- up half screen
-map("n", "<C-u>", "<C-u>zz", opts)
 
 function CloseBuffer()
     if vim.bo.filetype == "netrw" then
@@ -170,29 +84,6 @@ end
 map("i", "<C-c>", "<Esc>:lua CloseBuffer()<CR>", opts)
 map("n", "<C-c>", "<Esc>:lua CloseBuffer()<CR>", opts)
 
--- visual block
--- <C-v> " standard vim keybinding
-
--- navigate between splits
--- <C-w> " standard vim keybinding
-
--- leader for autocomplete
--- <C-x> " standard vim keybinding
-
--- scroll text down with cursor staying where it is (opposite of <C-e>)
--- <C-y> " standard vim keybinding
-
--- suspend (like any other terminal process)
--- <C-z> " standard shell keybinding
-
--- cancel / go to normal mode
--- <C-[> " standard vim keybinding
-
--- use word under cursor to open next file with that tag
--- <C-]> " standard vim keybinding
-
--- go to last open buffer
--- <C-^> " standard vim keybinding
 
 -- NORMAL MODE
 
@@ -203,18 +94,21 @@ map("n", "<F3>", "<Esc>:setlocal spell!<CR>", opts)
 map("n", "<F3><F3>", "<Esc>:setlocal spell spelllang=", opts)
 
 -- source init.vim again.
-map("n", "<F4>", "<Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>", opts)
+-- map("n", "<F4>", "<Esc>:source ~/.config/nvim/init.vim<CR>:edit<CR>", opts)
+-- map("n", "<F4>", "<cmd>luafile " .. vim.fn.stdpath("config") .. "/init.lua<CR>")
+vim.keymap.set("n", "<F4>",
+  "<cmd>lua dofile(vim.fn.stdpath('config') .. '/init.lua'); vim.notify('init.lua reloaded', vim.log.levels.INFO)<CR>",
+  { desc = "Reload init.lua" }
+)
 
 -- remap 'n' and 'N' to center screen after jumping to next match
 map("n", "n", "nzz", opts)
 map("n", "N", "Nzz", opts)
 
 -- Remap for dealing with visual line wraps
-map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true }, opts)
-map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true }, opts)
+vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, noremap = true, silent = true })
 
--- Normal Mode (Leader-based)
--- map("n", "<leader><leader>", ":Telescope buffers<CR>", opts)
 
 -- VISUAL MODE
 
@@ -227,6 +121,10 @@ map("v", "J", ":m '>+1<CR>gv=gv", opts)
 map("v", "K", ":m '<-2<CR>gv=gv", opts)
 
 -- TERMINAL MODE
+
+-- exit terminal mode
+map("t", "<C-e>", "<C-\\><C-N>", opts)
+
 -- go to edit mode in terminal emulator:
 -- the backtick is there to not interfere with the <Esc> of the shell itself.
 map("t", "<Esc>", "<C-\\><C-n>", opts)
@@ -300,4 +198,124 @@ map("n", "z]", "zj", opts)
 -- repeat the latest "/" or "?" [count] times in opposite direction.
 -- N
 
+-- CONTROL BASED
+-- redo
+-- <C-r> " standard vim keybinding
+
+
+-- go one step back in tag stack
+-- <C-t> " standard vim keybinding
+
+-- move to first non-whitespace of next line
+-- <C-m> " standard vim keybinding
+
+-- jump backward in cursor position stack (opposite of <C-i> or TAB)
+-- <C-o> " standard vim keybinding
+
+-- visual block
+-- <C-v> " standard vim keybinding
+
+-- navigate between splits
+-- <C-w> " standard vim keybinding
+
+-- leader for autocomplete
+-- <C-x> " standard vim keybinding
+
+-- scroll text down with cursor staying where it is (opposite of <C-e>)
+-- <C-y> " standard vim keybinding
+
+-- suspend (like any other terminal process)
+-- <C-z> " standard shell keybinding
+
+-- cancel / go to normal mode
+-- <C-[> " standard vim keybinding
+
+-- use word under cursor to open next file with that tag
+-- <C-]> " standard vim keybinding
+
+-- go to last open buffer
+-- <C-^> " standard vim keybinding
+
 -- and many many more ;-)
+
+
+
+-- ======================================== Below not useful =============================================
+-- -- save and exit
+-- map("i", "<C-q>", "<Esc>:wqa<CR>", opts)
+-- map("n", "<C-q>", "<Esc>:wqa<CR>", opts)
+
+-- -- jump to other/closing tag (requires valloric/MatchTagAlways)
+-- map("n", "<leader>.", ":MtaJumpToOtherTag<cr>", opts)
+
+
+-- jump to next error / warning in file
+-- map("n", "<leader>e", vim.lsp.diagnostic.goto_next(), opts)
+
+-- jump to previous error / warning in file
+-- map("n", "<leader>E", vim.lsp.diagnostic.goto_prev(), opts)
+
+-- toggle git signify
+-- map("n", "<leader>gt", ":SignifyToggle<CR>", opts)
+
+-- -- shrink current horizontal split (decrease height)
+-- map("n", "<leader>h", "3<C-w>-", opts)
+
+-- -- make all splits horizontal
+-- map("n", "<leader>H", "<C-w>t<C-w>K", opts)
+
+-- toggle visible marks (requires vim-signature)
+-- map("n", "<leader>m", ":SignatureToggleSigns<CR>", opts)
+
+-- -- create tags
+-- map("n", "<leader>T", ":silent !ctags -f .tags -R .<CR>", opts)
+
+-- -- show undotree (requires mbbill/undotree)
+-- map("n", "<leader>u", ":UndotreeShow<CR><C-w>h", opts)
+
+-- -- shrink current vertical split (decrease width)
+-- map("n", "<leader>v", "3<C-w><", opts)
+
+-- -- make all splits vertical
+-- map("n", "<leader>V", "<C-w>t<C-w>H", opts)
+
+
+-- map("n", "<leader>s", ":call SyncTex()<CR>", { noremap = true, buffer = true, silent = true })
+
+-- map("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
+-- map("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
+-- map("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", opts)
+-- map("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", opts)
+-- map("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
+-- map("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", opts)
+
+
+-- -- show available leader shortcuts
+-- map("n", "<C-Space>", ":WhichKey \\<space><cr>", opts)
+
+
+-- scroll page backward
+-- <C-b> " standard vim keybinding
+
+-- close current buffer
+-- map("i", "<C-c>", "<Esc>:bd<CR>", opts)
+-- map("n", "<C-c>", "<Esc>:bd<CR>", opts)
+
+-- jump forward in cursor position stack
+-- <C-i> = TAB " standard vim keybinding
+
+
+
+-- -- browse git files
+-- -- map("n", "<C-p>", telescope.git_files, opts)
+-- map("n", "<C-p>", function()
+--     local ok = pcall(require("telescope.builtin").git_files)
+--     if not ok then
+--         require("telescope.builtin").find_files({ find_command = { "rg", "--no-ignore", "--files" } })
+--     end
+-- end, opts)
+
+
+
+
+

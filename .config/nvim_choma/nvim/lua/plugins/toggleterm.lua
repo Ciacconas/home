@@ -42,7 +42,7 @@ return {
 
         -- aider AI 5 ==================================
         local aider_term = Terminal:new({
-            cmd = 'aider',
+            cmd = 'aider --model gpt-5 --watch',
             count = 5,
             direction = 'float',
             close_on_exit = true, -- close the terminal window when the process exits
@@ -55,7 +55,9 @@ return {
         --     aider_term:toggle()
         -- end
         -- using vim.keymap.set
-        vim.keymap.set('n', '<leader>ai', function() aider_term:toggle() end, { noremap = true, silent = false })
+        vim.keymap.set('n', '<leader>ai', function()
+            aider_term:toggle()
+        end, { noremap = true, silent = false })
 
         -- lazygit 7 =================================
         local lazygit = Terminal:new({
@@ -87,7 +89,8 @@ return {
             cmd = 'ipython',
             on_open = function(term)
                 vim.g.last_terminal_job_id = term.job_id
-                -- vim.cmd([[execute "normal"]])
+                --open the term but move the cursor back to the main buffer
+                vim.cmd([[execute "normal \<C-w>k"]])
             end,
             on_exit = function()
                 vim.g.last_terminal_job_id = nil
@@ -98,7 +101,7 @@ return {
 
         function _IPYTHON_TERM()
             ipython:toggle()
-            vim.cmd([[execute "normal G\<C-w>k"]])
+            -- vim.cmd([[execute "normal G\<C-w>k"]])
         end
 
         -- Run python in the neovim toggleterm terminal
