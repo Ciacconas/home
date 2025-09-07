@@ -22,6 +22,8 @@ local options = {
     showmode = false,                        -- we don't need to see things like -- INSERT -- anymore, we've got status line
     pumheight = 10,                          -- pop up menu height
 
+    foldcolumn = "2",                          -- left margin width (max 12)
+
     autoindent = false,                      -- disable automatic indent when moving to the next line while writing code
 
     spell = false,                           -- spell check, set default to en_us...
@@ -45,6 +47,10 @@ local options = {
     updatetime = 100,                        -- faster completion (4000ms default)
     cursorline = false,                      -- highlight the current line
     wrap = false,                            -- display lines as one long line
+    linebreak = false,
+    formatoptions = "lqj",
+    textwidth = 0,
+    colorcolumn = "0",
     showcmd = false,                         -- don't show last command executed
     ruler = true,                           -- show where you are in the document in status bar (e.g. 143,61, 20%)
     -- guifont = "monospace:h17",               -- the font used in graphical neovim applications
