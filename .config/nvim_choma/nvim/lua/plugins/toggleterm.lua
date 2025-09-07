@@ -42,7 +42,7 @@ return {
 
         -- aider AI 5 ==================================
         local aider_term = Terminal:new({
-            cmd = 'aider --model gpt-5 --watch',
+            cmd = 'aider --model openai/gpt-5 --watch --no-auto-commits --no-dirty-commits --reasoning-effort=low --no-gitignore',
             count = 5,
             direction = 'float',
             close_on_exit = true, -- close the terminal window when the process exits

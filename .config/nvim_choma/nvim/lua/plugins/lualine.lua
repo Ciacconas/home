@@ -4,7 +4,7 @@ return {
     lazy = false,
     event = { 'BufReadPost', 'BufNewFile' },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    priority = 0,
+    priority = 999,
     config = function()
         -- custom theme logic
         local set_theme = function()
