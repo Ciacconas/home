@@ -23,20 +23,25 @@ map("n", "<leader>[", ":bprevious<CR>", opts)
 -- jump to other/closing tag (requires valloric/MatchTagAlways)
 map("n", "<leader>.", ":MtaJumpToOtherTag<cr>", opts)
 
+-- toggle between dark and light colorscheme
+vim.keymap.set('n', '<leader>cc', function()
+  if vim.o.background == 'dark' then
+    vim.o.background = 'light'
+    vim.cmd.colorscheme 'PaperColor'
+  else
+    vim.o.background = 'dark'
+    vim.cmd.colorscheme 'catppuccin'
+  end
+end, opts)
+
 -- cd into folder containing current file
 -- map("n", "<leader>cd", ":lcd %:p:h<CR>", opts)
-
--- jump to next error / warning in file
--- map("n", "<leader>e", vim.lsp.diagnostic.goto_next(), opts)
-
--- jump to previous error / warning in file
--- map("n", "<leader>E", vim.lsp.diagnostic.goto_prev(), opts)
 
 -- sort imports (python)
 map("n", "<leader>fi", ":IsortSync<CR>", opts)
 
--- autoformat code (requires neoclide/coc.nvim)
--- map("n", "<leader>F", ":NotImplemented", opts)
+-- format code
+-- [seems to be implemented elsewhere anyway and this one does not work] map('n', '<leader>F', ':lua vim.lsp.buf.format()', opts)
 
 -- toggle git signify
 -- map("n", "<leader>gt", ":SignifyToggle<CR>", opts)
@@ -100,6 +105,11 @@ map("n", "<C-Space>", ":WhichKey \\<space><cr>", opts)
 
 -- increase number
 -- <C-a> " standard vim keybinding
+
+vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+  expr = true,
+  replace_keycodes = false,
+})
 
 -- scroll page backward
 -- <C-b> " standard vim keybinding
