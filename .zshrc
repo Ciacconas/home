@@ -75,10 +75,7 @@ prompt(){
     retval=$1
 
     # # random emoji each prompt
-    # emojis=("😺" "✨" "🔥" "🍀" "🛠️" "🌈" "🧭" "💾")
-    # rand=$(( RANDOM % ${#emojis[@]} ))
-    echo -ne "%F{yellow}%{%G🌈%}%f "
-
+    echo -ne "%F{yellow}✨%f "
 
     # is root user
     [[ $UID == 0 ]] && echo -ne "%B%F{yellow}%{%G%} %f%b " # 
@@ -91,22 +88,27 @@ prompt(){
     # virtualenv info
     if [[ ! -z $VIRTUAL_ENV ]]; then
       if [[ $VIRTUAL_ENV == "$HOME/.local/share/guv"* ]]; then
-        echo -ne "%F{yellow}%{%G%} %f"
+        # echo -ne "%F{yellow}%{%G%} %f"
+        echo -ne "%F{yellow}}%f"
       else
-        echo -ne "%F{yellow}%{%G%}%f"
+        # echo -ne "%F{yellow}%{%G%}%f"
+        echo -ne "%F{yellow}%f"
       fi
         echo -ne "%F{yellow}$(basename $VIRTUAL_ENV)%f "
+        # echo $(basename $VIRTUAL_ENV)
     fi
     # path
     [[ $PWD == "/" ]] && echo -ne "%F{cyan}/%f " || echo -ne "%F{cyan}%(4~|%-1~/…/%2~|%3~)/%f " # 
     # git info
     if git rev-parse --is-inside-work-tree 2> /dev/null | grep true &> /dev/null; then
-        branch_name=$(git branch --show-current | sed "s/ciacconas/ \%\{\%G😺\%\}/ ")
+        # branch_name=$(git branch --show-current | sed "s/ciacconas/ \%\{\%G😺\%\}/ ")
+        branch_name=$(git branch --show-current | sed "s/ciacconas/😺/ ")
         dirty=" "
         if git status --porcelain 2> /dev/null | grep "^A\|^M\|^ M\|^??" > /dev/null 2> /dev/null; then
             dirty="*"
         fi
-        echo -ne "%F{magenta}%{%G%}$branch_name$dirty%f" # 
+        # echo -ne "%F{magenta}%{%G%}$branch_name$dirty%f" # 
+        echo -ne "%F{magenta} $branch_name$dirty%f" # 
     fi
     # prompt symbol
     [[ $retval == 0 ]] && echo -ne "%B%F{green}%{%G❭%}%f%b " || echo -ne "%B%F{red}%{%G❭%}%f%b " # ➜ ❭
@@ -244,6 +246,12 @@ ghci(){LD_PRELOAD="" /usr/bin/ghci "$@"}
 stack(){LD_PRELOAD="" /usr/bin/stack "$@"}
 apl(){LD_PRELOAD="" /usr/bin/apl "$@"}
 
+# Load zsh-syntax-highlighting; should be last.
+sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
+alias svim="sudo nvim"
+
+
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba shell init' !!
 export MAMBA_EXE='/home/choma/.anaconda/bin/mamba';
@@ -264,8 +272,3 @@ if which uv > /dev/null 2> /dev/null; then
     source "$HOME/.scripts/uv/guv" "$@"
   }
 fi
-
-# Load zsh-syntax-highlighting; should be last.
-sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
-alias svim="sudo nvim"
