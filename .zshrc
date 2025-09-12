@@ -73,6 +73,13 @@ zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f
 setopt prompt_subst
 prompt(){
     retval=$1
+
+    # # random emoji each prompt
+    # emojis=("😺" "✨" "🔥" "🍀" "🛠️" "🌈" "🧭" "💾")
+    # rand=$(( RANDOM % ${#emojis[@]} ))
+    echo -ne "%F{yellow}%{%G🌈%}%f "
+
+
     # is root user
     [[ $UID == 0 ]] && echo -ne "%B%F{yellow}%{%G%} %f%b " # 
     # conda info
@@ -237,12 +244,6 @@ ghci(){LD_PRELOAD="" /usr/bin/ghci "$@"}
 stack(){LD_PRELOAD="" /usr/bin/stack "$@"}
 apl(){LD_PRELOAD="" /usr/bin/apl "$@"}
 
-# Load zsh-syntax-highlighting; should be last.
-sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
-alias svim="sudo nvim"
-
-
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba shell init' !!
 export MAMBA_EXE='/home/choma/.anaconda/bin/mamba';
@@ -257,9 +258,14 @@ unset __mamba_setup
 # <<< mamba initialize <<<
 
 if which uv > /dev/null 2> /dev/null; then
-  eval "$(uv generate-shell-completion zsh)"
-  eval "$(uv generate-shell-completion zsh | sed 's/uv/guv/g')"
+  # eval "$(uv generate-shell-completion zsh)"
+  # eval "$(uv generate-shell-completion zsh | sed 's/uv/guv/g')"
   guv() {
     source "$HOME/.scripts/uv/guv" "$@"
   }
 fi
+
+# Load zsh-syntax-highlighting; should be last.
+sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
+alias svim="sudo nvim"
