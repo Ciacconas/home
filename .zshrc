@@ -89,7 +89,7 @@ prompt(){
     if [[ ! -z $VIRTUAL_ENV ]]; then
       if [[ $VIRTUAL_ENV == "$HOME/.local/share/guv"* ]]; then
         # echo -ne "%F{yellow}%{%G%} %f"
-        echo -ne "%F{yellow}}%f"
+        echo -ne "%F{yellow} %f"
       else
         # echo -ne "%F{yellow}%{%G%}%f"
         echo -ne "%F{yellow}%f"
