@@ -202,35 +202,26 @@ fi
 ## Extensions
 #-------------------------------------------------------------------------------
 
-# # conda (scientific python distribution and environments)
-# sourcefile "$HOME/.anaconda/etc/profile.d/conda.sh"
-# if [ -f "$HOME/.anaconda/etc/profile.d/mamba.sh" ]; then
-#   source "$HOME/.anaconda/etc/profile.d/mamba.sh"
-#   # alias conda=mamba
-# fi
-
 # travis (continuous integration)
 sourcefile "$HOME/.travis/travis.sh"
 
 # broot (fuzzy file finder/jumper/...)
 sourcefile $HOME/.config/broot/launcher/bash/br
 
-# autojump
-my_autojump_chpwd() {
-  # only run autojump when not in python dir
-  # to prevent errors from path clashes
-  if [ ! -f ./__init__.py ]; then
-    autojump_chpwd
-  fi
-}
-if [ -f $HOME/.config/autojump/share/autojump/autojump.zsh ]; then
-  sourcefile $HOME/.config/autojump/share/autojump/autojump.zsh
-  # chpwd_functions=my_autojump_chpwd
-fi
-
-
-# my custom autojump commands (slightly different from default behavior):
-sourcefile $HOME/.scripts/autojump/autojump-improved.zsh
+# # autojump
+# my_autojump_chpwd() {
+#   # only run autojump when not in python dir
+#   # to prevent errors from path clashes
+#   if [ ! -f ./__init__.py ]; then
+#     autojump_chpwd
+#   fi
+# }
+# if [ -f $HOME/.config/autojump/share/autojump/autojump.zsh ]; then
+#   sourcefile $HOME/.config/autojump/share/autojump/autojump.zsh
+#   # chpwd_functions=my_autojump_chpwd
+# fi
+# # my custom autojump commands (slightly different from default behavior):
+# sourcefile $HOME/.scripts/autojump/autojump-improved.zsh
 
 # zsh autosuggestions (like in the fish shell)
 # Change the ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE to 'fg=7'
@@ -245,11 +236,6 @@ bindkey '^o' autosuggest-toggle # enable/disable autosuggest
 ghci(){LD_PRELOAD="" /usr/bin/ghci "$@"}
 stack(){LD_PRELOAD="" /usr/bin/stack "$@"}
 apl(){LD_PRELOAD="" /usr/bin/apl "$@"}
-
-# Load zsh-syntax-highlighting; should be last.
-sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
-alias svim="sudo nvim"
 
 
 # >>> mamba initialize >>>
@@ -272,3 +258,24 @@ if which uv > /dev/null 2> /dev/null; then
     source "$HOME/.scripts/uv/guv" "$@"
   }
 fi
+
+# yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
+# zoxide
+eval "$(zoxide init --cmd j zsh)"
+
+# fzf keybindings
+source <(fzf --zsh)
+
+
+# Load zsh-syntax-highlighting; should be last.
+sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
+alias svim="sudo nvim"
