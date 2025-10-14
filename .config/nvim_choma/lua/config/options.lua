@@ -13,7 +13,7 @@ local options = {
     tabstop = 2,                             -- insert 2 spaces for a tab
     softtabstop = 2,                         -- set tabs to have a maximum width of 2 spaces
     shiftwidth = 2,                          -- the number of spaces inserted for each indentation
-    smartindent = false,                     -- actually it's pretty dumb
+    smartindent = false,                     -- make indenting smarter again
     hlsearch = true,                         -- highlight all matches on previous search pattern
     incsearch = true,                        -- make search matches as you type
     -- termguicolors = true,                    -- set term gui colors (most terminals support this), we need this
@@ -61,4 +61,4 @@ for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
-vim.opt.clipboard = vim.opt.clipboard:prepend("unnamed") --unnamed is the middle mouse paste, unnamed plus is the <C-V>. in macos they are the same
+vim.opt.clipboard = vim.opt.clipboard:prepend({"unnamed", "unnamedplus"}) --unnamed is the middle mouse paste, unnamed plus is the <C-V>. in macos they are the same

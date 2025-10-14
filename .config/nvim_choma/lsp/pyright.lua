@@ -1,0 +1,134 @@
+-- ---@brief
+-- ---
+-- --- https://github.com/microsoft/pyright
+-- ---
+-- --- `pyright`, a static type checker and language server for python
+--
+--
+--
+-- local get_vscode_python_path = function()
+--     if vim.fn.filereadable '.vscode/settings.json' ~= 1 then
+--         -- vim.schedule(function() print("there is no settings.json file") end)
+--         return
+--     end
+--
+--     local io = require 'io'
+--     local file = io.open '.vscode/settings.json'
+--     if file == nil then
+--         vim.schedule(function()
+--             print 'settings.json file not readable'
+--         end)
+--         return
+--     end
+--     if file ~= nil then
+--         -- Read the entire content of the file into a string
+--         local content = file:read '*a'
+--         file:close()
+--         local content = content:gsub('%s*//.-\n', '\n') -- https://www.lua.org/pil/20.2.html for lua patterns
+--         -- print(content)
+--         local status_ok, table1 = pcall(vim.json.decode, content)
+--         if not status_ok then
+--             vim.schedule(function()
+--                 print '.vscode/settings.json parse failed, check it.'
+--             end)
+--             return
+--         end
+--         -- local table1 = vim.fn.json_decode(content)
+--         local status_ok, vscode_pythonpath = pcall(function()
+--             return table1['terminal.integrated.env.linux'].PYTHONPATH
+--         end)
+--         if status_ok then
+--             vim.g.vscode_pythonpath = vscode_pythonpath
+--             -- vim.schedule(function()
+--             --     print(vim.g.vscode_pythonpath)
+--             -- end)
+--         end
+--         local status_ok, extraPath = pcall(function()
+--             return table1['python.analysis.extraPaths']
+--         end)
+--         if status_ok then
+--             vim.g.Pyright_analysis_pathv = extraPath
+--             vim.schedule(function()
+--                 print 'vscode settings for pyright loaded successfuly'
+--             end)
+--             return vim.g.Pyright_analysis_path
+--         end
+--     end
+-- end
+--
+-- local function set_python_path(path)
+--     local clients = vim.lsp.get_clients {
+--         bufnr = vim.api.nvim_get_current_buf(),
+--         name = 'pyright',
+--     }
+--     for _, client in ipairs(clients) do
+--         if client.settings then
+--             client.settings.python = vim.tbl_deep_extend('force', client.settings.python, { pythonPath = path })
+--         else
+--             client.config.settings = vim.tbl_deep_extend('force', client.config.settings,
+--                 { python = { pythonPath = path } })
+--         end
+--         client:notify('workspace/didChangeConfiguration', { settings = nil })
+--     end
+-- end
+--
+-- ---@type vim.lsp.Config
+-- return {
+--     cmd = { 'pyright-langserver', '--stdio' },
+--     filetypes = { 'python' },
+--     root_markers = {
+--         'pyproject.toml',
+--         'setup.py',
+--         'setup.cfg',
+--         'requirements.txt',
+--         'Pipfile',
+--         'pyrightconfig.json',
+--         '.git',
+--     },
+--     settings = {
+--         python = {
+--             analysis = {
+--                 -- ignore = { '*' }, -- ignore all for ruff to show lint infos
+--                 extraPaths = get_vscode_python_path(),
+--                 typeCheckingMode = "off",
+--                 autoSearchPaths = true,
+--                 useLibraryCodeForTypes = true,
+--                 diagnosticMode = 'openFilesOnly',
+--             },
+--         },
+--     },
+--     on_attach = function(client, bufnr)
+--         -- vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightOrganizeImports', function()
+--         --     client:exec_cmd({
+--         --         command = 'pyright.organizeimports',
+--         --         arguments = { vim.uri_from_bufnr(bufnr) },
+--         --     })
+--         -- end, {
+--         --     desc = 'Organize Imports',
+--         -- })
+--         -- vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightSetPythonPath', set_python_path, {
+--         --     desc = 'Reconfigure pyright with the provided python path',
+--         --     nargs = 1,
+--         --     complete = 'file',
+--         -- })
+--
+--
+--         if (vim.g.vscode_pythonpath ~= nil and vim.g.vscode_pythonpath_done == nil) then
+--             vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. vim.g.vscode_pythonpath
+--             vim.g.vscode_pythonpath_done = 1
+--         end
+--         vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightOrganizeImports', function()
+--             vim.lsp.buf.code_action({
+--                 context = { only = { 'source.organizeImports' } },
+--                 apply = true,
+--             })
+--         end, {
+--             desc = 'Organize Imports',
+--         })
+--         vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightSetPythonPath', set_python_path, {
+--             desc = 'Reconfigure pyright with the provided python path',
+--             nargs = 1,
+--             complete = 'file',
+--         })
+--     end,
+-- }

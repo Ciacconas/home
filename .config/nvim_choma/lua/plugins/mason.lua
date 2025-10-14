@@ -4,7 +4,7 @@ return {
     opts = {
         ensure_installed = {
             'lua_ls',
-            'pyright',
+            -- 'pyright',
         },
         -- automatic_enable = {
         --     'lua_ls',
