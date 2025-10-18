@@ -5,31 +5,15 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-require("config.colors")
-require("config.icons")
-require("config.options")
-require("config.variables")
-require("config.autocmds")
-require("plugins")
-require("config.which_key_defaults")
-require("config.keymaps")
+-- config options
+require 'config.options'
+require 'config.variables'
 
-vim.cmd([[source ~/.config/nvim/vim/commands.vim ]])
-vim.cmd([[source ~/.config/nvim/vim/keymaps.vim ]])
-vim.cmd([[source ~/.config/nvim/vim/neovim.vim ]])
-vim.cmd([[source ~/.config/nvim/vim/python.vim ]])
-vim.cmd([[source ~/.config/nvim/vim/rust.vim ]])
-vim.cmd([[source ~/.config/nvim/vim/yaml.vim ]])
-vim.cmd([[source ~/.config/nvim/vim/vimwiki.vim ]])
-vim.cmd([[source ~/.config/nvim/vim/latex.vim ]])
+-- Set to true if you have a Nerd Font installed
+vim.g.have_nerd_font = true
 
-vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = "LspAttach_inlayhints",
-	callback = function(args)
-		if not (args.data and args.data.client_id) then
-			return
-		end
+-- [[ Setting options ]]
+-- See `:help vim.opt`
 
 -- Make line numbers default
 vim.opt.number = true

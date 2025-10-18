@@ -122,7 +122,7 @@ return {
       Telescope = "",
       Text = "",
       Tree = "",
-      Triangle = "󰔶",
+      Triangle = "契",
       TriangleShortArrowDown = "",
       TriangleShortArrowLeft = "",
       TriangleShortArrowRight = "",
@@ -152,4 +152,4 @@ return {
       CircuitBoard = "",
     },
   }
-
+  
