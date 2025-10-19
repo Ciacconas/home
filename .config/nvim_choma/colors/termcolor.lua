@@ -23,6 +23,13 @@ vim.g.colors_name = 'termcolor'
 -- " Use the 'cterm' argument to make certain highlight groups appear in italic
 -- " (if your terminal and font support it), bold, reverse, underlined, etc.
 -- " See ':help attr-list' for possible options.
+-- Useful help pages
+-- :help termguicolors
+-- :help highlight
+-- :help highlight-default
+-- :help syntax
+-- :help treesitter-highlight-groups
+
 
 
 vim.api.nvim_set_hl(0, 'NonText', { ctermfg = 0 })

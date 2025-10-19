@@ -11,7 +11,6 @@
 if [ -f "$HOME/.local/share/bob/nightly/bin/nvim" ]; then
     vim="$HOME/.local/share/bob/nightly/bin/nvim";
 else
-    echo "using system nvim. Please consider using 'bob' to install nightly nvim!" >&2;
     vim="/usr/bin/nvim";
 fi
 
@@ -22,7 +21,7 @@ if [ ! "$2" ]; then
         if exe="$(which "$1" 2> /dev/null)"; then
             if [ -f "$exe" ]; then
                 echo "$exe"
-                XDG_CONFIG_HOME="$HOME/.config/nvim_choma/" $vim "$exe"
+		NVIM_APPNAME=nvim_choma $vim "$exe"
                 exit 0
             fi
         fi
@@ -31,4 +30,4 @@ if [ ! "$2" ]; then
 fi
 
 # all other cases, just open neovim with all the arguments supplied.
-XDG_CONFIG_HOME="$HOME/.config/nvim_choma" $vim "$@"
+NVIM_APPNAME=nvim_choma $vim "$@"

@@ -4,7 +4,7 @@ return {
         "jpalardy/vim-slime",
         ft = { "python" },
         init = function()
-            vim.g.python3_host_prog = '/home/choma/.local/share/guv/base/.venv/bin/python'
+            -- vim.g.python3_host_prog = '/home/choma/.local/share/guv/base/.venv/bin/python' -- we don't need this
             vim.g.slime_no_mappings = 1
             vim.g.slime_target = "neovim"
             vim.g.slime_python_ipython = 1
