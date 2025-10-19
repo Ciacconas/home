@@ -782,7 +782,7 @@ pacman_install conky
 # systemctl_enable lightdm
 ## maybe you just want autologin instead of a display manager:
 #systemctl_create getty-auto-login
-## TUI display manater 
+## TUI display manater
 pacman_install ly
 systemctl_enable ly
 sudo systemctl disable getty@tty2.service
@@ -1115,7 +1115,7 @@ pacman_install awesome-terminal-fonts
 #yay_install nerd-fonts-hack
 pacman_install ttf-hack-nerd
 ## Joypixels color emojis:
-pacman_install ttf-joypixels
+yay_install ttf-joypixels
 ## google color emojis (blocked by my fontconfig):
 #pacman_install noto-fonts-emoji
 ## black and white emojis and symbols (blocked by my fontconfig):
