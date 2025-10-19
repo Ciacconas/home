@@ -361,6 +361,7 @@ pacman_enable_multilib(){
 
 pacman_install make
 pacman_install cmake
+pacman_install linux-headers
 
 
 # Git
@@ -372,8 +373,8 @@ pacman_install github-cli
 git config pull.rebase false
 git config push.default simple
 git config advice.addIgnoredFile false
-git submodule update --init --recursive
-
+## this is handled by chezmoi
+# git submodule update --init --recursive
 
 # Alternative package managers
 #-------------------------------------------------------------------------------
@@ -382,9 +383,460 @@ git submodule update --init --recursive
 git_install https://aur.archlinux.org/yay.git
 ## npm (node package manager)
 pacman_install npm
-#pip (python package manager)
-#pacman_install python-pip
-#pacman_install python2-pip
+
+
+## DWM component
+#-------------------------------------------------------------------------------
+# X component
+#--------------------------
+
+## install everything from xorg:
+#pacman_install xorg
+## install just the graphical server
+pacman_install xorg-server
+## install the xorg server development packages
+#pacman_install xorg-server-devel
+## initializing (for starting the window manager without display manager)
+pacman_install xorg-xinit
+## querying window information
+pacman_install xorg-xwininfo
+## tool for detecting window properties
+pacman_install xorg-xprop
+## copying and pasting from the terminal
+pacman_install xclip
+## tool for showing x event names
+pacman_install xorg-xev
+## get info on current active windows
+pacman_install xorg-xdpyinfo
+## virtual x server
+pacman_install xorg-server-xvfb
+## hide an inactive mouse
+pacman_install unclutter
+## dependency for my st fork to find urls in terminal:
+yay_install xurls
+## remap escape key:
+#yay_install xcape-git
+## emulate mouse clicks and keyboard presses
+pacman_install xdotool
+## disable mouse acceleration
+pacman_install xorg-xinput
+## emulate mouse clicks and more from within python
+yay_install python-pyautogui
+## xsettingsd: immediately apply changes in GTK theme
+pacman_install xsettingsd
+## server access control for x
+pacman_install xorg-xhost
+## colorful emoji on st build
+pacman_install libxft
+## screen settings: arandr (xrandr included)
+pacman_install arandr
+## better compositor:
+pacman_install picom
+
+## special libinput fork to enable three finger dragging
+#yay_install libinput-three-finger-drag
+## enable tap-to-click on some touchpads (probably a manual install works better):
+# grep 'Option "Tapping" "on"' /usr/share/X11/xorg.conf.d/40-libinput.conf &> /dev/null || echo $password | sudo -S sed -i 's|^\([^M]*\)\(MatchIsTouchpad.*\)|\1\2\n\1Option "Tapping" "on"|g' /usr/share/X11/xorg.conf.d/40-libinput.conf
+
+## sharing and viewing x-sessions on other computers
+#pacman_install x11vnc
+## create x11vnc systemd service:
+#systemctl_create x11vnc
+## view x11vnc session (executable: gvncviewer)
+#pacman_install gtk-vnc
+## view x11vnc session (executable: vncviewer) <-- better framerate
+pacman_install tigervnc
+## view x11vnc and realvnc sessions (executable: vncviewer)
+#yay_install realvnc-vnc-viewer
+
+
+## Dell displaylink drivers:
+#yay_install evdi-git
+#yay_install evdi
+#yay_install displaylink
+#yay_install displaylink-beta
+#systemctl_enable displaylink
+#printf "Section \"OutputClass\"\n  Identifier \"DisplayLink\"\n  MatchDriver \"evdi\"\n  Driver \"modesetting\"\n  Option \"AccelMethod\" \"none\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/20-evdidevice.conf > /dev/null 2>> "$ERR"
+#printf "Section \"Device\"\n  Identifier \"DisplayLink\"\n  Driver \"modesetting\"\n  Option \"PageFlip\" \"false\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/21-displaylink.conf > /dev/null 2>> "$ERR"
+#yay_install rsyslog
+#printf ":msg,contains,"drm_wait_vblank" /var/log/displaylink.err\n&stop" | sudo tee /etc/rsyslog.d/30-displaylink.conf > /dev/null 2>> "$ERR"
+#systemctl_enable rsyslog
+
+
+
+# Desktop notifications
+#--------------------------
+## libnotify allows desktop notifications
+pacman_install libnotify
+## dunst creates desktop notifications
+pacman_install dunst
+
+# Desktop Environment / Window Manager
+#--------------------------
+
+## i3lock: screen lock for i3 and other window managers like in this case dwm.
+pacman_install i3lock
+## xsetroot: for status bar in dwm
+pacman_install xorg-xsetroot
+## sxhkd: keyboard shortcuts daemon
+pacman_install sxhkd
+## light: CLI utility to change backlight value of laptops
+pacman_install light
+## allow only users in video group to make changes to backlight
+groupadd video >> "$LOG" 2>> "$ERR"
+echo $password | sudo -S usermod -a -G video $USER
+echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" | sudo tee /etc/udev/rules.d/backlight.rules > /dev/null 2>> "$ERR"
+echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" | sudo tee -a /etc/udev/rules.d/backlight.rules > /dev/null 2>> "$ERR"
+## xautolock to automatically lock the screen
+pacman_install xautolock
+## wallpapers
+pacman_install feh
+## moving wallpapers
+#git clone https://github.com/glouw/paperview /tmp/paperview >"$LOG" 2>"$ERR"; cd /tmp/paperview >"$LOG" 2>"$ERR"; make >"$LOG" 2>"$ERR"; mv paperview ~/.local/bin >"$LOG" 2>"$ERR"; mv scenes ~/.local/share >"$LOG" 2>"$ERR"; cd ~; rm -rf /tmp/paperview
+## dependency for moving wallpapers
+#pacman_install sdl2
+## rofi (dmenu alternative)
+#pacman_install rofi
+## albert (dmenu alternative)
+#pacman_install albert
+## xmenu (application launcher)
+#yay_install xmenu
+## conky: a system monitor
+# pacman_install conky
+# ## display manager
+# pacman_install lightdm
+# ##pacman_install lightdm-gtk-greeter
+# ##yay_install lightdm-slick-greeter
+# yay_install lightdm-mini-greeter
+# echo $password | sudo -S mkdir -p /usr/share/xsessions
+# echo $password | sudo -S cp -f $HOME/.local/share/applications/dwm.desktop /usr/share/xsessions/
+# echo $password | sudo -S sed -i "s/\(#\)\?.*greeter-session.*=.*/greeter-session=lightdm-mini-greeter/g" /etc/lightdm/lightdm.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/\(#\)\?.*user-session.*=.*/user-session=dwm/g" /etc/lightdm/lightdm.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/^user.*=.*/user = $USER/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/^show-password-label.*=.*/show-password-label = false/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/^password-label-text.*=.*/password-label-text = $USER:/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s|^background-image.*=.*|background-image=\"$HOME/.cache/current-wallpaper\"|g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/F92672/2AA198/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# systemctl_enable lightdm
+## maybe you just want autologin instead of a display manager:
+#systemctl_create getty-auto-login
+## TUI display manater 
+pacman_install ly
+systemctl_enable ly
+sudo systemctl disable getty@tty2.service
+
+## remote desktop with vnc support
+pacman_install remmina
+pacman_install libvncserver
+## add windows remote desktop protocol to remmina
+pacman_install freerdp
+yay_install remmina-plugin-rdesktop
+## barrier: seemless mouse and keyboard sharing between computers (takes a while to build)
+# pacman_install barrier
+# pacman_install barrier-headless
+
+# Resources
+#-------------------------------------------------------------------------------
+
+## a collection of very nice wallpapers:
+if [ ! -d "$HOME/.local/share/wallpapers" ]; then
+    echo "cloning a full repo of very nice wallpapers..."
+    git clone https://gitlab.com/dwt1/wallpapers $HOME/.local/share/wallpapers >> "$LOG" 2>> "$ERR"
+fi
+
+
+# Personal builds and forks  (placed at the end so all dependencies are installed)
+#-------------------------------------------------------------------------------
+
+## my dwm fork [window manager]
+submodule_install dwm
+## my dmenu fork [application launcher]
+submodule_install dmenu
+## my st fork [terminal]
+submodule_install st
+## my scroll fork [scroll] (implements scrollback in st)
+submodule_install scroll
+
+
+## Wayland desktop
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+## TODO!
+
+
+## X11/Wayland agnostic components
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+# Hardware acceleration
+#-------------------------------------------------------------------------------
+##
+pacman_install mesa
+pacman_install lib32-mesa
+pacman_install vulkan-radeon
+pacman_install lib32-vulkan-radeon
+## general settings:
+pacman_install libva-utils
+pacman_install gstreamer-vaapi
+pacman_install vdpauinfo
+# pacman_install intel-gpu-tools
+
+# xf86-video-amdgpu offers some additional features for X11. Namely scaling functions or TearFree,
+pacman_install xf86-video-amdgpu
+
+
+# Themes
+#-------------------------------------------------------------------------------
+
+## gtk3
+pacman_install gtk3
+## gtk4
+pacman_install gtk4
+
+## adwaita [inkscape dependency]
+pacman_install gnome-themes-standard
+## murrine theme [inkscape dependency]
+pacman_install gtk-engine-murrine
+## adapta theme
+pacman_install adapta-gtk-theme
+## arc theme
+yay_install arc-gtk-theme
+# ## dark gruvbox-inspired arc theme (default theme for now)
+# yay_install gtk-theme-arc-gruvbox-git
+## dark nord-inspired color theme
+yay_install nordic-theme-git
+## light nord-inspired color theme
+#yay_install nordic-polar-theme-git
+## lxappearance: tool to choose gtk themes
+pacman_install lxappearance
+## gtk look-and-feel for qt (comes with kvantummanager = lxappearance for qt apps):
+pacman_install kvantum
+## needed to enable kvantum:
+pacman_install qt5ct
+pacman_install qt6ct
+## nord color theme for kvantum:
+yay_install kvantum-theme-nordic-git
+## manjaro cursor theme
+#yay_install xcursor-menda-git
+#yay_install xcursor-maia-git
+## red-had cursor theme
+#pacman_install xcursor-bluecurve
+## comix cursor theme
+#pacman_install xcursor-comix
+## flatbed cursor theme
+#pacman_install xcursor-flatbed
+## neutral cursor theme
+#pacman_install xcursor-neutral
+## simple and soft cursor theme
+#yay_install xcursor-simpleandsoft
+#pacman_install xcursor-themes
+yay_install xcursor-breeze
+echo $password | sudo -S rm -rf /usr/share/icons/default
+echo $password | sudo -S ln -sf /usr/share/icons/Breeze /usr/share/icons/default
+
+# Connectivity and network
+#-------------------------------------------------------------------------------
+## network manager
+pacman_install networkmanager
+systemctl_enable NetworkManager
+## use cloudflare DNS servers:
+# printf "[global-dns-domain-*]\nservers=1.1.1.1,1.0.0.1" | sudo tee /etc/NetworkManager/conf.d/dns-servers.conf > /dev/null 2>> "$ERR"
+## create network group (this might fail if the group exists already, but who cares.)
+groupadd network >> "$LOG" 2>> "$ERR"
+## create policy kit rule (everyone in network group can connect to / change networks)
+printf "polkit.addRule(function(action, subject) {\n  if (action.id.indexOf(\"org.freedesktop.NetworkManager.\") == 0 && subject.isInGroup(\"network\")) {\n    return polkit.Result.YES;\n  }\n});" | sudo tee /etc/polkit-1/rules.d/50-org.freedesktop.NetworkManager.rules > /dev/null 2>> "$ERR"
+## add current user to network group
+echo $password | sudo -S usermod -a -G network $USER
+## applet in the corner of the screen
+pacman_install network-manager-applet
+## kvm switch on x11
+pacman_install input-leap
+## wireguard ecrypted vpn tunnel
+pacman_install wireguard-tools
+## dns utils bind
+pacman_install bind
+## traceroute
+pacman_install traceroute
+## tcptraceroute
+yay_install tcptraceroute
+## nmap network scan
+pacman_install nmap
+## dns utils
+pacman_install dnsmasq
+## vpn: openconnect (cisco anyconnect)
+pacman_install openconnect
+## vpn: openvpn
+pacman_install openvpn
+## openvpn plugin for networkmanager
+pacman_install networkmanager-openvpn
+## openvpn service that can be run in the background
+systemctl_create openvpn
+#systemctl_enable openvpn
+## ssh (client and server)
+pacman_install openssh
+## ssl
+pacman_install openssl
+## ssl 1.1
+pacman_install openssl-1.1
+## mosh (ssh client for connections with high latency)
+pacman_install mosh
+## allow X-forwarding for sshd:
+echo $password | sudo -S sed -i 's|^.*X11Forwarding.*|X11Forwarding yes|g' /etc/ssh/sshd_config >> "$LOG" 2>> "$ERR"
+systemctl_enable sshd
+## autossh (for ssh daemons)
+pacman_install autossh
+## netcat ssh with socks proxy
+pacman_install openbsd-netcat
+## access to google servers
+#yay_install google-cloud-sdk
+
+# Sound
+#--------------------------
+# ## pulseaudio stack
+# ## alsamixer
+# pacman_install alsa-utils
+# ## other alsa plugins
+# pacman_install alsa-plugins
+# ## pulse audio
+# pacman_install pulseaudio
+# ## pulseaudio control panel
+# pacman_install pavucontrol
+# pacman_install pulseaudio-bluetooth
+
+## pipware stack
+pacman_install pipewire
+pacman_install pipewire-alsa
+pacman_install pipewire-jack
+pacman_install pipewire-pulse
+# pavucontrol works with pipwire-pulse
+pacman_install pavucontrol
+pacman_install wireplumber
+pacman_install gst-plugin-pipewire
+# pacman_install pwvucontrol
+# pacman_install helvum
+# systemctl_enable pipewire? and pipewire-pulse.service? as user unit?
+
+
+# Bluetooth NEEDS installation anyway
+#--------------------------
+pacman_install bluez
+pacman_install bluez-utils
+## enable bluetooth service
+systemctl_enable bluetooth
+## bluetooth manager (run blueman-manager)
+pacman_install blueman # or blueberry?
+
+
+# Fonts
+#-------------------------------------------------------------------------------
+
+# note: I block MANY fonts in ~/.config/fontconfig/conf.d/ I do this to have
+#       better control over which fonts are used on my system.  However, this
+#       means that installing a font might not automatically make it available.
+#       You might need to remove the fontconfig block.
+
+## fontconfig should already be installed, but just to be sure:
+pacman_install fontconfig
+## dejavu font: inkscape dependency (fully blocked by my fontconfig, replaced by Bitstream Vera):
+pacman_install ttf-dejavu
+## bitstream vera: alternative to dejavu (not blocked by my fontconfig, replaces DejaVu):
+pacman_install ttf-bitstream-vera
+## cantarell fonts: gtk3 dependency (fully blocked by my fontconfig):
+pacman_install cantarell-fonts
+## adobe fonts: nemo and other GNOME apps dependency (fully blocked by my fontconfig):
+pacman_install adobe-source-code-pro-fonts
+## liberation fonts: chromium, firefox and mplayer dependency (currently my default fonts):
+pacman_install ttf-liberation
+## ubuntu fonts: a beautiful mono and sans font
+pacman_install ttf-ubuntu-font-family
+## ubuntu mono nerd exchange
+pacman_install ttf-ubuntu-mono-nerd
+## gnu free fonts: optional vlc dependency (partly blocked by my fontconfig):
+#pacman_install gnu-free-fonts
+## gnome core fontset (partly blocked by my fontconfig):
+#pacman_install gsfonts
+## a nice monospace font with ligatures (partly blocked by my fontconfig):
+pacman_install ttf-fira-code
+## a patched fira code font with nerd font glyphs (partly blocked by my fontconfig):
+# yay_install nerd-fonts-fira-code
+## nice serif (Linux Libertine) and sans-serif (Linux Biolinum) fonts (not blocked by my fontconfig):
+ pacman_install ttf-linux-libertine
+## recommended font package for compatibility with MS Office (fully blocked and partly aliased by my fontconfig):
+#yay_install ttf-ms-fonts
+## recommended font package for compatibility with MS Office (fully blocked and partly aliased by my fontconfig):
+#yay_install ttf-vista-fonts
+## carlito: free font alternative to calibri
+pacman_install ttf-carlito
+## caladea: free font alternative to cambria
+#pacman_install ttf-caladea
+## alternative nice font package (partly blocked by my fontconfig):
+#pacman_install ttf-droid
+## yet another nice monospace font:
+#yay_install ttf-inconsolata-g
+## Chinese, Japanese, Korean, HK Chinese all in one
+yay_install adobe-source-han-sans-otc-fonts
+yay_install adobe-source-han-serif-otc-fonts
+## adobe simplified chinese fonts (sans):
+# pacman_install adobe-source-han-sans-cn-fonts
+## adobe traditional chinese fonts (sans):
+#pacman_install adobe-source-han-sans-tw-fonts
+## adobe simplified chinese fonts (serif):
+# pacman_install adobe-source-han-serif-cn-fonts
+## adobe traditional chinese fonts (serif):
+#pacman_install adobe-source-han-serif-tw-fonts
+## awesome terminal fonts: nice icons (lsd and dwm [my build] dependency):
+pacman_install awesome-terminal-fonts
+## powerline symbols: essential symbols for powerlines in zsh/bash/vim/...
+#yay_install otf-powerline-symbols-git
+## devicons: more symbols (used in lsd)
+#yay_install ttf-devicons
+## hack nerd fonts: patched font with nice icons (recommended for lsd):
+#yay_install nerd-fonts-hack
+pacman_install ttf-hack-nerd
+## Joypixels color emojis:
+yay_install ttf-joypixels
+## google color emojis (blocked by my fontconfig):
+#pacman_install noto-fonts-emoji
+## black and white emojis and symbols (blocked by my fontconfig):
+#yay_install ttf-symbola
+## twitter black and white emojis (blocked by my fontconfig):
+#yay_install ttf-twemoji
+## twitter color emojis (blocked by my fontconfig):
+#yay_install ttf-twemoji-color
+
+# Drive and file system drivers
+#-------------------------------------------------------------------------------
+
+## mount cifs parititions
+pacman_install cifs-utils
+## mount cifs parititions
+pacman_install nfs-utils
+## dosfstools: support for dos (windows) - like filesystems
+pacman_install dosfstools
+## exfat-utils: access fat-drives
+pacman_install exfat-utils
+## ntfs-3g: access NTFS network drives
+pacman_install ntfs-3g
+## samba shares = network volumes
+pacman_install samba
+## access media on external device (phone, ...)
+pacman_install libmtp
+pacman_install fuse
+pacman_install android-file-transfer # android access
+## access ssh file system
+pacman_install sshfs
+## access mac-formatted drives (HFS+)
+# yay_install hfsprogs
+## testdisk to figure out location HFS+ partition wrapped in 'Apple Core Storage':
+pacman_install testdisk
+## data-at-rest tool: easy-to-use stacked filesystem encryption tool
+pacman_install gocryptfs
+## webdav filesystem (mount Nextcloud as a folder)
+yay_install davfs2
+## recommended settings for davfs2 + Nextcloud
+echo $password | sudo -S sed -i 's/# use_locks.*/use_locks 0/g' /etc/davfs2/davfs2.conf
+## file encryption
+pacman_install age
 
 
 # Terminal: tools and TUIs
@@ -466,7 +918,7 @@ pacman_install poppler
 ## video to thumbnail conversion
 pacman_install ffmpegthumbnailer
 ## change screen brightness
-yay_install light
+# yay_install light
 ## audio thumbnails with ffmpeg (heh?)
 #yay_install ffmpegthumbnailer-mp3
 ## epub thumbnailer
@@ -525,7 +977,7 @@ link /usr/bin/nvim /usr/bin/vi
 ## python host for neovim
 pacman_install python-pynvim
 ## ruby host for neovim
-yay_install ruby-neovim
+# yay_install ruby-neovim
 ## node-neovim: better integration of nodejs with neovim:
 npm_install neovim
 ## neovim-remote: some of my nvim scripts depend on it
@@ -618,183 +1070,15 @@ pacman_install docker-buildx
 systemctl_enable docker
 
 
-# Drive and file system drivers
-#-------------------------------------------------------------------------------
-
-## mount cifs parititions
-pacman_install cifs-utils
-## mount cifs parititions
-pacman_install nfs-utils
-## dosfstools: support for dos (windows) - like filesystems
-pacman_install dosfstools
-## exfat-utils: access fat-drives
-pacman_install exfat-utils
-## ntfs-3g: access NTFS network drives
-pacman_install ntfs-3g
-## samba shares = network volumes
-pacman_install samba
-## access media on external device (phone, ...)
-pacman_install libmtp
-pacman_install fuse
-pacman_install android-file-transfer # android access
-## access ssh file system
-pacman_install sshfs
-## access mac-formatted drives (HFS+)
-# yay_install hfsprogs
-## testdisk to figure out location HFS+ partition wrapped in 'Apple Core Storage':
-pacman_install testdisk
-## data-at-rest tool: easy-to-use stacked filesystem encryption tool
-pacman_install gocryptfs
-## webdav filesystem (mount Nextcloud as a folder)
-yay_install davfs2
-## recommended settings for davfs2 + Nextcloud
-echo $password | sudo -S sed -i 's/# use_locks.*/use_locks 0/g' /etc/davfs2/davfs2.conf
-## file encryption
-pacman_install age
 
 
-# Graphical desktop server: xorg
-#-------------------------------------------------------------------------------
-
-## install everything from xorg:
-#pacman_install xorg
-## install just the graphical server
-pacman_install xorg-server
-## install the xorg server development packages
-#pacman_install xorg-server-devel
-## initializing (for starting the window manager without display manager)
-pacman_install xorg-xinit
-## querying window information
-#pacman_install xorg-xwininfo
-## tool for detecting window properties
-pacman_install xorg-xprop
-## copying and pasting from the terminal
-pacman_install xclip
-## tool for showing x event names
-pacman_install xorg-xev
-## get info on current active windows
-#pacman_install xorg-xdpyinfo
-## special libinput fork to enable three finger dragging
-#yay_install libinput-three-finger-drag
-## enable tap-to-click on some touchpads (probably a manual install works better):
-# grep 'Option "Tapping" "on"' /usr/share/X11/xorg.conf.d/40-libinput.conf &> /dev/null || echo $password | sudo -S sed -i 's|^\([^M]*\)\(MatchIsTouchpad.*\)|\1\2\n\1Option "Tapping" "on"|g' /usr/share/X11/xorg.conf.d/40-libinput.conf
-## virtual x server
-pacman_install xorg-server-xvfb
-## hide an inactive mouse
-pacman_install unclutter
-## dependency for my st fork to find urls in terminal:
-yay_install xurls
-## remap escape key:
-#yay_install xcape-git
-## emulate mouse clicks and keyboard presses
-pacman_install xdotool
-## disable mouse acceleration
-pacman_install xorg-xinput
-## emulate mouse clicks and more from within python
-yay_install python-pyautogui
-## xsettingsd: immediately apply changes in GTK theme
-pacman_install xsettingsd
-## server access control for x
-pacman_install xorg-xhost
-## sharing and viewing x-sessions on other computers
-#pacman_install x11vnc
-## create x11vnc systemd service:
-#systemctl_create x11vnc
-## view x11vnc session (executable: gvncviewer)
-#pacman_install gtk-vnc
-## view x11vnc session (executable: vncviewer) <-- better framerate
-pacman_install tigervnc
-## view x11vnc and realvnc sessions (executable: vncviewer)
-#yay_install realvnc-vnc-viewer
-## compositor (for transparent windows, blur, ...)
-#pacman_install xcompmgr
-## better compositor:
-pacman_install picom
-## bleeding edge version of picom:
-yay_install picom-git
-
-## libxft-bgra; alternative to libxft, helper library for color emojis in my st build:
-## the reason it is installed this way is because this library replaces libxft
-## requiring you to answer yes on a [y/N] question...
-# pacman -Q libxft-bgra-git &> /dev/null || yes | LC_ALL=en_US.UTF-8 yay -S -q libxft-bgra-git >> "$LOG" 2>> "$ERR"
-pacman_install libxft
-
-## Dell displaylink drivers:
-pacman_install linux-headers
-#yay_install evdi-git
-#yay_install evdi
-#yay_install displaylink
-#yay_install displaylink-beta
-#systemctl_enable displaylink
-#printf "Section \"OutputClass\"\n  Identifier \"DisplayLink\"\n  MatchDriver \"evdi\"\n  Driver \"modesetting\"\n  Option \"AccelMethod\" \"none\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/20-evdidevice.conf > /dev/null 2>> "$ERR"
-#printf "Section \"Device\"\n  Identifier \"DisplayLink\"\n  Driver \"modesetting\"\n  Option \"PageFlip\" \"false\"\nEndSection" | sudo tee /usr/share/X11/xorg.conf.d/21-displaylink.conf > /dev/null 2>> "$ERR"
-#yay_install rsyslog
-#printf ":msg,contains,"drm_wait_vblank" /var/log/displaylink.err\n&stop" | sudo tee /etc/rsyslog.d/30-displaylink.conf > /dev/null 2>> "$ERR"
-#systemctl_enable rsyslog
 
 
-# Desktop Environment / Window Manager
-#-------------------------------------------------------------------------------
-
-## i3lock: screen lock for i3 and other window managers like in this case dwm.
-pacman_install i3lock
-## xsetroot: for status bar in dwm
-pacman_install xorg-xsetroot
-## sxhkd: keyboard shortcuts daemon
-pacman_install sxhkd
-## light: CLI utility to change backlight value of laptops
-pacman_install light
-## allow only users in video group to make changes to backlight
-groupadd video >> "$LOG" 2>> "$ERR"
-echo $password | sudo -S usermod -a -G video $USER
-echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" | sudo tee /etc/udev/rules.d/backlight.rules > /dev/null 2>> "$ERR"
-echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" | sudo tee -a /etc/udev/rules.d/backlight.rules > /dev/null 2>> "$ERR"
-## xautolock to automatically lock the screen
-pacman_install xautolock
-## wallpapers
-pacman_install feh
-## moving wallpapers
-#git clone https://github.com/glouw/paperview /tmp/paperview >"$LOG" 2>"$ERR"; cd /tmp/paperview >"$LOG" 2>"$ERR"; make >"$LOG" 2>"$ERR"; mv paperview ~/.local/bin >"$LOG" 2>"$ERR"; mv scenes ~/.local/share >"$LOG" 2>"$ERR"; cd ~; rm -rf /tmp/paperview
-## dependency for moving wallpapers
-#pacman_install sdl2
-## rofi (dmenu alternative)
-#pacman_install rofi
-## albert (dmenu alternative)
-#pacman_install albert
-## xmenu (application launcher)
-#yay_install xmenu
-## conky: a system monitor
-pacman_install conky
-# ## display manager
-# pacman_install lightdm
-# ##pacman_install lightdm-gtk-greeter
-# ##yay_install lightdm-slick-greeter
-# yay_install lightdm-mini-greeter
-# echo $password | sudo -S mkdir -p /usr/share/xsessions
-# echo $password | sudo -S cp -f $HOME/.local/share/applications/dwm.desktop /usr/share/xsessions/
-# echo $password | sudo -S sed -i "s/\(#\)\?.*greeter-session.*=.*/greeter-session=lightdm-mini-greeter/g" /etc/lightdm/lightdm.conf >> "$LOG" 2>> "$ERR"
-# echo $password | sudo -S sed -i "s/\(#\)\?.*user-session.*=.*/user-session=dwm/g" /etc/lightdm/lightdm.conf >> "$LOG" 2>> "$ERR"
-# echo $password | sudo -S sed -i "s/^user.*=.*/user = $USER/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-# echo $password | sudo -S sed -i "s/^show-password-label.*=.*/show-password-label = false/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-# echo $password | sudo -S sed -i "s/^password-label-text.*=.*/password-label-text = $USER:/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-# echo $password | sudo -S sed -i "s|^background-image.*=.*|background-image=\"$HOME/.cache/current-wallpaper\"|g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-# echo $password | sudo -S sed -i "s/F92672/2AA198/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-# systemctl_enable lightdm
-## maybe you just want autologin instead of a display manager:
-#systemctl_create getty-auto-login
-## TUI display manater 
-pacman_install ly
-systemctl_enable ly
-sudo systemctl disable getty@tty2.service
 
 
-# Desktop notifications
-#-------------------------------------------------------------------------------
 
-## libnotify allows desktop notifications
-pacman_install libnotify
-## dunst creates desktop notifications
-pacman_install dunst
+
+
 
 
 # Windows compatibility & gaming
@@ -849,152 +1133,11 @@ pacman_install dunst
 #pacman_install lib32-nvidia-utils
 
 
-# Sound
-#-------------------------------------------------------------------------------
-
-## pulseaudio stack
-## alsamixer
-pacman_install alsa-utils
-## other alsa plugins
-pacman_install alsa-plugins
-## pulse audio
-pacman_install pulseaudio
-## pulseaudio control panel
-pacman_install pavucontrol
-pacman_install pulseaudio-bluetooth
-## bluetooth manager (run blueman-manager)
-pacman_install blueman # or blueberry?
 
 
 
-## pipware stack
-pacman_install pipewire
-pacman_install pipewire-alsa
-pacman_install pipewire-jack
-pacman_install pipewire-pulse
-# pavucontrol works with pipwire-pulse
-pacman_install pavucontrol
-pacman_install wireplumber
-pacman_install gst-plugin-pipewire
-
-# pacman_install pwvucontrol
-# pacman_install helvum
-# systemctl_enable pipewire? and pipewire-pulse.service? as user unit?
-
-## bluetooth
-pacman_install bluez
-pacman_install bluez-utils
-## enable bluetooth service
-systemctl_enable bluetooth
-
-# Connectivity and network
-#-------------------------------------------------------------------------------
-
-## network manager
-pacman_install networkmanager
-systemctl_enable NetworkManager
-## use cloudflare DNS servers:
-# printf "[global-dns-domain-*]\nservers=1.1.1.1,1.0.0.1" | sudo tee /etc/NetworkManager/conf.d/dns-servers.conf > /dev/null 2>> "$ERR"
-## create network group (this might fail if the group exists already, but who cares.)
-groupadd network >> "$LOG" 2>> "$ERR"
-## create policy kit rule (everyone in network group can connect to / change networks)
-printf "polkit.addRule(function(action, subject) {\n  if (action.id.indexOf(\"org.freedesktop.NetworkManager.\") == 0 && subject.isInGroup(\"network\")) {\n    return polkit.Result.YES;\n  }\n});" | sudo tee /etc/polkit-1/rules.d/50-org.freedesktop.NetworkManager.rules > /dev/null 2>> "$ERR"
-## add current user to network group
-echo $password | sudo -S usermod -a -G network $USER
-## applet in the corner of the screen
-pacman_install network-manager-applet
-## vpn: openconnect (cisco anyconnect)
-pacman_install openconnect
-## vpn: openvpn
-pacman_install openvpn
-## openvpn plugin for networkmanager
-pacman_install networkmanager-openvpn
-## openvpn service that can be run in the background
-systemctl_create openvpn
-#systemctl_enable openvpn
-## ssh (client and server)
-pacman_install openssh
-## ssl
-pacman_install openssl
-## ssl 1.1
-pacman_install openssl-1.1
-## mosh (ssh client for connections with high latency)
-pacman_install mosh
-## allow X-forwarding for sshd:
-echo $password | sudo -S sed -i 's|^.*X11Forwarding.*|X11Forwarding yes|g' /etc/ssh/sshd_config >> "$LOG" 2>> "$ERR"
-systemctl_enable sshd
-## autossh (for ssh daemons)
-pacman_install autossh
-## netcat ssh with socks proxy
-pacman_install openbsd-netcat
-## access to google servers
-#yay_install google-cloud-sdk
-
-## remote desktop with vnc support
-pacman_install remmina
-pacman_install libvncserver
-## add windows remote desktop protocol to remmina
-pacman_install freerdp
-yay_install remmina-plugin-rdesktop
-## barrier: seemless mouse and keyboard sharing between computers (takes a while to build)
-pacman_install barrier
-pacman_install barrier-headless
-## wireguard ecrypted vpn tunnel
-pacman_install wireguard-tools
-## dns utils bind
-pacman_install bind
-## traceroute
-pacman_install traceroute
-## tcptraceroute
-yay_install tcptraceroute
-## nmap network scan
-pacman_install nmap
 
 
-# Themes
-#-------------------------------------------------------------------------------
-
-## gtk3
-pacman_install gtk3
-## adwaita [inkscape dependency]
-pacman_install gnome-themes-standard
-## murrine theme [inkscape dependency]
-pacman_install gtk-engine-murrine
-## adapta theme
-pacman_install adapta-gtk-theme
-## arc theme
-pacman_install arc-gtk-theme
-## dark gruvbox-inspired arc theme (default theme for now)
-yay_install gtk-theme-arc-gruvbox-git
-## dark nord-inspired color theme
-yay_install nordic-theme-git
-## light nord-inspired color theme
-#yay_install nordic-polar-theme-git
-## lxappearance: tool to choose gtk themes
-pacman_install lxappearance
-## gtk look-and-feel for qt (comes with kvantummanager = lxappearance for qt apps):
-pacman_install kvantum-qt5
-## needed to enable kvantum:
-pacman_install qt5ct
-## nord color theme for kvantum:
-yay_install kvantum-theme-nordic-git
-## manjaro cursor theme
-#yay_install xcursor-menda-git
-#yay_install xcursor-maia-git
-## red-had cursor theme
-#pacman_install xcursor-bluecurve
-## comix cursor theme
-#pacman_install xcursor-comix
-## flatbed cursor theme
-#pacman_install xcursor-flatbed
-## neutral cursor theme
-#pacman_install xcursor-neutral
-## simple and soft cursor theme
-#yay_install xcursor-simpleandsoft
-#pacman_install xcursor-themes
-yay_install xcursor-breeze
-echo $password | sudo -S rm -rf /usr/share/icons/default
-echo $password | sudo -S ln -sf /usr/share/icons/Breeze /usr/share/icons/default
 
 
 # Web and web interfaces
@@ -1050,80 +1193,7 @@ pacman_install cups-pdf
 systemctl_enable cups
 
 
-# Fonts
-#-------------------------------------------------------------------------------
 
-# note: I block MANY fonts in ~/.config/fontconfig/conf.d/ I do this to have
-#       better control over which fonts are used on my system.  However, this
-#       means that installing a font might not automatically make it available.
-#       You might need to remove the fontconfig block.
-
-## fontconfig should already be installed, but just to be sure:
-pacman_install fontconfig
-## dejavu font: inkscape dependency (fully blocked by my fontconfig, replaced by Bitstream Vera):
-pacman_install ttf-dejavu
-## bitstream vera: alternative to dejavu (not blocked by my fontconfig, replaces DejaVu):
-pacman_install ttf-bitstream-vera
-## cantarell fonts: gtk3 dependency (fully blocked by my fontconfig):
-pacman_install cantarell-fonts
-## adobe fonts: nemo and other GNOME apps dependency (fully blocked by my fontconfig):
-pacman_install adobe-source-code-pro-fonts
-## liberation fonts: chromium, firefox and mplayer dependency (currently my default fonts):
-pacman_install ttf-liberation
-## ubuntu fonts: a beautiful mono and sans font
-pacman_install ttf-ubuntu-font-family
-## gnu free fonts: optional vlc dependency (partly blocked by my fontconfig):
-#pacman_install gnu-free-fonts
-## gnome core fontset (partly blocked by my fontconfig):
-#pacman_install gsfonts
-## a nice monospace font with ligatures (partly blocked by my fontconfig):
-pacman_install ttf-fira-code
-## a patched fira code font with nerd font glyphs (partly blocked by my fontconfig):
-# yay_install nerd-fonts-fira-code
-## nice serif (Linux Libertine) and sans-serif (Linux Biolinum) fonts (not blocked by my fontconfig):
- pacman_install ttf-linux-libertine
-## recommended font package for compatibility with MS Office (fully blocked and partly aliased by my fontconfig):
-#yay_install ttf-ms-fonts
-## recommended font package for compatibility with MS Office (fully blocked and partly aliased by my fontconfig):
-#yay_install ttf-vista-fonts
-## carlito: free font alternative to calibri
-pacman_install ttf-carlito
-## caladea: free font alternative to cambria
-#pacman_install ttf-caladea
-## alternative nice font package (partly blocked by my fontconfig):
-#pacman_install ttf-droid
-## yet another nice monospace font:
-#yay_install ttf-inconsolata-g
-## Chinese, Japanese, Korean, HK Chinese all in one
-yay_install adobe-source-han-sans-otc-fonts
-yay_install adobe-source-han-serif-otc-fonts
-## adobe simplified chinese fonts (sans):
-# pacman_install adobe-source-han-sans-cn-fonts
-## adobe traditional chinese fonts (sans):
-#pacman_install adobe-source-han-sans-tw-fonts
-## adobe simplified chinese fonts (serif):
-# pacman_install adobe-source-han-serif-cn-fonts
-## adobe traditional chinese fonts (serif):
-#pacman_install adobe-source-han-serif-tw-fonts
-## awesome terminal fonts: nice icons (lsd and dwm [my build] dependency):
-pacman_install awesome-terminal-fonts
-## powerline symbols: essential symbols for powerlines in zsh/bash/vim/...
-#yay_install otf-powerline-symbols-git
-## devicons: more symbols (used in lsd)
-#yay_install ttf-devicons
-## hack nerd fonts: patched font with nice icons (recommended for lsd):
-#yay_install nerd-fonts-hack
-pacman_install ttf-hack-nerd
-## Joypixels color emojis:
-pacman_install ttf-joypixels
-## google color emojis (blocked by my fontconfig):
-#pacman_install noto-fonts-emoji
-## black and white emojis and symbols (blocked by my fontconfig):
-#yay_install ttf-symbola
-## twitter black and white emojis (blocked by my fontconfig):
-#yay_install ttf-twemoji
-## twitter color emojis (blocked by my fontconfig):
-#yay_install ttf-twemoji-color
 
 
 # Graphical User Interfaces
@@ -1136,8 +1206,7 @@ gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty
 gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 ## nemo-terminal: show a small terminal window on top of the nemo windo
 #pacman_install nemo-terminal
-## screen settings: arandr (xrandr included)
-pacman_install arandr
+
 ## best pdf reader: general document reader with vim bindings
 pacman_install zathura
 ## pdf reader extension
@@ -1358,8 +1427,8 @@ pacman_install isync
 ## mutt email client
 # pacman_install neomutt
 # link /usr/bin/neomutt /usr/bin/mutt
-## notmuch: email indexing
-pacman_install notmuch
+# ## notmuch: email indexing
+# pacman_install notmuch
 ## html email view (also browser!)
 #pacman_install w3m
 pacman_install lynx
@@ -1371,23 +1440,7 @@ pacman_install lynx
 #pacman_install mb2md
 
 
-# Hardware acceleration
-#-------------------------------------------------------------------------------
 
-## general settings:
-pacman_install libva-utils
-pacman_install gstreamer-vaapi
-pacman_install vdpauinfo
-# pacman_install intel-gpu-tools
-
-##
-pacman_install mesa
-pacman_install lib32-mesa
-pacman_install xf86-video-amdgpu
-pacman_install vulkan-radeon
-pacman_install lib32-vulkan-radeon
-pacman_install libva-mesa-driver
-pacman_install lib32-libva-mesa-driver
 
 
 ## OPTION 0: do nothing
@@ -1435,27 +1488,10 @@ pacman_install lib32-libva-mesa-driver
 #grep VDPAU_DRIVER /etc/environment &> /dev/null || echo "VDPAU_DRIVER=nouveau" | sudo tee -a /etc/environment > /dev/null 2>> "$ERR"
 
 
-# Resources
-#-------------------------------------------------------------------------------
-
-## a collection of very nice wallpapers:
-if [ ! -d "$HOME/.local/share/wallpapers" ]; then
-    echo "cloning a full repo of very nice wallpapers..."
-    git clone https://gitlab.com/dwt1/wallpapers $HOME/.local/share/wallpapers >> "$LOG" 2>> "$ERR"
-fi
 
 
-# Personal builds and forks  (placed at the end so all dependencies are installed)
-#-------------------------------------------------------------------------------
 
-## my dwm fork [window manager]
-submodule_install dwm
-## my dmenu fork [application launcher]
-submodule_install dmenu
-## my st fork [terminal]
-submodule_install st
-## my scroll fork [scroll] (implements scrollback in st)
-submodule_install scroll
+
 
 
 # Python
@@ -1463,8 +1499,6 @@ submodule_install scroll
 
 ## simple guis
 pacman_install tk
-## python style guide checker
-pacman_install yapf
 ## python timezone info
 pacman_install python-pytz
 ## progress bars
@@ -1476,11 +1510,6 @@ pacman_install python-matplotlib
 ## monitor DRM events from udev (used in my custom 'watch_screens' script)
 pacman_install python-pyudev
 ## linters & formatters (recommended for vim)
-pacman_install python-pylint
-pacman_install autopep8
-pacman_install flake8
-pacman_install python-pyflakes
-pacman_install python-isort
 pacman_install python-black
 ## automatic colorscheme generation based on image
 pacman_install python-pywal
@@ -1499,8 +1528,6 @@ pacman_install python-websockets
 ## sockets
 #pacman_install python-websockets
 pacman_install flake8
-## jedi: linting and more
-pacman_install python-jedi
 ## requests (castero dependency)
 pacman_install python-requests
 ## lxml
@@ -1519,8 +1546,7 @@ pacman_install python-lxml
 #yay_install python-pylatexenc
 ## castero: tui podcast client
 #yay_install castero
-## jedi: linting and more (newer version than via pacman)
-pacman_install python-jedi
+
 ## markdown <-> ipynb conversion
 #pip3_install notedown
 ## google cloud apis
@@ -1529,11 +1555,9 @@ pacman_install python-jedi
 #pip3_install google-auth-oauthlib
 ## smdv: simple markdown viewer
 #pip3_install smdv
-## run jupyterlab as a systemd service:
-systemctl_create jupyterhub
+# ## run jupyterlab as a systemd service:
+# systemctl_create jupyterhub
 #systemctl_enable jupyterhub
-## neovim compatibility
-pacman_install python-pynvim
 ## dunk, a better git-diff (pipe git diff into dunk)
 #pip3_install dunk
 
@@ -1558,9 +1582,9 @@ pacman_install usbutils
 pacman_install libfido2
 ## yubiky manager ykman
 pacman_install yubikey-manager
-pacman_install yubikey-manager-qt
+# pacman_install yubikey-manager-qt
 ## zsa keyboard flashing tool
-pacman_install zsa-wally
+# pacman_install zsa-wally
 
 
 
@@ -1633,19 +1657,19 @@ echo $password | chsh -s /usr/bin/zsh >> "$LOG" 2>> "$ERR"
 # sed -i 's|#!/usr/bin/env python|#!/usr/bin/python|' $HOME/.config/autojump/bin/autojump
 # ln -sf $HOME/.config/autojump/bin/autojump $HOME/.local/bin
 
-# ## stderred extension for bash/zsh: show stderr messages in red:
-# rm -rf $HOME/.config/stderred
-# git clone https://github.com/sickill/stderred $HOME/.config/stderred
-# cd $HOME/.config/stderred
-# make
+## stderred extension for bash/zsh: show stderr messages in red:
+rm -rf $HOME/.config/stderred
+git clone https://github.com/sickill/stderred $HOME/.config/stderred
+cd $HOME/.config/stderred
+make
 
-# ## fish-like autosuggestions for zsh:
-# rm -rf $HOME/.config/zsh/zsh-autosuggestions
-# git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.config/zsh/zsh-autosuggestions
+## fish-like autosuggestions for zsh:
+rm -rf $HOME/.config/zsh/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.config/zsh/zsh-autosuggestions
 
-# ## syntax highlighting for zsh:
-# rm -rf $HOME/.config/zsh/zsh-syntax-highlighting
-# git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.config/zsh/zsh-syntax-highlighting
+## syntax highlighting for zsh:
+rm -rf $HOME/.config/zsh/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.config/zsh/zsh-syntax-highlighting
 
 ## zsh package manager (i do not really recommend this):
 #yay_install oh-my-zsh-git
