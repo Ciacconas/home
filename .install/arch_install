@@ -460,8 +460,7 @@ pacman_install tldr
 #pacman_install units
 ## terminal music player: mplayer
 #pacman_install mplayer
-## copying and pasting from the terminal
-pacman_install xclip
+
 ## pdf conversion
 pacman_install poppler
 ## video to thumbnail conversion
@@ -505,15 +504,15 @@ pacman_install neofetch
 ## sockets (needed for custom mpvcontrol script)
 pacman_install socat
 ## torrents: transmission cli
-pacman_install transmission-cli
+# pacman_install transmission-cli
 ## transmission remote cli curses interface:
-yay_install tremc-git
+# yay_install tremc-git
 ## transmission remote cli gtk interface
 #pacman_install transmission-remote-gtk
 ## add current user to the transmission group:
-echo $password | sudo -S usermod -a -G transmission $USER
+# echo $password | sudo -S usermod -a -G transmission $USER
 ## make the system transmission config writable by current user:
-echo $password | sudo -S chmod -R g+rw /var/lib/transmission
+# echo $password | sudo -S chmod -R g+rw /var/lib/transmission
 ## a more beautiful ls command (I have ls remapped to lsd when no arguments given)
 pacman_install lsd
 ## vim / neovim: terminal text editor
@@ -531,9 +530,8 @@ yay_install ruby-neovim
 npm_install neovim
 ## neovim-remote: some of my nvim scripts depend on it
 yay_install neovim-remote
-pacman_install python-pynvim
 ## packer: lua-based package manager for neovim
-yay_install nvim-packer-git
+# yay_install nvim-packer-git
 ## stylua: a lua formatter (like black for python)
 pacman_install stylua
 pacman_install luarocks
@@ -584,11 +582,11 @@ pacman_install composer
 ## newsboat: RSS reader
 #pacman_install newsboat
 ## ueberzug: image overlays in the terminal
-pacman_install ueberzug
+pacman_install ueberzugpp
 ## trans: command line translation engine
 #pacman_install translate-shell
-## whois information
-#pacman_install whois
+# whois information
+pacman_install whois
 ## cronie: cron job daemon
 #pacman_install cronie
 ## (pixelated) terminal image previews
@@ -670,6 +668,8 @@ pacman_install xorg-xinit
 #pacman_install xorg-xwininfo
 ## tool for detecting window properties
 pacman_install xorg-xprop
+## copying and pasting from the terminal
+pacman_install xclip
 ## tool for showing x event names
 pacman_install xorg-xev
 ## get info on current active windows
@@ -716,7 +716,8 @@ yay_install picom-git
 ## libxft-bgra; alternative to libxft, helper library for color emojis in my st build:
 ## the reason it is installed this way is because this library replaces libxft
 ## requiring you to answer yes on a [y/N] question...
-pacman -Q libxft-bgra-git &> /dev/null || yes | LC_ALL=en_US.UTF-8 yay -S -q libxft-bgra-git >> "$LOG" 2>> "$ERR"
+# pacman -Q libxft-bgra-git &> /dev/null || yes | LC_ALL=en_US.UTF-8 yay -S -q libxft-bgra-git >> "$LOG" 2>> "$ERR"
+pacman_install libxft
 
 ## Dell displaylink drivers:
 pacman_install linux-headers
@@ -764,23 +765,27 @@ pacman_install feh
 #yay_install xmenu
 ## conky: a system monitor
 pacman_install conky
-## display manager
-pacman_install lightdm
-##pacman_install lightdm-gtk-greeter
-##yay_install lightdm-slick-greeter
-yay_install lightdm-mini-greeter
-echo $password | sudo -S mkdir -p /usr/share/xsessions
-echo $password | sudo -S cp -f $HOME/.local/share/applications/dwm.desktop /usr/share/xsessions/
-echo $password | sudo -S sed -i "s/\(#\)\?.*greeter-session.*=.*/greeter-session=lightdm-mini-greeter/g" /etc/lightdm/lightdm.conf >> "$LOG" 2>> "$ERR"
-echo $password | sudo -S sed -i "s/\(#\)\?.*user-session.*=.*/user-session=dwm/g" /etc/lightdm/lightdm.conf >> "$LOG" 2>> "$ERR"
-echo $password | sudo -S sed -i "s/^user.*=.*/user = $USER/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-echo $password | sudo -S sed -i "s/^show-password-label.*=.*/show-password-label = false/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-echo $password | sudo -S sed -i "s/^password-label-text.*=.*/password-label-text = $USER:/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-echo $password | sudo -S sed -i "s|^background-image.*=.*|background-image=\"$HOME/.cache/current-wallpaper\"|g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-echo $password | sudo -S sed -i "s/F92672/2AA198/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
-systemctl_enable lightdm
+# ## display manager
+# pacman_install lightdm
+# ##pacman_install lightdm-gtk-greeter
+# ##yay_install lightdm-slick-greeter
+# yay_install lightdm-mini-greeter
+# echo $password | sudo -S mkdir -p /usr/share/xsessions
+# echo $password | sudo -S cp -f $HOME/.local/share/applications/dwm.desktop /usr/share/xsessions/
+# echo $password | sudo -S sed -i "s/\(#\)\?.*greeter-session.*=.*/greeter-session=lightdm-mini-greeter/g" /etc/lightdm/lightdm.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/\(#\)\?.*user-session.*=.*/user-session=dwm/g" /etc/lightdm/lightdm.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/^user.*=.*/user = $USER/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/^show-password-label.*=.*/show-password-label = false/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/^password-label-text.*=.*/password-label-text = $USER:/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s|^background-image.*=.*|background-image=\"$HOME/.cache/current-wallpaper\"|g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# echo $password | sudo -S sed -i "s/F92672/2AA198/g" /etc/lightdm/lightdm-mini-greeter.conf >> "$LOG" 2>> "$ERR"
+# systemctl_enable lightdm
 ## maybe you just want autologin instead of a display manager:
 #systemctl_create getty-auto-login
+## TUI display manater 
+pacman_install ly
+systemctl_enable ly
+sudo systemctl disable getty@tty2.service
 
 
 # Desktop notifications
@@ -847,13 +852,40 @@ pacman_install dunst
 # Sound
 #-------------------------------------------------------------------------------
 
+## pulseaudio stack
 ## alsamixer
 pacman_install alsa-utils
 ## other alsa plugins
 pacman_install alsa-plugins
 ## pulse audio
 pacman_install pulseaudio
+## pulseaudio control panel
+pacman_install pavucontrol
+pacman_install pulseaudio-bluetooth
+## bluetooth manager (run blueman-manager)
+pacman_install blueman # or blueberry?
 
+
+
+## pipware stack
+pacman_install pipewire
+pacman_install pipewire-alsa
+pacman_install pipewire-jack
+pacman_install pipewire-pulse
+# pavucontrol works with pipwire-pulse
+pacman_install pavucontrol
+pacman_install wireplumber
+pacman_install gst-plugin-pipewire
+
+# pacman_install pwvucontrol
+# pacman_install helvum
+# systemctl_enable pipewire? and pipewire-pulse.service? as user unit?
+
+## bluetooth
+pacman_install bluez
+pacman_install bluez-utils
+## enable bluetooth service
+systemctl_enable bluetooth
 
 # Connectivity and network
 #-------------------------------------------------------------------------------
@@ -897,12 +929,7 @@ pacman_install autossh
 pacman_install openbsd-netcat
 ## access to google servers
 #yay_install google-cloud-sdk
-## bluetooth
-pacman_install bluez
-pacman_install bluez-utils
-pacman_install pulseaudio-bluetooth
-## enable bluetooth service
-systemctl_enable bluetooth
+
 ## remote desktop with vnc support
 pacman_install remmina
 pacman_install libvncserver
@@ -1121,10 +1148,7 @@ pacman_install zathura-djvu
 yay_install etcher-bin
 ## anki: a flashcard program
 #pacman_install anki
-## pulseaudio control panel
-pacman_install pavucontrol
-## bluetooth manager (run blueman-manager)
-pacman_install blueman
+
 ## jami: blockchain-based secure chat app
 #pacman_install jami-daemon
 #pacman_install libjamiclient
