@@ -1569,13 +1569,13 @@ pacman_install zsa-wally
 #-------------------------------------------------------------------------------
 
 pacman_install gnupg # gpg --full-gen-key (generate gpg key)
-pacman_install pass # pass init floris.laporte@gmail.com (use gpg key to store passwords securely)
-pacman_install pass-otp # otp manager for pass
-pacman_install browserpass # host for the pass "browserpass" chromium/firefox extension
-pacman_install browserpass-firefox # host for the pass "browserpass" firefox extension
-pacman_install browserpass-chromium # host for the pass "browserpass" chromium extension
-yay_install passmenu-otp-git # otp menu for pass
-#yay_install passff-host  # host for the pass "passFF" firefox extension
+# pacman_install pass # pass init floris.laporte@gmail.com (use gpg key to store passwords securely)
+# pacman_install pass-otp # otp manager for pass
+# pacman_install browserpass # host for the pass "browserpass" chromium/firefox extension
+# pacman_install browserpass-firefox # host for the pass "browserpass" firefox extension
+# pacman_install browserpass-chromium # host for the pass "browserpass" chromium extension
+# yay_install passmenu-otp-git # otp menu for pass
+# yay_install passff-host  # host for the pass "passFF" firefox extension
 
 
 # System settings
@@ -1624,28 +1624,28 @@ pacman_install zsh
 ## make zsh the default shell:
 echo $password | chsh -s /usr/bin/zsh >> "$LOG" 2>> "$ERR"
 
-## autojump extension for bash/zsh/fish
-mkdir -p $HOME/.cache
-rm -rf $HOME/.cache/autojump
-git clone https://github.com/wting/autojump $HOME/.cache/autojump
-cd $HOME/.cache/autojump
-python install.py -d $HOME/.config/autojump
-sed -i 's|#!/usr/bin/env python|#!/usr/bin/python|' $HOME/.config/autojump/bin/autojump
-ln -sf $HOME/.config/autojump/bin/autojump $HOME/.local/bin
+# ## autojump extension for bash/zsh/fish
+# mkdir -p $HOME/.cache
+# rm -rf $HOME/.cache/autojump
+# git clone https://github.com/wting/autojump $HOME/.cache/autojump
+# cd $HOME/.cache/autojump
+# python install.py -d $HOME/.config/autojump
+# sed -i 's|#!/usr/bin/env python|#!/usr/bin/python|' $HOME/.config/autojump/bin/autojump
+# ln -sf $HOME/.config/autojump/bin/autojump $HOME/.local/bin
 
-## stderred extension for bash/zsh: show stderr messages in red:
-rm -rf $HOME/.config/stderred
-git clone https://github.com/sickill/stderred $HOME/.config/stderred
-cd $HOME/.config/stderred
-make
+# ## stderred extension for bash/zsh: show stderr messages in red:
+# rm -rf $HOME/.config/stderred
+# git clone https://github.com/sickill/stderred $HOME/.config/stderred
+# cd $HOME/.config/stderred
+# make
 
-## fish-like autosuggestions for zsh:
-rm -rf $HOME/.config/zsh/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.config/zsh/zsh-autosuggestions
+# ## fish-like autosuggestions for zsh:
+# rm -rf $HOME/.config/zsh/zsh-autosuggestions
+# git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.config/zsh/zsh-autosuggestions
 
-## syntax highlighting for zsh:
-rm -rf $HOME/.config/zsh/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.config/zsh/zsh-syntax-highlighting
+# ## syntax highlighting for zsh:
+# rm -rf $HOME/.config/zsh/zsh-syntax-highlighting
+# git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.config/zsh/zsh-syntax-highlighting
 
 ## zsh package manager (i do not really recommend this):
 #yay_install oh-my-zsh-git

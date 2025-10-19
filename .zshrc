@@ -278,4 +278,3 @@ source <(fzf --zsh)
 # Load zsh-syntax-highlighting; should be last.
 sourcefile $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export LD_LIBRARY_PATH=$HOME/.local/lib/arch-mojo:$LD_LIBRARY_PATH
-alias svim="sudo nvim"
