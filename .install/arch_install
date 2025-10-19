@@ -711,7 +711,7 @@ pacman_install tigervnc
 ## better compositor:
 pacman_install picom
 ## bleeding edge version of picom:
-yay_install picom-git
+# yay_install picom-git
 
 ## libxft-bgra; alternative to libxft, helper library for color emojis in my st build:
 ## the reason it is installed this way is because this library replaces libxft
