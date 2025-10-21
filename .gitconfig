@@ -16,7 +16,3 @@ addIgnoredFile = false
 [diff "gds_diff"]
 command = python -m gdsdiff.gds_diff_git
 binary = True
-[diff]
-	tool = meld
-[difftool "meld"]
-  cmd = meld "$LOCAL" "$REMOTE"

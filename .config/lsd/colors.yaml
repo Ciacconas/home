@@ -1,0 +1,36 @@
+#terminal color code can be used
+user: 14
+group: 13
+permission:
+  read: 2
+  write: 3
+  exec: 1
+  exec-sticky: 14
+  no-access: 14
+date:
+  hour-old: 6
+  day-old: 6
+  older: 6
+size:
+  none: 2
+  small: 2
+  medium: 3
+  large: 1
+inode:
+  valid: 0
+  invalid: 0
+links:
+  valid: 7
+  invalid: 1
+tree-edge: 0
+# git-status:
+#   default: "#cad3f5"
+#   unmodified: "#a5adcb"
+#   ignored: "#a5adcb"
+#   new-in-index: "#a6da95"
+#   new-in-workdir: "#a6da95"
+#   typechange: "#eed49f"
+#   deleted: "#ed8796"
+#   renamed: "#a6da95"
+#   modified: "#eed49f"
+#   conflicted: "#ed8796"

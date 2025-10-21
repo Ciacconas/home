@@ -306,7 +306,7 @@ def set_xcs(xresources):
     update_xsettings()
     update_xrdb()
     # update_terminal(xresources)
-    write_alacritty_config(xresources)
+    # write_alacritty_config(xresources)
     update_dwm()
     update_picom()
 
