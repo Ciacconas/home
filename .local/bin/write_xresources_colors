@@ -1,0 +1,113 @@
+#!/usr/bin/env python3
+"""
+write_xresources
+
+Read Alacritty colors from a TOML file and append Xresources color definitions
+to an existing .Xresources file.
+
+Default input:  ~/.config/cache/alacritty.toml
+Default output: ~/.cache/theme/.Xresources
+
+Mapping (ANSI):
+  *color0-7  -> colors.normal.{black,red,green,yellow,blue,magenta,cyan,white}
+  *color8-15 -> colors.bright.{black,red,green,yellow,blue,magenta,cyan,white}
+
+Usage:
+  write_xresources
+  write_xresources -i /path/to/alacritty.toml -o /path/to/.Xresources
+"""
+
+import argparse
+from pathlib import Path
+import sys
+
+try:
+    import tomllib  # Python 3.11+
+except ModuleNotFoundError:
+    try:
+        import tomli as tomllib  # Fallback for Python <3.11
+    except ModuleNotFoundError:
+        print("Error: Requires Python 3.11+ (tomllib) or install 'tomli' for older versions.", file=sys.stderr)
+        sys.exit(1)
+
+ORDER = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']
+
+
+def load_colors(path: Path) -> dict[int, str]:
+    with path.open('rb') as f:
+        data = tomllib.load(f)
+
+    colors = data.get('colors') or {}
+    normal = colors.get('normal') or {}
+    bright = colors.get('bright') or {}
+
+    mapping: dict[int, str] = {}
+    for i, name in enumerate(ORDER):
+        if name not in normal:
+            raise KeyError(f"Missing colors.normal.{name}")
+        val = normal[name]
+        if not (isinstance(val, str) and val.startswith('#') and len(val) == 7):
+            raise ValueError(f"colors.normal.{name} must be '#RRGGBB', got {val!r}")
+        mapping[i] = val
+
+    for i, name in enumerate(ORDER, start=8):
+        if name not in bright:
+            raise KeyError(f"Missing colors.bright.{name}")
+        val = bright[name]
+        if not (isinstance(val, str) and val.startswith('#') and len(val) == 7):
+            raise ValueError(f"colors.bright.{name} must be '#RRGGBB', got {val!r}")
+        mapping[i] = val
+
+    return mapping
+
+
+def append_xresources(out_path: Path, mapping: dict[int, str]) -> None:
+    with out_path.open('a', encoding='utf-8') as f:
+        f.write('\n')
+        for i in range(16):
+            f.write(f"*color{i}: {mapping[i]}\n")
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(
+        description="Append Xresources color definitions from an Alacritty TOML scheme"
+    )
+    parser.add_argument(
+        "-i", "--input",
+        default="~/.cache/theme/alacritty.toml",
+        help="Path to Alacritty TOML file (default: ~/.config/cache/alacritty.toml)"
+    )
+    parser.add_argument(
+        "-o", "--output",
+        default="~/.cache/theme/xresources",
+        help="Path to .Xresources file to append (default: ~/.cache/theme/xresources)"
+    )
+    args = parser.parse_args(argv)
+
+    in_path = Path(args.input).expanduser()
+    out_path = Path(args.output).expanduser()
+
+    if not in_path.exists():
+        print(f"Error: input file not found: {in_path}", file=sys.stderr)
+        return 2
+    if not out_path.exists():
+        print(f"Error: output file not found (expects existing file): {out_path}", file=sys.stderr)
+        return 2
+
+    try:
+        mapping = load_colors(in_path)
+    except Exception as e:
+        print(f"Error reading colors: {e}", file=sys.stderr)
+        return 3
+
+    try:
+        append_xresources(out_path, mapping)
+    except Exception as e:
+        print(f"Error writing Xresources: {e}", file=sys.stderr)
+        return 4
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
