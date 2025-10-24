@@ -7,7 +7,7 @@ green = "#66800B"
 magenta = "#A02F6F"
 red = "#AF3029"
 yellow = "#AD8301"
-white = "#53524A"
+white = "#363326"
 
 [colors.bright]
 black = '#BDB69E'
@@ -17,10 +17,13 @@ green = "#879A39"
 magenta = "#CE5D97"
 red = "#D14D41"
 yellow = "#D0A215"
-white = "#363326"
+white = "#100F0F"
 
 [colors.primary]
 background = "#FFFCF0"
 bright_foreground = "#100F0F"
 dim_foreground = "#282726"
 foreground = "#100F0F"
+
+[window]
+opacity = 0.85

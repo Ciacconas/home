@@ -11,7 +11,7 @@ return {
             vim.g.slime_cell_delimiter = "##"
             -- vim.g.slime_dont_ask_default = 1
             -- vim.g.slime_default_config = { 5 }
-            -- vim.g.slime_suggest_default = 1
+            vim.g.slime_suggest_default = 1
 
             -- it seems to related to terminal's paste, no use for me now because it messes up sometimes
             -- vim.g.slime_bracketed_paste = 1
