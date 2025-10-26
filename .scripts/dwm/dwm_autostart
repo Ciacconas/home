@@ -55,7 +55,7 @@ log xrdb "$HOME/.Xresources"
 log default_screenlayout
 
 # enable mouse keyboard cross system
-start barrier
+start input-leap
 
 # enable pinyin input
 start fcitx5

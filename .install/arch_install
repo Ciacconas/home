@@ -520,7 +520,7 @@ pacman_install feh
 # systemctl_enable lightdm
 ## maybe you just want autologin instead of a display manager:
 #systemctl_create getty-auto-login
-## TUI display manater 
+## TUI display manater
 pacman_install ly
 systemctl_enable ly
 sudo systemctl disable getty@tty2.service
@@ -749,12 +749,13 @@ pacman_install adobe-source-code-pro-fonts
 pacman_install ttf-liberation
 ## ubuntu fonts: a beautiful mono and sans font
 pacman_install ttf-ubuntu-font-family
-## ubuntu mono nerd exchange
+## ubuntu mono nerd exchange to use individually or just to add icons to monospace
 pacman_install ttf-ubuntu-mono-nerd
-## gnu free fonts: optional vlc dependency (partly blocked by my fontconfig):
-#pacman_install gnu-free-fonts
-## gnome core fontset (partly blocked by my fontconfig):
-#pacman_install gsfonts
+
+# gnu free fonts: optional vlc dependency (partly blocked by my fontconfig):
+pacman_install gnu-free-fonts
+# gnome core fontset (partly blocked by my fontconfig):
+pacman_install gsfonts
 ## a nice monospace font with ligatures (partly blocked by my fontconfig):
 pacman_install ttf-fira-code
 ## a patched fira code font with nerd font glyphs (partly blocked by my fontconfig):
@@ -792,7 +793,7 @@ pacman_install awesome-terminal-fonts
 #yay_install ttf-devicons
 ## hack nerd fonts: patched font with nice icons (recommended for lsd):
 #yay_install nerd-fonts-hack
-pacman_install ttf-hack-nerd
+# pacman_install ttf-hack-nerd
 ## Joypixels color emojis:
 yay_install ttf-joypixels
 ## google color emojis (blocked by my fontconfig):

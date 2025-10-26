@@ -1,28 +1,28 @@
 ## flexoki-light theme
 [colors.normal]
-black = "#F2F2F2"
-blue = "#678ABF"
-cyan = "#74B2C9"
-green = "#629F81"
-magenta = "#9F75AC"
-red = "#C76882"
-yellow = "#CA884A"
+black = "#f2e9e1"
+red = "#a5222f"
+green = "#396847"
+yellow = "#ac5402"
+blue = "#2848a9"
+magenta = "#6e33ce"
+cyan = "#287980"
 white = "#52618C"
 
 [colors.bright]
-black = '#CFD6DD'
-blue = "#6080b0"
-cyan = "#6CA7BD"
-green = "#618774"
-magenta = "#8e6f98"
-red = "#B95D76"
-yellow = "#BA793E"
+black = "#b3b0ac"
+red = "#b3434e"
+green = "#577f63"
+yellow = "#b86e28"
+blue = "#4863b6"
+magenta = "#8452d5"
+cyan = "#488d93"
 white = "#1d344f"
 
 [colors.primary]
 background = "#F2F2F2"
-bright_foreground = "#1d344f"
-foreground = "#1d344f"
+bright_foreground = "#3d2b5a"
+foreground = "#3d2b5a"
 
 [window]
 opacity = 0.85
