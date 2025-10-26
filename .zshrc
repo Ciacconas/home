@@ -20,6 +20,11 @@ function sourcefile {
 # source settings not in source control
 sourcefile $HOME/.zshrc2
 
+# History
+export HISTFILE="$HOME/.bash_history"
+export HISTSIZE=10000000
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+
 # enable colors
 autoload -U colors && colors
 
@@ -102,7 +107,7 @@ prompt(){
     # git info
     if git rev-parse --is-inside-work-tree 2> /dev/null | grep true &> /dev/null; then
         # branch_name=$(git branch --show-current | sed "s/ciacconas/ \%\{\%G😺\%\}/ ")
-        branch_name=$(git branch --show-current | sed "s/ciacconas/😺/ ")
+        branch_name=$(git branch --show-current | sed "s/ciacconas/😺 / ")
         dirty=" "
         if git status --porcelain 2> /dev/null | grep "^A\|^M\|^ M\|^??" > /dev/null 2> /dev/null; then
             dirty="*"
