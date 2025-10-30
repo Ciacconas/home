@@ -268,7 +268,7 @@ calendar1(){ # mouse-button 1 action for date widget
 
 # shows a clock
 clock(){ # time
-    date +' %H:%M'
+    date +'󱑍 %H:%M'
 }
 clock1(){ # mouse-button 1 action for time widget
     notify-send "🕐 $(date +'%H:%M')"
@@ -335,7 +335,7 @@ gpg2(){ # mouse-button 2 to empty gpg password cache
 
 # show icon if jupyterhub service is active
 jupyterhub(){ # jupyterhub status
-    systemctl is-active jupyterhub > /dev/null 2>/dev/null && echo 
+    systemctl is-active jupyterhub > /dev/null 2>/dev/null && echo 󰌠
 }
 jupyterhub1(){ # mouse-button 1 action for jupyterhub widget
     notifyservice jupyterhub 🪐
@@ -509,7 +509,7 @@ services1(){
 
 # show icon if sshd service is active
 sshd(){ # ssh daemon
-    systemctl is-active sshd > /dev/null 2>/dev/null && echo  # ⛓
+    systemctl is-active sshd > /dev/null 2>/dev/null && echo 󰈷 # ⛓
 }
 sshd1(){ # mouse-button 1 action for ssh daemon widget
     notifyservice sshd ⛓

@@ -240,7 +240,8 @@ super + X
 
 # change global Xresources color scheme
 super + y
-    xcs --dmenu
+    set-theme-dmenu
+    # xcs --dmenu
 
 # change wallpaper (next)
 super + Y

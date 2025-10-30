@@ -31,6 +31,7 @@
 ## Environment variables
 #-------------------------------------------------------------------------------
 
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 export BROWSER="firefox-developer-edition"
 export BROWSER2="chromium" # fallback browser
 export CC="gcc"
@@ -42,7 +43,6 @@ export FM="vifm"
 export FZF_DEFAULT_OPTS="--layout=reverse --height=60% --multi --bind=ctrl-n:down,ctrl-p:up,ctrl-l:preview-down,ctrl-h:preview-up,ctrl-a:select-all --preview-window=right --preview='fzf_preview {} $LINES'"
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export ICAROOT="$HOME/.ica"
-export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 export PYTHONSTARTUP="$HOME/.pythonstartup"
 export MPLBACKEND=tkagg
 export QT_QPA_PLATFORMTHEME="qt6ct"
