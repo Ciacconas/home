@@ -483,7 +483,7 @@ pacman_install xorg-xsetroot
 ## sxhkd: keyboard shortcuts daemon
 pacman_install sxhkd
 ## light: CLI utility to change backlight value of laptops
-pacman_install light
+yay_install light
 ## allow only users in video group to make changes to backlight
 groupadd video >> "$LOG" 2>> "$ERR"
 echo $password | sudo -S usermod -a -G video $USER
@@ -878,7 +878,7 @@ pacman_install fzf
 ## rsync: safe and secure copy & backup
 pacman_install rsync
 ## toml yaml ... cli processer
-pacman_install yq
+pacman_install go-yq
 ## atool gives information about archives
 #pacman_install atool
 ## glu: opengl binaries
