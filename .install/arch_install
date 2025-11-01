@@ -420,8 +420,8 @@ yay_install xurls
 pacman_install xdotool
 ## disable mouse acceleration
 pacman_install xorg-xinput
-## emulate mouse clicks and more from within python
-yay_install python-pyautogui
+# ## emulate mouse clicks and more from within python
+# yay_install python-pyautogui
 ## xsettingsd: immediately apply changes in GTK theme
 yay_install xsettingsd-git
 ## server access control for x
@@ -429,7 +429,7 @@ pacman_install xorg-xhost
 ## colorful emoji on st build
 pacman_install libxft
 ## xautolock to automatically lock the screen
-pacman_install xautolock
+yay_install xautolock
 ## screen settings: arandr (xrandr included)
 pacman_install arandr
 ## better compositor:
