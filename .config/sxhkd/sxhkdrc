@@ -245,11 +245,11 @@ super + y
 
 # change wallpaper (next)
 super + Y
-    wallpaper next
+    set-theme-set-bg next
 
 # change wallpaper (previous)
 super + control + y
-    wallpaper previous
+    set-theme-set-bg previous
 
 # show wallpaper overview in sxiv
 super + control + Y

@@ -17,12 +17,14 @@ command="$1"
 value="$2"
 
 if [ "$command" = "get" ]; then
-   xcs --alpha
+   set-theme-alpha
+   # xcs --alpha
    exit $?
 fi
 
 if [ "$command" = "set" ]; then
-   xcs --alpha "$value"
+   set-theme-alpha "$value" && dwm_status
+   # xcs --alpha "$value"
    exit $?
 fi
 

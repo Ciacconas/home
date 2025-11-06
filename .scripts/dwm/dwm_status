@@ -26,25 +26,18 @@ setstatus(){
     memory \
     cpu \
     disk \
-    transmission \
-    playercontrol \
     syncthing \
     sshd \
-    sshtunnel \
-    jellyfin \
-    jupyterhub \
-    openvpn \
-    openconnect \
-    cups \
-    gpg \
     pacmanstatus \
     volume \
-    brightness \
-    battery \
     alpha \
     weather \
     calendar \
     clock \
+    # jupyterhub \
+    # openvpn \
+    # openconnect \
+    # jellyfin \
     # email \
     # network \
     # services \
@@ -53,6 +46,13 @@ setstatus(){
     # publicip \
     # wifi \
     # appointments \
+    # transmission \
+    # playercontrol \
+    # sshtunnel \
+    # cups \
+    # gpg \
+    # brightness \
+    # battery \
 }
 
 
@@ -509,7 +509,7 @@ services1(){
 
 # show icon if sshd service is active
 sshd(){ # ssh daemon
-    systemctl is-active sshd > /dev/null 2>/dev/null && echo 󰈷 # ⛓
+    systemctl is-active sshd > /dev/null 2>/dev/null && echo  # 󰈷⛓
 }
 sshd1(){ # mouse-button 1 action for ssh daemon widget
     notifyservice sshd ⛓
@@ -535,7 +535,7 @@ sshtunnel2(){
 
 # show icon if syncthing service is active
 syncthing(){ # syncthing status
-    systemctl is-active syncthing > /dev/null 2>/dev/null && echo 
+    systemctl is-active syncthing > /dev/null 2>/dev/null && echo 󰓦 #
 }
 syncthing1(){ # mouse-button 1 action for syncthing widget
     notifyservice syncthing 
@@ -617,7 +617,7 @@ weather1(){ # mouse-button 1 action for weather widget
     notify-send "⛅ weather" "$(weather)\n$report\n\n[ middle click for full report ]"
 }
 weather2(){
-    st -n float -f mono:12 -g 130x40+1130 -e update_weather --block
+    st -n float -f monospace:15 -g 130x40+1130 -e update_weather --block
 }
 
 # -----------
